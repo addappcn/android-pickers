@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+ext {
+    isLibrary = false
+}
+
+android {
+
+    buildTypes {
+        release {
+            //是否zip优化
+            zipAlignEnabled true
+            //是否移除无用的资源，造成：specified for property 'resourceFile' does not exist.
+            //shrinkResources true
+            //是否混淆
+            minifyEnabled true
+            //混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    //    compile fileTree(dir: 'libs', include: ['AndroidPicker-1.4.3.jar'])
+    //    compile fileTree(dir: 'libs', include: ['WheelPicker-1.4.3.jar'])
+    compile 'com.alibaba:fastjson:1.1.56.android'
+    compile 'com.github.florent37:viewanimator:1.0.3'
+//    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+    compile project(':library:WheelPicker')
+    //    compile 'cn.addapp.framework:WheelPicker:latest.release'
+    //    compile 'com.github.addappcn.AndroidPicker:WheelPicker:1.4.3'
+    // required, enough for most devices.
+}
