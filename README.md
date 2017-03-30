@@ -1,4 +1,4 @@
-# Summary
+# 概要
 [![API 14+](https://img.shields.io/badge/API-14%2B-green.svg)](https://github.com/addappcn/AndroidPickers)
 [![Download](https://api.bintray.com/packages/addappcn/maven/WheelPicker/images/download.svg)](http://jcenter.bintray.com/cn/addapp/framework/)
 [![JitPack](https://jitpack.io/v/addappcn/AndroidPicker.svg)](https://jitpack.io/#addappcn/AndroidPickers)
@@ -9,10 +9,10 @@
 欢迎Fork & Pull requests贡献您的代码，大家共同学习【[AndroidPickers交流群 : 456738690]】。
 [查看更新日志](https://github.com/addappcn/AndroidPickers/blob/master/ChangeLog.md)，新版本可能未对旧版API作兼容处理，升级后若编译报错请根据错误提示更改。
 
-# Install
+# 安装
 “app”是测试用例；“library”包括WheelPicker，
 WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
-#### ~~懒人建议直接远程加载jcenter里的~~
+#### ~~建议直接远程加载jcenter里的~~
 latest.release表示使用最新版，也可以[参照此处指定具体的版本号](https://github.com/addappcn/AndroidPickers/releases)：
 ```groovy
 dependencies {
@@ -34,8 +34,6 @@ dependencies {
     compile 'com.github.addappcn.AndroidPickers:WheelPicker:版本号'
 }
 ```
-#### 使用Eclipse的话如何集成？
-直接[下载AndroidPickers的jar包](/app/libs/)复制到你的项目的libs下即可。
 
 # ProGuard
 由于地址选择器使用了[fastjson](https://github.com/alibaba/fastjson)来解析，混淆时候需要加入以下类似的规则，不混淆Province、City等实体类。
@@ -117,15 +115,4 @@ dependencies {
         picker.show();
 ```
 
-# Screenshots
-![滑轮选择器内嵌效果图](/screenshots/nestwheelview.jpg)
-![自定义选择器效果图](/screenshots/custom.gif)
-![日期选择器效果图](/screenshots/date.gif)
-![日期选择器效果图](/screenshots/monthday.jpg)
-![时间选择器效果图](/screenshots/time.gif)
-![单项选择器效果图](/screenshots/option.gif)
-![地址选择器效果图](/screenshots/address.gif)
-![城市选择器效果图](/screenshots/city.png)
-![数字选择器效果图](/screenshots/number.gif)
-![星座选择器效果图](/screenshots/constellation.jpg)
 
