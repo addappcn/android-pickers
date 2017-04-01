@@ -13,7 +13,7 @@ WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、Numbe
 #### 直接远程加载JitPack里的
 latest.release表示使用最新版，也可以[参照此处指定具体的版本号](https://github.com/addappcn/AndroidPickers/releases)：
 
-[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库试试：
+加载[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
 ```
 repositories {
