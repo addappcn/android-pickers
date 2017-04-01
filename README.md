@@ -1,8 +1,6 @@
 # 概要
 [![API 14+](https://img.shields.io/badge/API-14%2B-green.svg)](https://github.com/addappcn/AndroidPickers)
-[![Download](https://api.bintray.com/packages/addappcn/maven/WheelPicker/images/download.svg)](http://jcenter.bintray.com/cn/addapp/framework/)
-[![JitPack](https://jitpack.io/v/addappcn/AndroidPicker.svg)](https://jitpack.io/#addappcn/AndroidPickers)
-[![Build Status](https://travis-ci.org/addappcn/AndroidPickers.svg?branch=master)](https://travis-ci.org/addappcn/AndroidPickers)
+
 
 安卓选择器类库，包括日期及时间选择器（可设置范围）、单项选择器（可用于性别、职业、学历、星座等）、城市地址选择器（分省级、地级及县级）、数字选择器（可用于年龄、身高、体重、温度等）等……
 欢迎大伙儿在[Issues](https://github.com/addappcn/AndroidPickers/issues)提交你的意见或建议。
