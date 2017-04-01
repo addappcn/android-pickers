@@ -6,7 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
@@ -92,11 +91,11 @@ subprojects {
                 compile "com.android.support:support-annotations:${ANDROID_SUPPORT_VERSION}"
             }
         }
-        if (project.isLibrary) {
-            configure(project) {
-                apply from: "${rootDir}/publish.gradle" //调用发布脚本
-            }
-        }
+//        if (project.isLibrary) {
+//            configure(project) {
+//                apply from: "${rootDir}/publish.gradle" //调用发布脚本
+//            }
+//        }
 
     }
 }

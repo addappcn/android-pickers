@@ -2,7 +2,6 @@
 //参见：https://raw.githubusercontent.com/liungkejin/GradlePublish/master/java-bintray.gradle
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish' //发布项目到maven库
-apply plugin: 'com.jfrog.bintray' //上传项目到jcenter
 
 version = VERSION_NAME  //版本号
 group = GROUP    // 包名

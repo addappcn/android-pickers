@@ -8,7 +8,7 @@
 [查看更新日志](https://github.com/addappcn/AndroidPickers/blob/master/ChangeLog.md)，新版本可能未对旧版API作兼容处理，升级后若编译报错请根据错误提示更改。
 
 # 安装
-“app”是测试用例；“library”包括WheelPicker，
+“app”是Sample；“library”包括WheelPicker，
 WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### ~~建议直接远程加载jcenter里的~~
 latest.release表示使用最新版，也可以[参照此处指定具体的版本号](https://github.com/addappcn/AndroidPickers/releases)：
