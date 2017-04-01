@@ -1,5 +1,4 @@
 //参考：https://raw.github.com/dm77/barcodescanner/master/build.gradle
-
 buildscript {
     repositories {
         jcenter()
@@ -26,12 +25,13 @@ allprojects {
         }
     }
 
-//    ext {
-//        isLibrary = false
-//        pomArtifactId = project.name
-//        pomVersion = VERSION_NAME
-//        pomDescription = 'This is library description'
-//    }
+
+    ext {
+        isLibrary = false
+        pomArtifactId = project.name
+        pomVersion = VERSION_NAME
+        pomDescription = 'This is library description'
+    }
 
 }
 
@@ -98,5 +98,8 @@ subprojects {
 //        }
 
     }
-}
 
+}
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
