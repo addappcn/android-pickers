@@ -10,14 +10,10 @@
 # 安装
 “app”是Sample；“library”包括WheelPicker，
 WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
-#### ~~建议直接远程加载jcenter里的~~
+#### 直接远程加载JitPack里的
 latest.release表示使用最新版，也可以[参照此处指定具体的版本号](https://github.com/addappcn/AndroidPickers/releases)：
-```groovy
-dependencies {
-    compile 'cn.addapp.framework:WheelPicker:版本号'
-}
-```
-#### 若jcenter仓库里的无法下载的话，可换[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库试试：
+
+[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库试试：
 第一步，在项目根目录下的build.gradle里加：
 ```
 repositories {
@@ -29,7 +25,7 @@ repositories {
 第二步，在项目的app模块下的build.gradle里加：
 ```
 dependencies {
-    compile 'com.github.addappcn.AndroidPickers:WheelPicker:版本号'
+    compile 'com.github.addappcn:AndroidPickers:0.1.0'
 }
 ```
 
