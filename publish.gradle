@@ -1,23 +1,23 @@
 //参见：https://github.com/bintray/gradle-bintray-plugin
 //参见：https://raw.githubusercontent.com/liungkejin/GradlePublish/master/java-bintray.gradle
-
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish' //发布项目到maven库
 apply plugin: 'com.jfrog.bintray' //上传项目到jcenter
 
-version = project.pomVersion   //版本号
+version = VERSION_NAME  //版本号
 group = GROUP    // 包名
-project.archivesBaseName = project.pomArtifactId
-project.name
-//task releaseJar(type: Jar) {
-//    classifier = 'classes'
-//    from 'build/intermediates/classes/release/'
-//    //from 'build/intermediates/bundles/release/'
-//    //exclude '**/aidl', '**/jni', '**/libs', '**/res'
-//    //exclude '**/AndroidManifest.xml', '**/classes.jar', '**/R.txt'
-//    exclude '**/wheelpicker'
-//    exclude '**/BuildConfig.class', '**/R.class'
-//    exclude { it.name.startsWith('R$'); }
-//}
+project.archivesBaseName = PROJ_ARTIFACTID
+
+task releaseJar(type: Jar) {
+    classifier = 'classes'
+    from 'build/intermediates/classes/release/'
+    //from 'build/intermediates/bundles/release/'
+    //exclude '**/aidl', '**/jni', '**/libs', '**/res'
+    //exclude '**/AndroidManifest.xml', '**/classes.jar', '**/R.txt'
+    exclude '**/wheelpicker'
+    exclude '**/BuildConfig.class', '**/R.class'
+    exclude { it.name.startsWith('R$'); }
+}
 
 /**
  * generate xxx-sources.jar
@@ -60,28 +60,28 @@ javadoc {
         author true
         version true
         links "http://docs.oracle.com/javase/7/docs/api"
-        title project.pomArtifactId
+        title PROJ_ARTIFACTID
     }
 }
 
 publishing {
     publications {
         MyPublication(MavenPublication) {
-            artifactId project.pomArtifactId
-            artifact "${buildDir}/outputs/aar/${project.pomArtifactId}-release.aar"
+            artifactId PROJ_ARTIFACTID
+            artifact "${buildDir}/outputs/aar/${PROJ_ARTIFACTID}-release.aar"
             artifact releaseJar
             artifact javadocJar
             artifact sourcesJar
 
-            pom.withXml {
+             pom.withXml {
                 Node root = asNode()
-                root.appendNode('name', project.pomArtifactId)
-                root.appendNode('description', project.pomDescription)
+                root.appendNode('name', PROJ_NAME)
+                root.appendNode('description', PROJ_DESCRIPTION)
                 root.appendNode('url', SITE_URL)
 
                 def issues = root.appendNode('issueManagement')
                 issues.appendNode('system', 'github')
-                issues.appendNode('url', SITE_URL)
+                issues.appendNode('url', ISSUE_URL)
 
                 def scm = root.appendNode('scm')
                 scm.appendNode('url', GIT_URL)
@@ -89,24 +89,24 @@ publishing {
                 scm.appendNode('developerConnection', "scm:git:${GIT_URL}")
 
                 def license = root.appendNode('licenses').appendNode('license')
-                license.appendNode('name', "The Apache Software License, Version 2.0")
-                license.appendNode('url', "http://www.apache.org/licenses/LICENSE-2.0.txt")
-                license.appendNode('distribution', "repo")
+                license.appendNode('name', PROJ_LICENCE_NAME)
+                license.appendNode('url', PROJ_LICENCE_URL)
+                license.appendNode('distribution', PROJ_LICENCE_DEST)
 
                 def developer = root.appendNode('developers').appendNode('developer')
                 developer.appendNode('id', DEVELOPER_ID)
                 developer.appendNode('name', DEVELOPER_NAME)
                 developer.appendNode('email', DEVELOPER_EMAIL)
 
-                def dependenciesNode = root.appendNode('dependencies')
-                configurations.compile.allDependencies.each {
-                    if (it.group && it.name && it.version) {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                    }
-                }
+//                def dependenciesNode = root.appendNode('dependencies')
+//                configurations.compile.allDependencies.each {
+//                    if (it.group && it.name && it.version) {
+//                        def dependencyNode = dependenciesNode.appendNode('dependency')
+//                        dependencyNode.appendNode('groupId', it.group)
+//                        dependencyNode.appendNode('artifactId', it.name)
+//                        dependencyNode.appendNode('version', it.version)
+//                    }
+//                }
             }
         }
     }
@@ -115,13 +115,17 @@ publishing {
 afterEvaluate {
     publishing.publications.MyPublication.artifact(bundleRelease)
 }
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 bintray {
     // You should configure "bintray.user" and "bintray.apiKey" in the gradle.properties
     // that in gradle cache directory (～/.gradle/gradle.properties)
     try {
-        user = getProperty("bintray.user")
-        key = getProperty("bintray.apikey")
+//        user = properties.getProperty("bintray.user")
+//        key = properties.getProperty("bintray.apikey")
+        user = project.hasProperty('bintray.user') ? project.property('bintray.user') : project.property('BINTRAY_USER')
+        key = project.hasProperty('bintray.apikey') ? project.property('bintray.apikey') : project.property('BINTRAY_KEY')
     } catch (Exception e) {
         System.err.println("bintray exception: " + e);
         user = ""
@@ -134,20 +138,21 @@ bintray {
     override = true //[Default: false] Whether to override version artifacts already published
 
     pkg {
-        repo = "maven"    //上传的中央仓库名称
-        name = project.pomArtifactId    //发布到中央仓库上的项目名字
-        desc = project.pomDescription
+        repo = PROJ_USER_MAVEN   //上传的中央仓库名称
+        name = PROJ_ARTIFACTID    //发布到中央仓库上的项目名字
+        desc = PROJ_DESCRIPTION
         websiteUrl = SITE_URL   //项目主页
         issueTrackerUrl = ISSUE_URL    //项目讨论页
         vcsUrl = GIT_URL    //项目GIT仓库
         licenses = ["Apache-2.0"]
+        publish = true
         publicDownloadNumbers = true
         githubReleaseNotesFile = 'README.md' //Optional Github readme file
         version {
-            name = project.pomVersion
-            desc = project.pomDescription
+            name = PROJ_NAME
+            desc = PROJ_DESCRIPTION
             gpg {
-                sign = false    //是否GPG签名，可使用Gpg4win创建密钥文件
+                sign = true    //是否GPG签名，可使用Gpg4win创建密钥文件
             }
             mavenCentralSync {
                 sync = false    //是否同步到Maven Central

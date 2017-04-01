@@ -12,9 +12,9 @@ import com.github.florent37.viewanimator.AnimationListener;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import cn.addapp.androidpicker.R;
-import cn.addapp.framework.listeners.OnSingleWheelListener;
-import cn.addapp.framework.picker.SinglePicker;
-import cn.addapp.framework.widget.WheelView;
+import cn.addapp.pickers.listeners.OnSingleWheelListener;
+import cn.addapp.pickers.picker.SinglePicker;
+import cn.addapp.pickers.widget.WheelView;
 
 /**
  * 自定义顶部及底部

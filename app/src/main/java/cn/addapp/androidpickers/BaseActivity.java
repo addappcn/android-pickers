@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.addapp.androidpicker.R;
-import cn.addapp.framework.util.LogUtils;
+import cn.addapp.pickers.util.LogUtils;
 
 /**
  * Activity的基类

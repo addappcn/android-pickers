@@ -4,10 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import cn.addapp.androidpicker.R;
-import cn.addapp.framework.listeners.OnMoreWheelListener;
-import cn.addapp.framework.picker.CarNumberPicker;
-import cn.addapp.framework.util.ConvertUtils;
-import cn.addapp.framework.widget.WheelView;
+import cn.addapp.pickers.listeners.OnMoreWheelListener;
+import cn.addapp.pickers.picker.CarNumberPicker;
+import cn.addapp.pickers.util.ConvertUtils;
+import cn.addapp.pickers.widget.WheelView;
 
 /**
  * 内嵌选择器

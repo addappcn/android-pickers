@@ -12,20 +12,20 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.addapp.androidpicker.R;
-import cn.addapp.framework.entity.Province;
-import cn.addapp.framework.listeners.OnItemPickListener;
-import cn.addapp.framework.listeners.OnMoreItemPickListener;
-import cn.addapp.framework.picker.AddressPicker;
-import cn.addapp.framework.picker.DatePicker;
-import cn.addapp.framework.picker.DateTimePicker;
-import cn.addapp.framework.picker.LinkagePicker;
-import cn.addapp.framework.picker.NumberPicker;
-import cn.addapp.framework.picker.SinglePicker;
-import cn.addapp.framework.picker.TimePicker;
-import cn.addapp.framework.util.ConvertUtils;
-import cn.addapp.framework.util.DateUtils;
-import cn.addapp.framework.util.LogUtils;
-import cn.addapp.framework.widget.WheelView;
+import cn.addapp.pickers.entity.Province;
+import cn.addapp.pickers.listeners.OnItemPickListener;
+import cn.addapp.pickers.listeners.OnMoreItemPickListener;
+import cn.addapp.pickers.picker.AddressPicker;
+import cn.addapp.pickers.picker.DatePicker;
+import cn.addapp.pickers.picker.DateTimePicker;
+import cn.addapp.pickers.picker.LinkagePicker;
+import cn.addapp.pickers.picker.NumberPicker;
+import cn.addapp.pickers.picker.SinglePicker;
+import cn.addapp.pickers.picker.TimePicker;
+import cn.addapp.pickers.util.ConvertUtils;
+import cn.addapp.pickers.util.DateUtils;
+import cn.addapp.pickers.util.LogUtils;
+import cn.addapp.pickers.widget.WheelView;
 
 public class MainActivity extends BaseActivity {
 
@@ -90,6 +90,7 @@ public class MainActivity extends BaseActivity {
         picker.setRangeStart(2016, 8, 29);
         picker.setRangeEnd(2111, 1, 11);
         picker.setSelectedItem(2050, 10, 14);
+        picker.setWeightEnable(true);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
@@ -122,6 +123,8 @@ public class MainActivity extends BaseActivity {
         picker.setDateRangeEnd(2025, 11, 11);
         picker.setTimeRangeStart(9, 0);
         picker.setTimeRangeEnd(20, 30);
+        picker.setWeightEnable(true);
+        picker.setIosModeEnable(true);
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
@@ -197,7 +200,8 @@ public class MainActivity extends BaseActivity {
         picker.setTextSize(18);
         picker.setSelectedIndex(1);
         picker.setIosModeEnable(true);
-//        picker.setLabel("分");
+        picker.setWeightEnable(true);
+        picker.setLabel("分");
         picker.setSelectedTextColor(0xFF279BAA);//前四位值是透明度
         picker.setUnSelectedTextColor(0xFF999999);
         picker.setOnItemPickListener(new OnItemPickListener<String>() {

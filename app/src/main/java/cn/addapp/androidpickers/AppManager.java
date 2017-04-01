@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import java.util.LinkedList;
 
-import cn.addapp.framework.util.LogUtils;
+import cn.addapp.pickers.util.LogUtils;
 
 /**
  * Activity及Service管理，以便实现退出功能

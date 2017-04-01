@@ -8,10 +8,10 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 
-import cn.addapp.framework.entity.Province;
-import cn.addapp.framework.listeners.OnLinkageListener;
-import cn.addapp.framework.picker.AddressPicker;
-import cn.addapp.framework.util.ConvertUtils;
+import cn.addapp.pickers.entity.Province;
+import cn.addapp.pickers.listeners.OnLinkageListener;
+import cn.addapp.pickers.picker.AddressPicker;
+import cn.addapp.pickers.util.ConvertUtils;
 
 /**
  * 获取地址数据并显示地址选择器

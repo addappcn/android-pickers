@@ -8,12 +8,3 @@ ext {
 dependencies {
     compile project(":library:Common")
 }
-apply plugin: 'maven'
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: LOCAL_REPO_URL)
-        pom.groupId = GROUP
-        pom.artifactId = PROJ_ARTIFACTID
-        pom.version = VERSION_NAME
-    }
-}
