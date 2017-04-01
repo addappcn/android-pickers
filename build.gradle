@@ -11,8 +11,8 @@ buildscript {
 }
 
 allprojects {
-    group = GROUP
-    version = VERSION_NAME
+//    group = GROUP
+//    version = VERSION_NAME
 
     repositories {
         jcenter() //bintray的maven库
@@ -26,12 +26,12 @@ allprojects {
         }
     }
 
-    ext {
-        isLibrary = false
-        pomArtifactId = project.name
-        pomVersion = VERSION_NAME
-        pomDescription = 'This is library description'
-    }
+//    ext {
+//        isLibrary = false
+//        pomArtifactId = project.name
+//        pomVersion = VERSION_NAME
+//        pomDescription = 'This is library description'
+//    }
 
 }
 
