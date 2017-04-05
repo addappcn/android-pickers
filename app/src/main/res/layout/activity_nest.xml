@@ -19,7 +19,6 @@
             style="?android:textAppearanceMedium"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:drawableLeft="@android:drawable/ic_menu_revert"
             android:gravity="center_vertical"
             android:text="返回"
             android:textColor="@android:color/white"/>

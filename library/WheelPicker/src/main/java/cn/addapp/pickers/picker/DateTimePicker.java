@@ -299,6 +299,9 @@ public class DateTimePicker extends WheelPicker {
 
     public String getSelectedYear() {
         if (dateMode == YEAR_MONTH_DAY || dateMode == YEAR_MONTH) {
+            if (years.size() <= selectedYearIndex) {
+                selectedYearIndex = years.size() - 1;
+            }
             return years.get(selectedYearIndex);
         }
         return "";
@@ -306,6 +309,9 @@ public class DateTimePicker extends WheelPicker {
 
     public String getSelectedMonth() {
         if (dateMode != NONE) {
+            if (months.size() <= selectedMonthIndex) {
+                selectedMonthIndex = months.size() - 1;
+            }
             return months.get(selectedMonthIndex);
         }
         return "";
@@ -313,6 +319,9 @@ public class DateTimePicker extends WheelPicker {
 
     public String getSelectedDay() {
         if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
+            if (days.size() <= selectedDayIndex) {
+                selectedDayIndex = days.size() - 1;
+                }
             return days.get(selectedDayIndex);
         }
         return "";
@@ -392,7 +401,7 @@ public class DateTimePicker extends WheelPicker {
                 yearView.setCanLoop(canLoop);
                 yearView.setLoopListener(new LoopView.LoopScrollListener() {
                     @Override
-                    public void onItemSelect(int position,String item) {
+                    public void onItemSelected(int position,String item) {
                         selectedYearIndex = position;
                         if (onWheelListener != null) {
                             onWheelListener.onYearWheeled(position, item);
@@ -419,7 +428,7 @@ public class DateTimePicker extends WheelPicker {
                 monthView.setCanLoop(canLoop);
                 monthView.setLoopListener(new LoopView.LoopScrollListener() {
                     @Override
-                    public void onItemSelect(int position,String item) {
+                    public void onItemSelected(int position,String item) {
                         selectedMonthIndex = position;
                         if (onWheelListener != null) {
                             onWheelListener.onMonthWheeled(position, item);
@@ -446,7 +455,7 @@ public class DateTimePicker extends WheelPicker {
                 dayView.setCanLoop(canLoop);
                 dayView.setLoopListener(new LoopView.LoopScrollListener() {
                     @Override
-                    public void onItemSelect(int position,String item) {
+                    public void onItemSelected(int position,String item) {
                         selectedDayIndex = position;
                         if (onWheelListener != null) {
                             onWheelListener.onDayWheeled(position, item);
@@ -475,7 +484,7 @@ public class DateTimePicker extends WheelPicker {
                 hourView.setCanLoop(canLoop);
                 hourView.setLoopListener(new LoopView.LoopScrollListener() {
                     @Override
-                    public void onItemSelect(int position,String item) {
+                    public void onItemSelected(int position,String item) {
                         selectedHour = item;
                         if (onWheelListener != null) {
                             onWheelListener.onDayWheeled(position, item);
@@ -501,7 +510,7 @@ public class DateTimePicker extends WheelPicker {
                 minuteView.setCanLoop(canLoop);
                 minuteView.setLoopListener(new LoopView.LoopScrollListener() {
                     @Override
-                    public void onItemSelect(int position,String item) {
+                    public void onItemSelected(int position,String item) {
                         selectedMinute = item;
                         if (onWheelListener != null) {
                             onWheelListener.onMinuteWheeled(position, item);
@@ -555,6 +564,11 @@ public class DateTimePicker extends WheelPicker {
                         int selectedYear = DateUtils.trimZero(item);
                         changeMonthData(selectedYear);
                         monthView.setItems(months, selectedMonthIndex);
+                        if (months.size() <= selectedMonthIndex) {
+                            selectedMonthIndex = months.size() - 1;
+                        }
+                        changeDayData(selectedYear, DateUtils.trimZero(months.get(selectedMonthIndex)));
+                        dayView.setItems(days, selectedDayIndex);
                     }
                 });
                 layout.addView(yearView);

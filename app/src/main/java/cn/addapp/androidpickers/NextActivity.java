@@ -1,5 +1,6 @@
 package cn.addapp.androidpickers;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,10 +32,10 @@ public class NextActivity extends BaseActivity {
         wheelView.setItems(new String[]{"少数民族", "贵州穿青人", "不在56个少数民族之列", "第57个民族"}, 1);
         wheelView.setSelectedTextColor(0xFFFF00FF);
         WheelView.LineConfig config = new WheelView.LineConfig();
-        config.setColor(0xFFFF00FF);//线颜色
+        config.setColor(Color.parseColor("#26A1B0"));//线颜色
         config.setAlpha(100);//线透明度
         config.setRatio((float) (1.0 / 10.0));//线比率
-        config.setThick(ConvertUtils.toPx(this, 10));//线粗
+        config.setThick(ConvertUtils.toPx(this, 4));//线粗
         wheelView.setLineConfig(config);
         wheelView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
             @Override
@@ -44,6 +45,7 @@ public class NextActivity extends BaseActivity {
         });
 
         picker = new CarNumberPicker(this);
+        picker.setIosModeEnable(true);
         picker.setOffset(3);
         picker.setOnMoreWheelListener(new OnMoreWheelListener() {
             @Override

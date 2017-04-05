@@ -656,7 +656,7 @@ public class WheelView extends ListView implements ListView.OnScrollListener, Vi
             textView.setIncludeFontPadding(false);
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(Color.BLACK);
-            LayoutParams textParams = new LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+            LayoutParams textParams = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             addView(textView, textParams);
         }
 
@@ -705,6 +705,9 @@ public class WheelView extends ListView implements ListView.OnScrollListener, Vi
         public final String getItem(int position) {
             if (isLoop) {
                 return data.size() > 0 ? data.get(position % data.size()) : null;
+            }
+            if (data.size() <= position) {
+                position = data.size() - 1;
             }
             return data.get(position);
         }

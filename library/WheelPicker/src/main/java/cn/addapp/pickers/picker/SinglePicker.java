@@ -150,7 +150,7 @@ public class SinglePicker<T> extends WheelPicker {
             loopView.setCanLoop(canLoop);
             loopView.setLoopListener(new LoopView.LoopScrollListener() {
                 @Override
-                public void onItemSelect(int position,String item) {
+                public void onItemSelected(int position,String item) {
                     selectedItemIndex = position;
                     if (onSingleWheelListener != null) {
                         onSingleWheelListener.onWheeled(selectedItemIndex, item);

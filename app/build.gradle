@@ -28,6 +28,7 @@ dependencies {
     compile 'com.github.florent37:viewanimator:1.0.3'
 //    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
     compile project(':library:WheelPicker')
+    compile 'com.github.addappcn:AndroidPickers:0.1.0'
     //    compile 'cn.addapp.framework:WheelPicker:latest.release'
     //    compile 'com.github.addappcn.AndroidPicker:WheelPicker:1.4.3'
     // required, enough for most devices.

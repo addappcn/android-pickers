@@ -16,6 +16,7 @@ import java.util.List;
 import cn.addapp.pickers.listeners.OnMoreItemPickListener;
 import cn.addapp.pickers.listeners.OnMoreWheelListener;
 import cn.addapp.pickers.util.LogUtils;
+import cn.addapp.pickers.widget.LoopView;
 import cn.addapp.pickers.widget.WheelView;
 
 /**
@@ -206,134 +207,264 @@ public class LinkagePicker extends WheelPicker {
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
-
-        final WheelView firstView = new WheelView(activity);
-        firstView.setTextSize(textSize);
-        firstView.setSelectedTextColor(textColorFocus);
-        firstView.setUnSelectedTextColor(textColorNormal);
-        firstView.setLineConfig(lineConfig);
-        firstView.setOffset(offset);
-        firstView.setCanLoop(canLoop);
-        layout.addView(firstView);
-        if (TextUtils.isEmpty(firstLabel)) {
-            firstView.setLayoutParams(new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT));
-        } else {
-            firstView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-            TextView labelView = new TextView(activity);
-            labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-            labelView.setTextSize(textSize);
-            labelView.setTextColor(textColorFocus);
-            labelView.setText(firstLabel);
-            layout.addView(labelView);
-        }
-
-        final WheelView secondView = new WheelView(activity);
-        secondView.setTextSize(textSize);
-        secondView.setSelectedTextColor(textColorFocus);
-        secondView.setUnSelectedTextColor(textColorNormal);
-        secondView.setLineConfig(lineConfig);
-        secondView.setOffset(offset);
-        secondView.setCanLoop(canLoop);
-        layout.addView(secondView);
-        if (TextUtils.isEmpty(secondLabel)) {
-            secondView.setLayoutParams(new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT));
-        } else {
-            secondView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-            TextView labelView = new TextView(activity);
-            labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-            labelView.setTextSize(textSize);
-            labelView.setTextColor(textColorFocus);
-            labelView.setText(secondLabel);
-            layout.addView(labelView);
-        }
-
-        final WheelView thirdView = new WheelView(activity);
-        if (!provider.isOnlyTwo()) {
-            thirdView.setTextSize(textSize);
-            thirdView.setSelectedTextColor(textColorFocus);
-            thirdView.setUnSelectedTextColor(textColorNormal);
-            thirdView.setLineConfig(lineConfig);
-            thirdView.setOffset(offset);
-            thirdView.setCanLoop(canLoop);
-            layout.addView(thirdView);
-            if (TextUtils.isEmpty(thirdLabel)) {
-                thirdView.setLayoutParams(new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT));
+        //判断是选择ios滚轮模式还是普通模式
+        if(iosModeEnable){
+            final LoopView firstView = new LoopView(activity);
+            firstView.setDrawItemsCount(9);
+            firstView.setTextSize(textSize);
+            firstView.setInitPosition(selectedFirstIndex);
+            firstView.setSelectedTextColor(textColorFocus);
+            firstView.setUnSelectedTextColor(textColorNormal);
+            firstView.setCanLoop(true);
+            layout.addView(firstView);
+            if (TextUtils.isEmpty(firstLabel)) {
+                firstView.setLayoutParams(new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT));
             } else {
-                thirdView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                firstView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 TextView labelView = new TextView(activity);
                 labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 labelView.setTextSize(textSize);
                 labelView.setTextColor(textColorFocus);
-                labelView.setText(thirdLabel);
+                labelView.setText(firstLabel);
                 layout.addView(labelView);
             }
+
+            final LoopView secondView = new LoopView(activity);
+            secondView.setTextSize(textSize);
+            secondView.setInitPosition(selectedSecondIndex);
+            secondView.setSelectedTextColor(textColorFocus);
+            secondView.setUnSelectedTextColor(textColorNormal);
+            secondView.setCanLoop(canLoop);
+            layout.addView(secondView);
+            if (TextUtils.isEmpty(secondLabel)) {
+                secondView.setLayoutParams(new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT));
+            } else {
+                secondView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                TextView labelView = new TextView(activity);
+                labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                labelView.setTextSize(textSize);
+                labelView.setTextColor(textColorFocus);
+                labelView.setText(secondLabel);
+                layout.addView(labelView);
+            }
+
+            final LoopView thirdView = new LoopView(activity);
+            if (!provider.isOnlyTwo()) {
+                thirdView.setTextSize(textSize);
+                thirdView.setInitPosition(selectedThirdIndex);
+                thirdView.setSelectedTextColor(textColorFocus);
+                thirdView.setUnSelectedTextColor(textColorNormal);
+                thirdView.setCanLoop(canLoop);
+                layout.addView(thirdView);
+                if (TextUtils.isEmpty(thirdLabel)) {
+                    thirdView.setLayoutParams(new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT));
+                } else {
+                    thirdView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                    TextView labelView = new TextView(activity);
+                    labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                    labelView.setTextSize(textSize);
+                    labelView.setTextColor(textColorFocus);
+                    labelView.setText(thirdLabel);
+                    layout.addView(labelView);
+                }
+            }
+
+            firstView.setDataList(provider.provideFirstData());
+            firstView.setInitPosition(selectedFirstIndex);
+            firstView.setLoopListener(new LoopView.LoopScrollListener() {
+                @Override
+                public void onItemSelected(int index, String item) {
+                    selectedFirstItem = item;
+                    selectedFirstIndex = index;
+                    if (onMoreWheelListener != null) {
+                        onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
+                    }
+
+                    LogUtils.verbose(this, "change second data after first wheeled");
+                    selectedSecondIndex = 0;//重置第二级索引
+                    selectedThirdIndex = 0;//重置第三级索引
+                    //根据第一级数据获取第二级数据
+                    List<String> secondData = provider.provideSecondData(selectedFirstIndex);
+                    secondView.setDataList(secondData);
+                    secondView.setInitPosition(selectedSecondIndex);
+                    if (provider.isOnlyTwo()) {
+                        return;//仅仅二级联动
+                    }
+                    //根据第二级数据获取第三级数据
+                    List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                    thirdView.setDataList(thirdData);
+                    thirdView.setInitPosition(selectedThirdIndex);
+                }
+            });
+
+            secondView.setDataList(provider.provideSecondData(selectedFirstIndex));
+            secondView.setInitPosition(selectedSecondIndex);
+            secondView.setLoopListener(new LoopView.LoopScrollListener() {
+                @Override
+                public void onItemSelected(int index, String item) {
+                    selectedSecondItem = item;
+                    selectedSecondIndex = index;
+                    if (onMoreWheelListener != null) {
+                        onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
+                    }
+                    if (provider.isOnlyTwo()) {
+                        return;//仅仅二级联动
+                    }
+                    LogUtils.verbose(this, "change third data after second wheeled");
+                    selectedThirdIndex = 0;//重置第三级索引
+                    List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                    //根据第二级数据获取第三级数据
+                    thirdView.setDataList(thirdData);
+                    thirdView.setInitPosition(selectedThirdIndex);
+                }
+            });
+            if (provider.isOnlyTwo()) {
+                return layout;//仅仅二级联动
+            }
+
+            thirdView.setDataList(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex));
+            thirdView.setInitPosition(selectedThirdIndex);
+            thirdView.setLoopListener(new LoopView.LoopScrollListener() {
+                @Override
+                public void onItemSelected( int index, String item) {
+                    selectedThirdItem = item;
+                    selectedThirdIndex = index;
+                    if (onMoreWheelListener != null) {
+                        onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
+                    }
+                }
+            });
+            return layout;
+        }else{
+            final WheelView firstView = new WheelView(activity);
+            firstView.setTextSize(textSize);
+            firstView.setSelectedTextColor(textColorFocus);
+            firstView.setUnSelectedTextColor(textColorNormal);
+            firstView.setLineConfig(lineConfig);
+            firstView.setOffset(offset);
+            firstView.setCanLoop(canLoop);
+            layout.addView(firstView);
+            if (TextUtils.isEmpty(firstLabel)) {
+                firstView.setLayoutParams(new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT));
+            } else {
+                firstView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                TextView labelView = new TextView(activity);
+                labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                labelView.setTextSize(textSize);
+                labelView.setTextColor(textColorFocus);
+                labelView.setText(firstLabel);
+                layout.addView(labelView);
+            }
+
+            final WheelView secondView = new WheelView(activity);
+            secondView.setTextSize(textSize);
+            secondView.setSelectedTextColor(textColorFocus);
+            secondView.setUnSelectedTextColor(textColorNormal);
+            secondView.setLineConfig(lineConfig);
+            secondView.setOffset(offset);
+            secondView.setCanLoop(canLoop);
+            layout.addView(secondView);
+            if (TextUtils.isEmpty(secondLabel)) {
+                secondView.setLayoutParams(new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT));
+            } else {
+                secondView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                TextView labelView = new TextView(activity);
+                labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                labelView.setTextSize(textSize);
+                labelView.setTextColor(textColorFocus);
+                labelView.setText(secondLabel);
+                layout.addView(labelView);
+            }
+
+            final WheelView thirdView = new WheelView(activity);
+            if (!provider.isOnlyTwo()) {
+                thirdView.setTextSize(textSize);
+                thirdView.setSelectedTextColor(textColorFocus);
+                thirdView.setUnSelectedTextColor(textColorNormal);
+                thirdView.setLineConfig(lineConfig);
+                thirdView.setOffset(offset);
+                thirdView.setCanLoop(canLoop);
+                layout.addView(thirdView);
+                if (TextUtils.isEmpty(thirdLabel)) {
+                    thirdView.setLayoutParams(new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT));
+                } else {
+                    thirdView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                    TextView labelView = new TextView(activity);
+                    labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                    labelView.setTextSize(textSize);
+                    labelView.setTextColor(textColorFocus);
+                    labelView.setText(thirdLabel);
+                    layout.addView(labelView);
+                }
+            }
+
+            firstView.setItems(provider.provideFirstData(), selectedFirstIndex);
+            firstView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
+                @Override
+                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    selectedFirstItem = item;
+                    selectedFirstIndex = index;
+                    if (onMoreWheelListener != null) {
+                        onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
+                    }
+                    if (!isUserScroll) {
+                        return;
+                    }
+                    LogUtils.verbose(this, "change second data after first wheeled");
+                    selectedSecondIndex = 0;//重置第二级索引
+                    selectedThirdIndex = 0;//重置第三级索引
+                    //根据第一级数据获取第二级数据
+                    List<String> secondData = provider.provideSecondData(selectedFirstIndex);
+                    secondView.setItems(secondData, selectedSecondIndex);
+                    if (provider.isOnlyTwo()) {
+                        return;//仅仅二级联动
+                    }
+                    //根据第二级数据获取第三级数据
+                    List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                    thirdView.setItems(thirdData, selectedThirdIndex);
+                }
+            });
+
+            secondView.setItems(provider.provideSecondData(selectedFirstIndex), selectedSecondIndex);
+            secondView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
+                @Override
+                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    selectedSecondItem = item;
+                    selectedSecondIndex = index;
+                    if (onMoreWheelListener != null) {
+                        onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
+                    }
+                    if (!isUserScroll) {
+                        return;
+                    }
+                    if (provider.isOnlyTwo()) {
+                        return;//仅仅二级联动
+                    }
+                    LogUtils.verbose(this, "change third data after second wheeled");
+                    selectedThirdIndex = 0;//重置第三级索引
+                    List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                    //根据第二级数据获取第三级数据
+                    thirdView.setItems(thirdData, selectedThirdIndex);
+                }
+            });
+            if (provider.isOnlyTwo()) {
+                return layout;//仅仅二级联动
+            }
+
+            thirdView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
+            thirdView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
+                @Override
+                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    selectedThirdItem = item;
+                    selectedThirdIndex = index;
+                    if (onMoreWheelListener != null) {
+                        onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
+                    }
+                }
+            });
+            return layout;
         }
 
-        firstView.setItems(provider.provideFirstData(), selectedFirstIndex);
-        firstView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
-            @Override
-            public void onItemSelected(boolean isUserScroll, int index, String item) {
-                selectedFirstItem = item;
-                selectedFirstIndex = index;
-                if (onMoreWheelListener != null) {
-                    onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
-                }
-                if (!isUserScroll) {
-                    return;
-                }
-                LogUtils.verbose(this, "change second data after first wheeled");
-                selectedSecondIndex = 0;//重置第二级索引
-                selectedThirdIndex = 0;//重置第三级索引
-                //根据第一级数据获取第二级数据
-                List<String> secondData = provider.provideSecondData(selectedFirstIndex);
-                secondView.setItems(secondData, selectedSecondIndex);
-                if (provider.isOnlyTwo()) {
-                    return;//仅仅二级联动
-                }
-                //根据第二级数据获取第三级数据
-                List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                thirdView.setItems(thirdData, selectedThirdIndex);
-            }
-        });
-
-        secondView.setItems(provider.provideSecondData(selectedFirstIndex), selectedSecondIndex);
-        secondView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
-            @Override
-            public void onItemSelected(boolean isUserScroll, int index, String item) {
-                selectedSecondItem = item;
-                selectedSecondIndex = index;
-                if (onMoreWheelListener != null) {
-                    onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
-                }
-                if (!isUserScroll) {
-                    return;
-                }
-                if (provider.isOnlyTwo()) {
-                    return;//仅仅二级联动
-                }
-                LogUtils.verbose(this, "change third data after second wheeled");
-                selectedThirdIndex = 0;//重置第三级索引
-                List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                //根据第二级数据获取第三级数据
-                thirdView.setItems(thirdData, selectedThirdIndex);
-            }
-        });
-        if (provider.isOnlyTwo()) {
-            return layout;//仅仅二级联动
-        }
-
-        thirdView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
-        thirdView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
-            @Override
-            public void onItemSelected(boolean isUserScroll, int index, String item) {
-                selectedThirdItem = item;
-                selectedThirdIndex = index;
-                if (onMoreWheelListener != null) {
-                    onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
-                }
-            }
-        });
-        return layout;
     }
 
     @Override
@@ -381,13 +512,13 @@ public class LinkagePicker extends WheelPicker {
      * 默认的数据提供者
      */
     public static class DefaultDataProvider implements DataProvider {
-        private ArrayList<String> firstList = new ArrayList<>();
-        private ArrayList<ArrayList<String>> secondList = new ArrayList<>();
-        private ArrayList<ArrayList<ArrayList<String>>> thirdList = new ArrayList<>();
+        private List<String> firstList = new ArrayList<>();
+        private List<List<String>> secondList = new ArrayList<>();
+        private List<List<List<String>>> thirdList = new ArrayList<>();
         private boolean onlyTwo = false;
 
-        public DefaultDataProvider(ArrayList<String> firstList, ArrayList<ArrayList<String>> secondList,
-                                   ArrayList<ArrayList<ArrayList<String>>> thirdList) {
+        public DefaultDataProvider(List<String> firstList, List<List<String>> secondList,
+                                   List<List<List<String>>> thirdList) {
             this.firstList = firstList;
             this.secondList = secondList;
             if (thirdList == null || thirdList.size() == 0) {

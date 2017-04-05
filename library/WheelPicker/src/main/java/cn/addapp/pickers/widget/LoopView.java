@@ -16,7 +16,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -52,7 +51,7 @@ public class LoopView extends View {
     private Paint mCenterTopBottomTextPaint;  //paint that draw top and bottom text
     private Paint mCenterTextPaint;  // paint that draw center text
     private Paint mCenterLinePaint;  // paint that draw line besides center text
-    private ArrayList<String> mDataList;
+    private List<String> mDataList;
     private int mTextSize;
     private int mMaxTextWidth;
     private int mMaxTextHeight;
@@ -68,6 +67,7 @@ public class LoopView extends View {
 //    private int mPaddingLeftRight;
     private int mPaddingTopBottom;
     private float mItemHeight;
+
     // 显示几个条目
     private int mDrawItemsCount;
     private int mCircularDiameter;
@@ -462,9 +462,15 @@ public class LoopView extends View {
         }
         return true;
     }
+    public int getDrawItemsCount() {
+        return mDrawItemsCount;
+    }
 
+    public void setDrawItemsCount(int drawItemsCount) {
+        this.mDrawItemsCount = drawItemsCount;
+    }
     public final void setCanLoop(boolean canLoop) {
-        mCanLoop = !canLoop;
+        mCanLoop = canLoop;
         invalidate();
     }
 
@@ -507,7 +513,7 @@ public class LoopView extends View {
      * @param list data list
      */
     public final void setDataList(List<String> list) {
-        this.mDataList = (ArrayList<String>) list;
+        this.mDataList =  list;
         initData();
     }
 
@@ -594,7 +600,7 @@ public class LoopView extends View {
             LoopScrollListener listener = LoopView.this.mLoopListener;
             int selectedPosition = getSelectedPosition();
             String selectedItem =  mDataList.get(selectedPosition);
-            listener.onItemSelect(selectedPosition,selectedItem);
+            listener.onItemSelected(selectedPosition,selectedItem);
         }
     }
 
@@ -704,6 +710,6 @@ public class LoopView extends View {
     }
 
     public interface LoopScrollListener {
-        void onItemSelect(int index,String item);
+        void onItemSelected(int index,String item);
     }
 }
