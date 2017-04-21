@@ -11,7 +11,7 @@
 “app”是Sample；“library”包括WheelPicker，
 WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### demo下载
-![效果图](/app/app-release.apk)
+[demo](/app/app-release.apk)
 #### 直接远程加载JitPack里的
 
 加载[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库：
