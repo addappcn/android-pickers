@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import cn.addapp.pickers.util.ConvertUtils;
 import cn.addapp.pickers.wheelpicker.R;
 /**
+ * 暂时没有用到 完善中
  * 滑轮控件，参见：https://github.com/addappcn/AndroidPicker
  * <br />
  * Author:matt

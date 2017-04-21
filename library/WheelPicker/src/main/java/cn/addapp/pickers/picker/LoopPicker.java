@@ -5,8 +5,8 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
 import android.view.View;
 
-import cn.addapp.pickers.popup.ConfirmDialog;
-import cn.addapp.pickers.widget.WheelView;
+import cn.addapp.pickers.dialog.ConfirmDialog;
+import cn.addapp.pickers.widget.WheelListView;
 
 /**
  * 滑轮选择器
@@ -15,10 +15,10 @@ import cn.addapp.pickers.widget.WheelView;
  * @since 2015/12/22
  */
 public abstract class LoopPicker extends ConfirmDialog<View> {
-    protected int textSize = WheelView.TEXT_SIZE;
-    protected int textColorNormal = WheelView.TEXT_COLOR_NORMAL;
-    protected int textColorFocus = WheelView.TEXT_COLOR_FOCUS;
-    protected int offset = WheelView.ITEM_OFF_SET;
+    protected int textSize = WheelListView.TEXT_SIZE;
+    protected int textColorNormal = WheelListView.TEXT_COLOR_NORMAL;
+    protected int textColorFocus = WheelListView.TEXT_COLOR_FOCUS;
+    protected int offset = WheelListView.ITEM_OFF_SET;
     protected boolean cycleDisable = true;
 //    protected WheelView.LineConfig lineConfig;
     private View contentView;

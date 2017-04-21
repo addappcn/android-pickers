@@ -85,10 +85,12 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
             AddressPicker picker = new AddressPicker(activity, result);
             picker.setHideProvince(hideProvince);
             picker.setHideCounty(hideCounty);
+            picker.setCanLoop(true);
+            picker.setWheelModeEnable(true);
             if (hideCounty) {
-                picker.setColumnWeight(1 / 3.0, 2 / 3.0);//将屏幕分为3份，省级和地级的比例为1:2
+                picker.setColumnWeight(1 / 3.0f, 2 / 3.0f);//将屏幕分为3份，省级和地级的比例为1:2
             } else {
-                picker.setColumnWeight(2 / 8.0, 3 / 8.0, 3 / 8.0);//省级、地级和县级的比例为2:3:3
+                picker.setColumnWeight(2 / 8.0f, 3 / 8.0f, 3 / 8.0f);//省级、地级和县级的比例为2:3:3
             }
             picker.setSelectedItem(selectedProvince, selectedCity, selectedCounty);
             picker.setOnLinkageListener(callback);
@@ -98,7 +100,7 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
         }
     }
 
-    public interface Callback extends OnLinkageListener {
+    interface Callback extends OnLinkageListener {
 
         void onAddressInitFailed();
 

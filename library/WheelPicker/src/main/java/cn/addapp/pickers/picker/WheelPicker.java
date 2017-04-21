@@ -6,8 +6,9 @@ import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import cn.addapp.pickers.popup.ConfirmDialog;
-import cn.addapp.pickers.widget.WheelView;
+import cn.addapp.pickers.common.LineConfig;
+import cn.addapp.pickers.dialog.ConfirmDialog;
+import cn.addapp.pickers.widget.WheelListView;
 
 /**
  * 滑轮选择器
@@ -16,14 +17,14 @@ import cn.addapp.pickers.widget.WheelView;
  * @since 2015/12/22
  */
 public abstract class WheelPicker extends ConfirmDialog<View> {
-    protected int textSize = WheelView.TEXT_SIZE;
-    protected int textColorNormal = WheelView.TEXT_COLOR_NORMAL;
-    protected int textColorFocus = WheelView.TEXT_COLOR_FOCUS;
-    protected int offset = WheelView.ITEM_OFF_SET;
+    protected int textSize = WheelListView.TEXT_SIZE;
+    protected int textColorNormal = WheelListView.TEXT_COLOR_NORMAL;
+    protected int textColorFocus = WheelListView.TEXT_COLOR_FOCUS;
+    protected int offset = WheelListView.ITEM_OFF_SET;
     protected boolean canLoop = true;
-    protected boolean iosModeEnable = false;
+    protected boolean wheelModeEnable = false;
     protected boolean weightEnable = false;
-    protected WheelView.LineConfig lineConfig;
+    protected LineConfig lineConfig = new LineConfig();
     private View contentView;
 
     public WheelPicker(Activity activity) {
@@ -55,7 +56,7 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
      */
     public void setLineVisible(boolean lineVisible) {
         if (null == lineConfig) {
-            lineConfig = new WheelView.LineConfig();
+            lineConfig = new LineConfig();
         }
         lineConfig.setVisible(lineVisible);
     }
@@ -65,7 +66,7 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
      */
     public void setShadowVisible(boolean shadowVisible) {
         if (null == lineConfig) {
-            lineConfig = new WheelView.LineConfig();
+            lineConfig = new LineConfig();
         }
         lineConfig.setShadowVisible(shadowVisible);
     }
@@ -75,7 +76,7 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
      */
     public void setLineColor(@ColorInt int lineColor) {
         if (null == lineConfig) {
-            lineConfig = new WheelView.LineConfig();
+            lineConfig = new LineConfig();
         }
         lineConfig.setVisible(true);
         lineConfig.setColor(lineColor);
@@ -84,9 +85,9 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
     /**
      * 设置分隔线配置项，设置null将隐藏分割线及阴影
      */
-    public void setLineConfig(@Nullable WheelView.LineConfig config) {
+    public void setLineConfig(@Nullable LineConfig config) {
         if (null == config) {
-            lineConfig = new WheelView.LineConfig();
+            lineConfig = new LineConfig();
             lineConfig.setVisible(false);
             lineConfig.setShadowVisible(false);
         } else {
@@ -111,8 +112,8 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
     /**
      * 设置是否启用ios滚轮模式
      */
-    public void setIosModeEnable(boolean iosModeEnable) {
-        this.iosModeEnable = iosModeEnable;
+    public void setWheelModeEnable(boolean wheelModeEnable) {
+        this.wheelModeEnable = wheelModeEnable;
     }
 
     /**

@@ -620,7 +620,6 @@ public class ConvertUtils {
     /**
      * 对TextView、Button等设置不同状态时其文字颜色。
      * 参见：http://blog.csdn.net/sodino/article/details/6797821
-     * Modified by liyujiang at 2015.08.13
      */
     public static ColorStateList toColorStateList(@ColorInt int normalColor, @ColorInt int pressedColor,
                                                   @ColorInt int focusedColor, @ColorInt int unableColor) {

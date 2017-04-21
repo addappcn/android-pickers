@@ -1,4 +1,4 @@
-package cn.addapp.pickers.popup;
+package cn.addapp.pickers.dialog;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -275,7 +275,9 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
             lineView.setBackgroundColor(topLineColor);
             rootLayout.addView(lineView);
         }
-        rootLayout.addView(makeCenterView(), new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f));
+        LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f);
+        rootParams.setMargins(0,15,0,15);
+        rootLayout.addView(makeCenterView(), rootParams);
         View footerView = makeFooterView();
         if (footerView != null) {
             rootLayout.addView(footerView);

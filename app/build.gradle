@@ -5,7 +5,6 @@ ext {
 }
 
 android {
-
     buildTypes {
         release {
             //是否zip优化
@@ -23,7 +22,7 @@ android {
 
 dependencies {
     compile 'com.alibaba:fastjson:1.1.56.android'
-    compile 'com.github.florent37:viewanimator:1.0.3'
+    compile 'com.github.florent37:viewanimator:1.0.5'
     compile project(':library:WheelPicker')
 //    compile 'com.github.addappcn:AndroidPickers:0.1.1'
-}
+ }

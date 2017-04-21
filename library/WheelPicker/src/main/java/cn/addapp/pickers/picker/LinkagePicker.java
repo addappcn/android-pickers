@@ -13,10 +13,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.addapp.pickers.adapter.ArrayWheelAdapter;
+import cn.addapp.pickers.common.LineConfig;
+import cn.addapp.pickers.listeners.OnItemPickListener;
 import cn.addapp.pickers.listeners.OnMoreItemPickListener;
 import cn.addapp.pickers.listeners.OnMoreWheelListener;
 import cn.addapp.pickers.util.LogUtils;
-import cn.addapp.pickers.widget.LoopView;
+import cn.addapp.pickers.widget.WheelListView;
 import cn.addapp.pickers.widget.WheelView;
 
 /**
@@ -33,10 +36,10 @@ public class LinkagePicker extends WheelPicker {
     protected String firstLabel = "", secondLabel = "", thirdLabel = "";
     protected int selectedFirstIndex = 0, selectedSecondIndex = 0, selectedThirdIndex = 0;
     protected DataProvider provider;
-    private OnMoreItemPickListener<String> onMoreItemPickListener;
-    private double firstColumnWeight = 0;//第一级显示的宽度比
-    private double secondColumnWeight = 0;//第二级显示的宽度比
-    private double thirdColumnWeight = 0;//第三级显示的宽度比
+    private OnMoreItemPickListener onMoreItemPickListener;
+    private float firstColumnWeight = 0;//第一级显示的宽度比
+    private float secondColumnWeight = 0;//第二级显示的宽度比
+    private float thirdColumnWeight = 0;//第三级显示的宽度比
     private OnMoreWheelListener onMoreWheelListener;
 
     public LinkagePicker(Activity activity) {
@@ -113,14 +116,17 @@ public class LinkagePicker extends WheelPicker {
     }
 
     public String getSelectedFirstItem() {
+        selectedFirstItem = provider.provideFirstData().get(selectedFirstIndex);
         return selectedFirstItem;
     }
 
     public String getSelectedSecondItem() {
+        selectedSecondItem = provider.provideSecondData(selectedFirstIndex).get(selectedSecondIndex);
         return selectedSecondItem;
     }
 
     public String getSelectedThirdItem() {
+        selectedThirdItem = provider .provideThirdData(selectedFirstIndex,selectedSecondIndex).get(selectedThirdIndex);
         return selectedThirdItem;
     }
 
@@ -139,9 +145,9 @@ public class LinkagePicker extends WheelPicker {
     /**
      * 设置每列的宽度比例，将屏幕分为三列，每列范围为0.0～1.0，如0.3333表示约占屏幕的三分之一。
      */
-    public void setColumnWeight(@FloatRange(from = 0, to = 1) double firstColumnWeight,
-                                @FloatRange(from = 0, to = 1) double secondColumnWeight,
-                                @FloatRange(from = 0, to = 1) double thirdColumnWeight) {
+    public void setColumnWeight(@FloatRange(from = 0, to = 1) float firstColumnWeight,
+                                @FloatRange(from = 0, to = 1) float secondColumnWeight,
+                                @FloatRange(from = 0, to = 1) float thirdColumnWeight) {
         this.firstColumnWeight = firstColumnWeight;
         this.secondColumnWeight = secondColumnWeight;
         this.thirdColumnWeight = thirdColumnWeight;
@@ -150,8 +156,8 @@ public class LinkagePicker extends WheelPicker {
     /**
      * 设置每列的宽度比例，将屏幕分为两列，每列范围为0.0～1.0，如0.5表示占屏幕的一半。
      */
-    public void setColumnWeight(@FloatRange(from = 0, to = 1) double firstColumnWeight,
-                                @FloatRange(from = 0, to = 1) double secondColumnWeight) {
+    public void setColumnWeight(@FloatRange(from = 0, to = 1) float firstColumnWeight,
+                                @FloatRange(from = 0, to = 1) float secondColumnWeight) {
         this.firstColumnWeight = firstColumnWeight;
         this.secondColumnWeight = secondColumnWeight;
         this.thirdColumnWeight = 0;
@@ -207,18 +213,31 @@ public class LinkagePicker extends WheelPicker {
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
+        layout.setWeightSum(3);
+        LinearLayout.LayoutParams wheelParams = new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT);
+//        wheelParams.weight = 1;
+        LinearLayout.LayoutParams wheelParams1 = new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT);
+//        wheelParams1.weight = 1;
+        LinearLayout.LayoutParams wheelParams2 = new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT);
+//        wheelParams2.weight = 1;
+        if(weightEnable){
+            wheelParams.weight = firstColumnWeight;
+            wheelParams1.weight = secondColumnWeight;
+            wheelParams2.weight = thirdColumnWeight;
+        }
         //判断是选择ios滚轮模式还是普通模式
-        if(iosModeEnable){
-            final LoopView firstView = new LoopView(activity);
-            firstView.setDrawItemsCount(9);
+        if(wheelModeEnable){
+            final WheelView firstView = new WheelView(activity);
+            firstView.setCanLoop(canLoop);
             firstView.setTextSize(textSize);
-            firstView.setInitPosition(selectedFirstIndex);
             firstView.setSelectedTextColor(textColorFocus);
             firstView.setUnSelectedTextColor(textColorNormal);
-            firstView.setCanLoop(true);
-            layout.addView(firstView);
+            firstView.setLineConfig(lineConfig);
+            firstView.setDividerType(LineConfig.DividerType.WRAP);
+            firstView.setAdapter(new ArrayWheelAdapter<>(provider.provideFirstData()));
+            firstView.setCurrentItem(selectedFirstIndex);
             if (TextUtils.isEmpty(firstLabel)) {
-                firstView.setLayoutParams(new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT));
+                firstView.setLayoutParams(wheelParams);
             } else {
                 firstView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 TextView labelView = new TextView(activity);
@@ -228,16 +247,19 @@ public class LinkagePicker extends WheelPicker {
                 labelView.setText(firstLabel);
                 layout.addView(labelView);
             }
+            layout.addView(firstView);
 
-            final LoopView secondView = new LoopView(activity);
+            final WheelView secondView = new WheelView(activity);
+            secondView.setCanLoop(canLoop);
             secondView.setTextSize(textSize);
-            secondView.setInitPosition(selectedSecondIndex);
             secondView.setSelectedTextColor(textColorFocus);
             secondView.setUnSelectedTextColor(textColorNormal);
-            secondView.setCanLoop(canLoop);
-            layout.addView(secondView);
+            secondView.setLineConfig(lineConfig);
+            secondView.setDividerType(LineConfig.DividerType.WRAP);
+            secondView.setAdapter(new ArrayWheelAdapter<>(provider.provideSecondData(selectedFirstIndex)));
+            secondView.setCurrentItem(selectedSecondIndex);
             if (TextUtils.isEmpty(secondLabel)) {
-                secondView.setLayoutParams(new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT));
+                secondView.setLayoutParams(wheelParams1);
             } else {
                 secondView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 TextView labelView = new TextView(activity);
@@ -247,17 +269,19 @@ public class LinkagePicker extends WheelPicker {
                 labelView.setText(secondLabel);
                 layout.addView(labelView);
             }
-
-            final LoopView thirdView = new LoopView(activity);
+            layout.addView(secondView);
+            final WheelView thirdView = new WheelView(activity);
             if (!provider.isOnlyTwo()) {
+                thirdView.setCanLoop(canLoop);
                 thirdView.setTextSize(textSize);
-                thirdView.setInitPosition(selectedThirdIndex);
                 thirdView.setSelectedTextColor(textColorFocus);
                 thirdView.setUnSelectedTextColor(textColorNormal);
-                thirdView.setCanLoop(canLoop);
-                layout.addView(thirdView);
+                thirdView.setLineConfig(lineConfig);
+                thirdView.setDividerType(LineConfig.DividerType.WRAP);
+                thirdView.setAdapter(new ArrayWheelAdapter<>(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex)));
+                thirdView.setCurrentItem(selectedThirdIndex);
                 if (TextUtils.isEmpty(thirdLabel)) {
-                    thirdView.setLayoutParams(new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT));
+                    thirdView.setLayoutParams(wheelParams2);
                 } else {
                     thirdView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                     TextView labelView = new TextView(activity);
@@ -267,68 +291,62 @@ public class LinkagePicker extends WheelPicker {
                     labelView.setText(thirdLabel);
                     layout.addView(labelView);
                 }
+                layout.addView(thirdView);
             }
 
-            firstView.setDataList(provider.provideFirstData());
-            firstView.setInitPosition(selectedFirstIndex);
-            firstView.setLoopListener(new LoopView.LoopScrollListener() {
+            firstView.setOnItemPickListener(new OnItemPickListener<String>() {
                 @Override
-                public void onItemSelected(int index, String item) {
+                public void onItemPicked(int i,String item) {
+                    selectedFirstIndex = i;
                     selectedFirstItem = item;
-                    selectedFirstIndex = index;
+                    selectedSecondIndex = 0;//重置第二级索引
+                    selectedThirdIndex = 0;//重置第三级索引
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
-
-                    LogUtils.verbose(this, "change second data after first wheeled");
-                    selectedSecondIndex = 0;//重置第二级索引
-                    selectedThirdIndex = 0;//重置第三级索引
+                    LogUtils.error(this, "change second data after first wheeled");
                     //根据第一级数据获取第二级数据
                     List<String> secondData = provider.provideSecondData(selectedFirstIndex);
-                    secondView.setDataList(secondData);
-                    secondView.setInitPosition(selectedSecondIndex);
+                    secondView.setAdapter(new ArrayWheelAdapter<>(secondData));
+                    secondView.setCurrentItem(selectedSecondIndex);
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
                     //根据第二级数据获取第三级数据
                     List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                    thirdView.setDataList(thirdData);
-                    thirdView.setInitPosition(selectedThirdIndex);
+                    thirdView.setAdapter(new ArrayWheelAdapter<>(thirdData));
+                    thirdView.setCurrentItem(selectedThirdIndex);
                 }
             });
 
-            secondView.setDataList(provider.provideSecondData(selectedFirstIndex));
-            secondView.setInitPosition(selectedSecondIndex);
-            secondView.setLoopListener(new LoopView.LoopScrollListener() {
+            secondView.setOnItemPickListener(new OnItemPickListener<String>() {
                 @Override
-                public void onItemSelected(int index, String item) {
+                public void onItemPicked(int i, String item) {
                     selectedSecondItem = item;
-                    selectedSecondIndex = index;
+                    selectedSecondIndex = i;
+                    selectedThirdIndex = 0;//重置第三级索引
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
+
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
-                    LogUtils.verbose(this, "change third data after second wheeled");
-                    selectedThirdIndex = 0;//重置第三级索引
+                    LogUtils.error(this, "change third data after second wheeled");
                     List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
                     //根据第二级数据获取第三级数据
-                    thirdView.setDataList(thirdData);
-                    thirdView.setInitPosition(selectedThirdIndex);
+                    thirdView.setAdapter(new ArrayWheelAdapter<>(thirdData));
+                    thirdView.setCurrentItem(selectedThirdIndex);
                 }
             });
             if (provider.isOnlyTwo()) {
                 return layout;//仅仅二级联动
             }
-
-            thirdView.setDataList(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex));
-            thirdView.setInitPosition(selectedThirdIndex);
-            thirdView.setLoopListener(new LoopView.LoopScrollListener() {
+            thirdView.setOnItemPickListener(new OnItemPickListener<String>() {
                 @Override
-                public void onItemSelected( int index, String item) {
+                public void onItemPicked(int i,String item) {
                     selectedThirdItem = item;
-                    selectedThirdIndex = index;
+                    selectedThirdIndex = i;
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
                     }
@@ -336,7 +354,7 @@ public class LinkagePicker extends WheelPicker {
             });
             return layout;
         }else{
-            final WheelView firstView = new WheelView(activity);
+            final WheelListView firstView = new WheelListView(activity);
             firstView.setTextSize(textSize);
             firstView.setSelectedTextColor(textColorFocus);
             firstView.setUnSelectedTextColor(textColorNormal);
@@ -345,7 +363,7 @@ public class LinkagePicker extends WheelPicker {
             firstView.setCanLoop(canLoop);
             layout.addView(firstView);
             if (TextUtils.isEmpty(firstLabel)) {
-                firstView.setLayoutParams(new LinearLayout.LayoutParams(widths[0], WRAP_CONTENT));
+                firstView.setLayoutParams(wheelParams);
             } else {
                 firstView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 TextView labelView = new TextView(activity);
@@ -356,7 +374,7 @@ public class LinkagePicker extends WheelPicker {
                 layout.addView(labelView);
             }
 
-            final WheelView secondView = new WheelView(activity);
+            final WheelListView secondView = new WheelListView(activity);
             secondView.setTextSize(textSize);
             secondView.setSelectedTextColor(textColorFocus);
             secondView.setUnSelectedTextColor(textColorNormal);
@@ -365,7 +383,7 @@ public class LinkagePicker extends WheelPicker {
             secondView.setCanLoop(canLoop);
             layout.addView(secondView);
             if (TextUtils.isEmpty(secondLabel)) {
-                secondView.setLayoutParams(new LinearLayout.LayoutParams(widths[1], WRAP_CONTENT));
+                secondView.setLayoutParams(wheelParams1);
             } else {
                 secondView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 TextView labelView = new TextView(activity);
@@ -376,7 +394,7 @@ public class LinkagePicker extends WheelPicker {
                 layout.addView(labelView);
             }
 
-            final WheelView thirdView = new WheelView(activity);
+            final WheelListView thirdView = new WheelListView(activity);
             if (!provider.isOnlyTwo()) {
                 thirdView.setTextSize(textSize);
                 thirdView.setSelectedTextColor(textColorFocus);
@@ -386,7 +404,7 @@ public class LinkagePicker extends WheelPicker {
                 thirdView.setCanLoop(canLoop);
                 layout.addView(thirdView);
                 if (TextUtils.isEmpty(thirdLabel)) {
-                    thirdView.setLayoutParams(new LinearLayout.LayoutParams(widths[2], WRAP_CONTENT));
+                    thirdView.setLayoutParams(wheelParams2);
                 } else {
                     thirdView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                     TextView labelView = new TextView(activity);
@@ -399,11 +417,13 @@ public class LinkagePicker extends WheelPicker {
             }
 
             firstView.setItems(provider.provideFirstData(), selectedFirstIndex);
-            firstView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
+            firstView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                 @Override
                 public void onItemSelected(boolean isUserScroll, int index, String item) {
                     selectedFirstItem = item;
                     selectedFirstIndex = index;
+                    selectedSecondIndex = 0;//重置第二级索引
+                    selectedThirdIndex = 0;//重置第三级索引
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
@@ -411,8 +431,7 @@ public class LinkagePicker extends WheelPicker {
                         return;
                     }
                     LogUtils.verbose(this, "change second data after first wheeled");
-                    selectedSecondIndex = 0;//重置第二级索引
-                    selectedThirdIndex = 0;//重置第三级索引
+
                     //根据第一级数据获取第二级数据
                     List<String> secondData = provider.provideSecondData(selectedFirstIndex);
                     secondView.setItems(secondData, selectedSecondIndex);
@@ -426,11 +445,12 @@ public class LinkagePicker extends WheelPicker {
             });
 
             secondView.setItems(provider.provideSecondData(selectedFirstIndex), selectedSecondIndex);
-            secondView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
+            secondView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                 @Override
                 public void onItemSelected(boolean isUserScroll, int index, String item) {
                     selectedSecondItem = item;
                     selectedSecondIndex = index;
+                    selectedThirdIndex = 0;//重置第三级索引
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
@@ -441,7 +461,7 @@ public class LinkagePicker extends WheelPicker {
                         return;//仅仅二级联动
                     }
                     LogUtils.verbose(this, "change third data after second wheeled");
-                    selectedThirdIndex = 0;//重置第三级索引
+
                     List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
                     //根据第二级数据获取第三级数据
                     thirdView.setItems(thirdData, selectedThirdIndex);
@@ -452,7 +472,7 @@ public class LinkagePicker extends WheelPicker {
             }
 
             thirdView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
-            thirdView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener() {
+            thirdView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                 @Override
                 public void onItemSelected(boolean isUserScroll, int index, String item) {
                     selectedThirdItem = item;
@@ -472,9 +492,12 @@ public class LinkagePicker extends WheelPicker {
         if (onMoreItemPickListener == null) {
             return;
         }
+        selectedFirstItem = provider.provideFirstData().get(selectedFirstIndex);
+        selectedSecondItem = provider.provideSecondData(selectedFirstIndex).get(selectedSecondIndex);
         if (provider.isOnlyTwo()) {
             onMoreItemPickListener.onItemPicked(selectedFirstItem, selectedSecondItem, null);
         } else {
+            selectedThirdItem = provider .provideThirdData(selectedFirstIndex,selectedSecondIndex).get(selectedThirdIndex);
             onMoreItemPickListener.onItemPicked(selectedFirstItem, selectedSecondItem, selectedThirdItem);
         }
     }

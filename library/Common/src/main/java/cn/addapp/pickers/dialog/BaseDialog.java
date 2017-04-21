@@ -1,4 +1,4 @@
-package cn.addapp.pickers.popup;
+package cn.addapp.pickers.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.CallSuper;
 import android.support.annotation.StyleRes;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -52,8 +51,8 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         contentLayout.setFocusableInTouchMode(true);
         //contentLayout.setFitsSystemWindows(true);
         dialog = new Dialog(activity);
-        dialog.setCanceledOnTouchOutside(true);//触摸屏幕取消窗体
-        dialog.setCancelable(true);//按返回键取消窗体
+        dialog.setCanceledOnTouchOutside(false);//触摸屏幕取消窗体
+        dialog.setCancelable(false);//按返回键取消窗体
         dialog.setOnKeyListener(this);
         dialog.setOnDismissListener(this);
         Window window = dialog.getWindow();
@@ -146,14 +145,26 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         }
     }
 
-    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-        dialog.setOnDismissListener(onDismissListener);
-        LogUtils.verbose(this, "popup setOnDismissListener");
+    public void setOnDismissListener(final DialogInterface.OnDismissListener onDismissListener) {
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                BaseDialog.this.onDismiss(dialogInterface);
+                onDismissListener.onDismiss(dialogInterface);
+            }
+        });
+        LogUtils.verbose(this, "dialog setOnDismissListener");
     }
 
-    public void setOnKeyListener(DialogInterface.OnKeyListener onKeyListener) {
-        dialog.setOnKeyListener(onKeyListener);
-        LogUtils.verbose(this, "popup setOnKeyListener");
+    public void setOnKeyListener(final DialogInterface.OnKeyListener onKeyListener) {
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                                BaseDialog.this.onKey(dialog, keyCode, event);
+                                return onKeyListener.onKey(dialog, keyCode, event);
+                            }
+         });
+        LogUtils.verbose(this, "dialog setOnKeyListener");
     }
 
     /**
@@ -175,7 +186,7 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         } else if (height == 0) {
             height = WRAP_CONTENT;
         }
-        LogUtils.verbose(this, String.format("will set popup width/height to: %s/%s", width, height));
+        LogUtils.verbose(this, String.format("will set dialog width/height to: %s/%s", width, height));
         ViewGroup.LayoutParams params = contentLayout.getLayoutParams();
         if (params == null) {
             params = new ViewGroup.LayoutParams(width, height);
@@ -217,37 +228,44 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         return dialog.isShowing();
     }
 
-    @CallSuper
-    public void show() {
+    public final void show() {
         if (isPrepared) {
             dialog.show();
-            LogUtils.verbose(this, "popup show");
+            showAfter();
             return;
         }
-        LogUtils.verbose(this, "do something before popup show");
+        LogUtils.verbose(this, "do something before dialog show");
         setContentViewBefore();
         V view = makeContentView();
         setContentView(view);// 设置弹出窗体的布局
         setContentViewAfter(view);
         isPrepared = true;
         dialog.show();
-        LogUtils.verbose(this, "popup show");
+        showAfter();
+    }
+
+    protected void showAfter() {
+        LogUtils.verbose(this, "dialog show");
     }
 
     public void dismiss() {
-        dialog.dismiss();
-        LogUtils.verbose(this, "popup dismiss");
+        dismissImmediately();
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    protected final void dismissImmediately() {
+        dialog.dismiss();
+        LogUtils.verbose(this, "dialog dismiss");
+    }
+
+    public boolean onBackPress() {
+        dismiss();
         return false;
     }
 
     @Override
     public final boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        //noinspection SimplifiableIfStatement
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            return onKeyDown(keyCode, event);
+        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPress();
         }
         return false;
     }

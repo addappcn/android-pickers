@@ -6,13 +6,13 @@
     android:orientation="vertical">
 
     <TextView
-            android:id="@+id/lable_tv"
+        android:id="@+id/lable_tv"
         style="?android:textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/blue"
         android:gravity="center"
-        android:text="选择器示例"
+        android:text="@string/app_name"
         android:textColor="@android:color/white"/>
 
     <ScrollView
@@ -23,96 +23,112 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onNestView"
+                    style="@style/Button.Style"
                     android:text="内嵌视图选择器"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onAnimationStyle"
+                    style="@style/Button.Style"
                     android:text="窗口动画(基于XML)"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onAnimator"
+                    style="@style/Button.Style"
                     android:text="窗口动画（基于Java）"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onYearMonthDayPicker"
+                    style="@style/Button.Style"
                     android:text="年月日选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onYearMonthDayTimePicker"
+                    style="@style/Button.Style"
                     android:text="年月日时间选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onYearMonthPicker"
+                    style="@style/Button.Style"
                     android:text="年月选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onMonthDayPicker"
+                    style="@style/Button.Style"
                     android:text="月日选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onTimePicker"
+                    style="@style/Button.Style"
                     android:text="时间选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onOptionPicker"
+                    style="@style/Button.Style"
                     android:text="单项选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onLinkagePicker"
+                    style="@style/Button.Style"
                     android:text="二三级联动选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onConstellationPicker"
+                    style="@style/Button.Style"
                     android:text="星座选择"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onNumberPicker"
+                    style="@style/Button.Style"
                     android:text="数字选择（如身高、体重、年龄）"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onAddressPicker"
+                    style="@style/Button.Style"
                     android:text="地址选择（包括省级、地级、县级）"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onAddress2Picker"
+                    style="@style/Button.Style"
                     android:text="地址选择（只包括地级、县级）"/>
 
             <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onAddress3Picker"
+                    style="@style/Button.Style"
                     android:text="地址选择（只包括省级、地级）"/>
 
         </LinearLayout>

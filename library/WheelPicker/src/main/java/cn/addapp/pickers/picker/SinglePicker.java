@@ -1,6 +1,7 @@
 package cn.addapp.pickers.picker;
 
 import android.app.Activity;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -14,10 +15,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.addapp.pickers.adapter.ArrayWheelAdapter;
+import cn.addapp.pickers.common.LineConfig;
 import cn.addapp.pickers.listeners.OnItemPickListener;
 import cn.addapp.pickers.listeners.OnSingleWheelListener;
 import cn.addapp.pickers.util.ConvertUtils;
-import cn.addapp.pickers.widget.LoopView;
+import cn.addapp.pickers.widget.WheelListView;
 import cn.addapp.pickers.widget.WheelView;
 
 /**
@@ -30,14 +33,15 @@ public class SinglePicker<T> extends WheelPicker {
     private static final int ITEM_WIDTH_UNKNOWN = -99;
     private List<T> items = new ArrayList<>();
     private List<String> itemStrings = new ArrayList<>();
-    private WheelView wheelView;
-    private LoopView loopView;
+    private WheelListView wheelListView;
+    private WheelView wheelView ;
+    private float weightWidth = 0.0f;
     private OnSingleWheelListener onSingleWheelListener;
     private OnItemPickListener<T> onItemPickListener;
     private int selectedItemIndex = 0;
+    private String selectedItem = "";
     private String label = "";
     private int itemWidth = ITEM_WIDTH_UNKNOWN;
-
     public SinglePicker(Activity activity, T[] items) {
         this(activity, Arrays.asList(items));
     }
@@ -54,7 +58,6 @@ public class SinglePicker<T> extends WheelPicker {
         items.add(item);
         itemStrings.add(formatToString(item));
     }
-
     /**
      * 移除数据项
      */
@@ -81,9 +84,17 @@ public class SinglePicker<T> extends WheelPicker {
         for (T item : items) {
             itemStrings.add(formatToString(item));
         }
-        if (null != wheelView) {
-            wheelView.setItems(itemStrings, selectedItemIndex);
+        if(wheelModeEnable){
+            if (null != wheelView) {
+                wheelView.setAdapter(new ArrayWheelAdapter<>(itemStrings));
+                wheelView.setCurrentItem(selectedItemIndex);
+            }
+        }else{
+            if (null != wheelListView) {
+                wheelListView.setItems(itemStrings, selectedItemIndex);
+            }
         }
+
     }
 
     /**
@@ -108,16 +119,39 @@ public class SinglePicker<T> extends WheelPicker {
     public void setSelectedItem(@NonNull T item) {
         setSelectedIndex(itemStrings.indexOf(formatToString(item)));
     }
-
+    /**
+     * 设置view的权重，总权重数为1 ,weightWidth范围（0.0f-1.0f）
+     * */
+    public void setWeightWidth(@FloatRange(from = 0, to = 1)float weightWidth) {
+        if(weightWidth<0){
+            weightWidth = 0;
+        }
+        if(!TextUtils.isEmpty(label)){
+            if(weightWidth>=1){
+                weightWidth = 0.5f;
+            }
+        }
+        this.weightWidth = weightWidth;
+    }
     /**
      * 设置选项的宽(dp)
      */
     public void setItemWidth(int itemWidth) {
-        if (null != wheelView) {
-            int width = ConvertUtils.toPx(activity, itemWidth);
-            wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelView.getLayoutParams().height));
-        } else {
-            this.itemWidth = itemWidth;
+        if(wheelModeEnable){
+            if (null != wheelView) {
+                int width = ConvertUtils.toPx(activity, itemWidth);
+                wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelListView.getLayoutParams().height));
+            }else{
+                this.itemWidth = itemWidth;
+            }
+        }
+        else {
+            if (null != wheelListView) {
+                int width = ConvertUtils.toPx(activity, itemWidth);
+                wheelListView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelListView.getLayoutParams().height));
+            }else{
+                this.itemWidth = itemWidth;
+            }
         }
     }
 
@@ -142,56 +176,61 @@ public class SinglePicker<T> extends WheelPicker {
         layout.setLayoutParams(new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
-//        layout.setWeightSum(1);
+        LinearLayout.LayoutParams wheelParams = null;
+        if(weightEnable){
+            layout.setWeightSum(1);
+            //按权重分配宽度
+            wheelParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            wheelParams.weight = weightWidth;
+        }
+
         //判断是选择ios滚轮模式还是普通模式
-        if(iosModeEnable){
-            loopView = new LoopView(activity);
-            loopView.setInitPosition(selectedItemIndex);
-            loopView.setCanLoop(canLoop);
-            loopView.setLoopListener(new LoopView.LoopScrollListener() {
+        if(wheelModeEnable){
+            wheelView = new WheelView(activity);
+            wheelView.setAdapter(new ArrayWheelAdapter<>(itemStrings));
+            wheelView.setCurrentItem(selectedItemIndex);
+            wheelView.setCanLoop(canLoop);
+            wheelView.setLineConfig(lineConfig);
+            wheelView.setDividerType(LineConfig.DividerType.FILL);
+            wheelView.setOnItemPickListener(new OnItemPickListener<String>() {
                 @Override
-                public void onItemSelected(int position,String item) {
-                    selectedItemIndex = position;
+                public void onItemPicked(int i,String item) {
+                    selectedItem = item;
+                    selectedItemIndex = i;
                     if (onSingleWheelListener != null) {
-                        onSingleWheelListener.onWheeled(selectedItemIndex, item);
+                        onSingleWheelListener.onWheeled(selectedItemIndex, selectedItem);
                     }
                 }
             });
-            loopView.setTextSize(textSize);//must be called before setDateList
-            loopView.setSelectedTextColor(textColorFocus);
-            loopView.setUnSelectedTextColor(textColorNormal);
-            loopView.setDataList(itemStrings);
-            //按权重分配宽度
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, WRAP_CONTENT);
-//            params.weight =0.5f;
             if (TextUtils.isEmpty(label)) {
-                loopView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-                layout.addView(loopView);
+                wheelView.setLayoutParams(wheelParams);
+                layout.addView(wheelView);
             } else {
-                loopView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-                layout.addView(loopView);
+                wheelView.setLayoutParams(wheelParams);
+                layout.addView(wheelView);
                 TextView labelView = new TextView(activity);
                 labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 labelView.setTextColor(textColorFocus);
                 labelView.setTextSize(textSize);
                 labelView.setText(label);
                 layout.addView(labelView);
+
             }
             if (itemWidth != ITEM_WIDTH_UNKNOWN) {
                 int width = ConvertUtils.toPx(activity, itemWidth);
-                loopView.setLayoutParams(new LinearLayout.LayoutParams(width, loopView.getLayoutParams().height));
+                wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelView.getLayoutParams().height));
             }
 
         }else{
-            wheelView = new WheelView(activity);
-            wheelView.setTextSize(textSize);
-            wheelView.setSelectedTextColor(textColorFocus);
-            wheelView.setUnSelectedTextColor(textColorNormal);
-            wheelView.setLineConfig(lineConfig);
-            wheelView.setOffset(offset);
-            wheelView.setCanLoop(canLoop);
-            wheelView.setItems(itemStrings, selectedItemIndex);
-            wheelView.setOnWheelChangeListener(new WheelView.OnWheelChangeListener(){
+            wheelListView = new WheelListView(activity);
+            wheelListView.setTextSize(textSize);
+            wheelListView.setSelectedTextColor(textColorFocus);
+            wheelListView.setUnSelectedTextColor(textColorNormal);
+            wheelListView.setLineConfig(lineConfig);
+            wheelListView.setOffset(offset);
+            wheelListView.setCanLoop(canLoop);
+            wheelListView.setItems(itemStrings, selectedItemIndex);
+            wheelListView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener(){
                 @Override
                 public void onItemSelected(boolean isUserScroll, int index, String item) {
                     selectedItemIndex = index;
@@ -203,11 +242,11 @@ public class SinglePicker<T> extends WheelPicker {
 
 
             if (TextUtils.isEmpty(label)) {
-                wheelView.setLayoutParams(new LinearLayout.LayoutParams(screenWidthPixels, WRAP_CONTENT));
-                layout.addView(wheelView);
+                wheelListView.setLayoutParams(new LinearLayout.LayoutParams(screenWidthPixels, WRAP_CONTENT));
+                layout.addView(wheelListView);
             } else {
-                wheelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-                layout.addView(wheelView);
+                wheelListView.setLayoutParams(wheelParams);
+                layout.addView(wheelListView);
                 TextView labelView = new TextView(activity);
                 labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 labelView.setTextColor(textColorFocus);
@@ -217,7 +256,7 @@ public class SinglePicker<T> extends WheelPicker {
             }
             if (itemWidth != ITEM_WIDTH_UNKNOWN) {
                 int width = ConvertUtils.toPx(activity, itemWidth);
-                wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelView.getLayoutParams().height));
+                wheelListView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelListView.getLayoutParams().height));
             }
         }
 
@@ -234,11 +273,11 @@ public class SinglePicker<T> extends WheelPicker {
     @Override
     public void onSubmit() {
         if (onItemPickListener != null) {
-            onItemPickListener.onItemPicked(selectedItemIndex, getSelectedItem());
+            onItemPickListener.onItemPicked(getSelectedIndex(), getSelectedItem());
         }
     }
 
-    public T getSelectedItem() {
+    private  T getSelectedItem() {
         return items.get(selectedItemIndex);
     }
 
@@ -246,9 +285,9 @@ public class SinglePicker<T> extends WheelPicker {
         return selectedItemIndex;
     }
 
-    public WheelView getWheelView() {
-        return wheelView;
-    }
+//    public View getWheelListView() {
+//        return wheelListView;
+//    }
 
 
 

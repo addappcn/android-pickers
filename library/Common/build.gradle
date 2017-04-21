@@ -6,7 +6,12 @@ ext {
     pomArtifactId = "Common"
     pomDescription = "Common of android picker"
 }
-
+//android{
+//    aaptOptions{
+//        cruncherEnabled false
+//        useNewCruncher false
+//    }
+//}
 dependencies {
 }
 

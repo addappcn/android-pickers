@@ -44,7 +44,10 @@ subprojects {
             android {
                 compileSdkVersion COMPILE_SDK_VERSION as int
                 buildToolsVersion BUILD_TOOL_VERSION
-
+//                aaptOptions {
+//                    cruncherEnabled = false
+//                    useNewCruncher = false
+//                }
                 defaultConfig {
                     minSdkVersion MIN_SDK_VERSION as int
                     targetSdkVersion TARGET_SDK_VERSION as int
@@ -62,10 +65,10 @@ subprojects {
                         minifyEnabled false
                     }
                 }
-                aaptOptions {
-                    cruncherEnabled = false
-                    useNewCruncher = false
-                }
+//                aaptOptions{
+//                    cruncherEnabled false
+//                    useNewCruncher false
+//                }
                 lintOptions {
                     abortOnError false
                 }
@@ -85,10 +88,11 @@ subprojects {
                 }
 
             }
-
             dependencies {
+                //自己项目加入版本覆盖依赖包的版本
                 compile "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
                 compile "com.android.support:support-annotations:${ANDROID_SUPPORT_VERSION}"
+                compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
             }
         }
 //        if (project.isLibrary) {

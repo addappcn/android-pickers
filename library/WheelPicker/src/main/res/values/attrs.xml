@@ -2,6 +2,11 @@
 <resources>
 
     <declare-styleable name="LoopView">
+        <attr name="view_gravity">
+            <enum name="center" value="17"/>
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+        </attr>
         <attr name="lineColor" format="color"/>
         <attr name="topBottomTextColor" format="color"/>
         <attr name="centerTextColor" format="color"/>
@@ -9,6 +14,7 @@
         <attr name="canLoop" format="boolean"/>
         <attr name="initPosition" format="integer"/>
         <attr name="drawItemCount" format="integer"/>
+        <attr name="lineSpacingMultiplier" format="float"/>
     </declare-styleable>
 
 </resources>

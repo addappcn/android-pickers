@@ -12,9 +12,14 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.addapp.androidpicker.R;
+import cn.addapp.pickers.common.LineConfig;
+import cn.addapp.pickers.entity.City;
+import cn.addapp.pickers.entity.County;
 import cn.addapp.pickers.entity.Province;
 import cn.addapp.pickers.listeners.OnItemPickListener;
+import cn.addapp.pickers.listeners.OnLinkageListener;
 import cn.addapp.pickers.listeners.OnMoreItemPickListener;
+import cn.addapp.pickers.listeners.OnSingleWheelListener;
 import cn.addapp.pickers.picker.AddressPicker;
 import cn.addapp.pickers.picker.DatePicker;
 import cn.addapp.pickers.picker.DateTimePicker;
@@ -25,7 +30,6 @@ import cn.addapp.pickers.picker.TimePicker;
 import cn.addapp.pickers.util.ConvertUtils;
 import cn.addapp.pickers.util.DateUtils;
 import cn.addapp.pickers.util.LogUtils;
-import cn.addapp.pickers.widget.WheelView;
 
 public class MainActivity extends BaseActivity {
 
@@ -85,8 +89,8 @@ public class MainActivity extends BaseActivity {
     public void onYearMonthDayPicker(View view) {
         final DatePicker picker = new DatePicker(this);
         picker.setCanLoop(false);
-        picker.setIosModeEnable(true);
-        picker.setTopPadding(2);
+        picker.setWheelModeEnable(true);
+        picker.setTopPadding(15);
         picker.setRangeStart(2016, 8, 29);
         picker.setRangeEnd(2111, 1, 11);
         picker.setSelectedItem(2050, 10, 14);
@@ -124,7 +128,7 @@ public class MainActivity extends BaseActivity {
         picker.setTimeRangeStart(9, 0);
         picker.setTimeRangeEnd(20, 30);
         picker.setWeightEnable(true);
-        picker.setIosModeEnable(true);
+        picker.setWheelModeEnable(true);
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
@@ -142,6 +146,8 @@ public class MainActivity extends BaseActivity {
         picker.setRangeStart(2016, 10, 14);
         picker.setRangeEnd(2020, 11, 11);
         picker.setSelectedItem(2017, 9);
+        picker.setWeightEnable(true);
+        picker.setWheelModeEnable(true);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
             @Override
             public void onDatePicked(String year, String month) {
@@ -154,9 +160,11 @@ public class MainActivity extends BaseActivity {
     public void onMonthDayPicker(View view) {
         DatePicker picker = new DatePicker(this, DatePicker.MONTH_DAY);
         picker.setGravity(Gravity.CENTER);//弹框居中
+        picker.setWeightEnable(true);
         picker.setRangeStart(5, 1);
         picker.setRangeEnd(12, 31);
         picker.setSelectedItem(10, 14);
+        picker.setWheelModeEnable(false);
         picker.setOnDatePickListener(new DatePicker.OnMonthDayPickListener() {
             @Override
             public void onDatePicked(String month, String day) {
@@ -172,6 +180,7 @@ public class MainActivity extends BaseActivity {
         picker.setRangeEnd(18, 0);//18:30
         picker.setTopLineVisible(false);
         picker.setLineVisible(false);
+        picker.setWheelModeEnable(true);
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
@@ -195,15 +204,23 @@ public class MainActivity extends BaseActivity {
 //        String[] ss = (String[]) list.toArray();
         SinglePicker<String> picker = new SinglePicker<>(this, list);
         picker.setCanLoop(false);//不禁用循环
-        picker.setLineVisible(false);
+        picker.setLineVisible(true);
         picker.setShadowVisible(true);
         picker.setTextSize(18);
         picker.setSelectedIndex(1);
-        picker.setIosModeEnable(true);
-        picker.setWeightEnable(true);
+        picker.setWheelModeEnable(true);
+        //启用权重 setWeightWidth 才起作用
         picker.setLabel("分");
+        picker.setWeightEnable(true);
+        picker.setWeightWidth(1);
         picker.setSelectedTextColor(0xFF279BAA);//前四位值是透明度
         picker.setUnSelectedTextColor(0xFF999999);
+        picker.setOnSingleWheelListener(new OnSingleWheelListener() {
+            @Override
+            public void onWheeled(int index, String item) {
+                showToast("index=" + index + ", item=" + item);
+            }
+        });
         picker.setOnItemPickListener(new OnItemPickListener<String>() {
             @Override
             public void onItemPicked(int index, String item) {
@@ -289,7 +306,7 @@ public class MainActivity extends BaseActivity {
         picker.setSubmitTextSize(13);
         picker.setSelectedTextColor(0xFFEE0000);
         picker.setUnSelectedTextColor(0xFF999999);
-        WheelView.LineConfig config = new WheelView.LineConfig();
+        LineConfig config = new LineConfig();
         config.setColor(0xFFEE0000);//线颜色
         config.setAlpha(140);//线透明度
         config.setRatio((float) (1.0 / 8.0));//线比率
@@ -312,7 +329,7 @@ public class MainActivity extends BaseActivity {
         picker.setWidth(picker.getScreenWidthPixels() / 2);
         picker.setCanLoop(false);
         picker.setLineVisible(false);
-        picker.setIosModeEnable(true);
+        picker.setWheelModeEnable(true);
         picker.setOffset(2);//偏移量
         picker.setRange(145, 200, 1);//数字范围
         picker.setSelectedItem(172);
@@ -330,22 +347,22 @@ public class MainActivity extends BaseActivity {
         AddressPickTask task = new AddressPickTask(this);
         task.setHideProvince(false);
         task.setHideCounty(false);
-//        task.setCallback(new AddressPickTask.Callback() {
-//            @Override
-//            public void onAddressInitFailed() {
-//                showToast("数据初始化失败");
-//            }
-//
-//            @Override
-//            public void onAddressPicked(Province province, City city, County county) {
-//                if (county == null) {
-//                    showToast(province.getAreaName() + city.getAreaName());
-//                } else {
-//                    showToast(province.getAreaName() + city.getAreaName() + county.getAreaName());
-//                }
-//            }
-//        });
-//        task.execute("贵州", "毕节", "纳雍");
+        task.setCallback(new AddressPickTask.Callback() {
+            @Override
+            public void onAddressInitFailed() {
+                showToast("数据初始化失败");
+            }
+
+            @Override
+            public void onAddressPicked(Province province, City city, County county) {
+                if (county == null) {
+                    showToast(province.getAreaName() + city.getAreaName());
+                } else {
+                    showToast(province.getAreaName() + city.getAreaName() + county.getAreaName());
+                }
+            }
+        });
+        task.execute("贵州", "毕节", "纳雍");
     }
 
     public void onAddress2Picker(View view) {
@@ -355,14 +372,16 @@ public class MainActivity extends BaseActivity {
             data.addAll(JSON.parseArray(json, Province.class));
             AddressPicker picker = new AddressPicker(this, data);
             picker.setHideProvince(true);
+            picker.setCanLoop(true);
+            picker.setWheelModeEnable(true);
             picker.setSelectedItem("贵州", "贵阳", "花溪");
-//            picker.setOnLinkageListener(new OnLinkageListener() {
-//                @Override
-//                public void onAddressPicked(Province province, City city, County county) {
-//                    showToast("province : " + province + ", city: " + city + ", county: " + county);
-//                }
-//            });
-//            picker.show();
+            picker.setOnLinkageListener(new OnLinkageListener() {
+                @Override
+                public void onAddressPicked(Province province, City city, County county) {
+                    showToast("province : " + province + ", city: " + city + ", county: " + county);
+                }
+            });
+            picker.show();
         } catch (Exception e) {
             showToast(LogUtils.toStackTraceString(e));
         }
@@ -372,18 +391,18 @@ public class MainActivity extends BaseActivity {
     public void onAddress3Picker(View view) {
         AddressPickTask task = new AddressPickTask(this);
         task.setHideCounty(true);
-//        task.setCallback(new AddressPickTask.Callback() {
-//            @Override
-//            public void onAddressInitFailed() {
-//                showToast("数据初始化失败");
-//            }
-//
-//            @Override
-//            public void onAddressPicked(Province province, City city, County county) {
-//                showToast(province.getAreaName() + " " + city.getAreaName());
-//            }
-//        });
-//        task.execute("四川", "阿坝");
+        task.setCallback(new AddressPickTask.Callback() {
+            @Override
+            public void onAddressInitFailed() {
+                showToast("数据初始化失败");
+            }
+
+            @Override
+            public void onAddressPicked(Province province, City city, County county) {
+                showToast(province.getAreaName() + " " + city.getAreaName());
+            }
+        });
+        task.execute("四川", "阿坝");
     }
 
 }

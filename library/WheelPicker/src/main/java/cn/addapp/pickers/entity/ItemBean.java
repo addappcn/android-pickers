@@ -7,28 +7,27 @@ package cn.addapp.pickers.entity;
  *
  */
 public abstract class ItemBean extends JavaBean {
-    private String itemId;
-    private String itemName;
+    private String areaId;
+    private String areaName;
 
-    public String getItemId() {
-        return itemId;
+    public String getAreaId() {
+        return areaId;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getAreaName() {
+        return areaName;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 
     @Override
     public String toString() {
-        return "itemId=" + itemId + ",itemName=" + itemName;
+        return "areaId=" + areaId + ",areaName=" + areaName;
     }
-
 }
