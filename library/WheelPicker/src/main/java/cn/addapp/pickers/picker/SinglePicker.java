@@ -176,11 +176,10 @@ public class SinglePicker<T> extends WheelPicker {
         layout.setLayoutParams(new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams wheelParams = null;
+        LinearLayout.LayoutParams wheelParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         if(weightEnable){
             layout.setWeightSum(1);
             //按权重分配宽度
-            wheelParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             wheelParams.weight = weightWidth;
         }
 
@@ -242,7 +241,7 @@ public class SinglePicker<T> extends WheelPicker {
 
 
             if (TextUtils.isEmpty(label)) {
-                wheelListView.setLayoutParams(new LinearLayout.LayoutParams(screenWidthPixels, WRAP_CONTENT));
+                wheelListView.setLayoutParams(wheelParams);
                 layout.addView(wheelListView);
             } else {
                 wheelListView.setLayoutParams(wheelParams);
