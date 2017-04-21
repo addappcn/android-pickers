@@ -10,8 +10,9 @@
 # 安装
 “app”是Sample；“library”包括WheelPicker，
 WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
+#### demo下载
+![效果图](/app/app-release.apk)
 #### 直接远程加载JitPack里的
-latest.release表示使用最新版，也可以[参照此处指定具体的版本号](https://github.com/addappcn/AndroidPickers/releases)：
 
 加载[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
