@@ -1,4 +1,2 @@
 ### v1.0.0 - 2017.04.21
-全面优化wheelview
-### v1.0.1 - 2017.04.25
-合并librarys
+first release
