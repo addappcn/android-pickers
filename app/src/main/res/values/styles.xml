@@ -5,7 +5,7 @@
         <item name="android:windowEnterAnimation">@anim/popup_in</item>
         <item name="android:windowExitAnimation">@anim/popup_out</item>
     </style>
-<style name="Button.Style" parent="Base.Widget.AppCompat.Button">
+<style name="Button.Style" parent="@android:style/Widget.Button">
     <item name="android:background">@color/blue</item>
     <item name="android:textColor">@android:color/white</item>
     <item name="android:layout_marginTop">10dp</item>
