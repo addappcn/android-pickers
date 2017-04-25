@@ -1,4 +1,4 @@
-package cn.addapp.pickers;
+package cn.addapp.pickers.common;
 
 /**
  * @author matt : addapp.cn

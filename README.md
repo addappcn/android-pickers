@@ -13,8 +13,7 @@ WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、Numbe
 #### demo下载
 [demo](/app/app-release.apk)
 #### 直接远程加载JitPack里的
-
-加载[JitPack](https://jitpack.io/#addappcn/AndroidPickers)的仓库：
+加载[![](https://jitpack.io/v/addappcn/AndroidPickers.svg)](https://jitpack.io/#addappcn/AndroidPickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
 ```
 repositories {

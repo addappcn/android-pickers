@@ -5,7 +5,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
 import android.view.View;
 
-import cn.addapp.pickers.dialog.ConfirmDialog;
+import cn.addapp.pickers.common.ConfirmDialog;
 import cn.addapp.pickers.widget.WheelListView;
 
 /**

@@ -10,6 +10,4 @@ ext {
 }
 
 dependencies {
-    compile project(":library:Common")
-//    compile 'com.contrarywind:Android-PickerView:3.2.4'
 }

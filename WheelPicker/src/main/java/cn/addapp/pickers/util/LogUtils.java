@@ -8,7 +8,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import cn.addapp.pickers.AppConfig;
+import cn.addapp.pickers.common.AppConfig;
+
 
 /**
  * 将信息记录到控制台的LogCat，显示调用方法及所在的文件、行号，方便开发时调试查错。

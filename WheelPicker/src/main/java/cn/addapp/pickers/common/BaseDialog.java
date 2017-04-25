@@ -1,4 +1,4 @@
-package cn.addapp.pickers.dialog;
+package cn.addapp.pickers.common;
 
 import android.app.Activity;
 import android.app.Dialog;

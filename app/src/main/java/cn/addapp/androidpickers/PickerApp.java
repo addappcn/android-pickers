@@ -2,9 +2,9 @@ package cn.addapp.androidpickers;
 
 import android.app.Application;
 
-import cn.addapp.pickers.AppConfig;
-import cn.addapp.pickers.BuildConfig;
+import cn.addapp.pickers.common.AppConfig;
 import cn.addapp.pickers.util.LogUtils;
+import cn.addapp.pickers.wheelpicker.BuildConfig;
 
 /**
  * Author:matt : addapp.cn

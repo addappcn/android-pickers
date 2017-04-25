@@ -6,8 +6,8 @@ import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import cn.addapp.pickers.common.ConfirmDialog;
 import cn.addapp.pickers.common.LineConfig;
-import cn.addapp.pickers.dialog.ConfirmDialog;
 import cn.addapp.pickers.widget.WheelListView;
 
 /**
