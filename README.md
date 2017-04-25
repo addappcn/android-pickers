@@ -11,7 +11,7 @@
 #### demo下载
 [demo](/app/app-release.apk)
 #### 远程加载JitPack包
-加载[![](https://jitpack.io/v/addappcn/AndroidPickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
+加载[![](https://jitpack.io/v/addappcn/android-pickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
 ```
 repositories {
@@ -149,4 +149,19 @@ dependencies {
 ![效果图](/screenshots/Screenshot_2017-04-21-15-56-38.png)
 ![效果图](/screenshots/Screenshot_2017-04-21-15-56-50.png)
 
+## License
+
+    Copyright 2017 马广涛 (android-pickers)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
