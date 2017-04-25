@@ -4,13 +4,13 @@
 
 安卓选择器类库，包括日期及时间选择器（可设置范围）、单项选择器（可用于性别、职业、学历、星座等）、城市地址选择器（分省级、地级及县级）、数字选择器（可用于年龄、身高、体重、温度等）等……
 欢迎大伙儿在[Issues](https://github.com/addappcn/android-pickers/issues)提交你的意见或建议。
-欢迎Fork & Pull requests贡献您的代码，大家共同学习【[android-pickers交流群 : 456738690]】。
+欢迎Fork & Pull requests贡献您的代码，大家共同学习【android-pickers交流群 : 456738690】。
 [查看更新日志](https://github.com/addappcn/android-pickers/blob/master/ChangeLog.md)
 # 安装
-“app”是Sample；“android-pickers”是library 包括WheelPicker包括SinglePicker、DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
+“app”是Sample；“android-pickers”是library 包括WheelPicker、SinglePicker、DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### demo下载
 [demo](/app/app-release.apk)
-#### 直接远程加载JitPack里的
+#### 远程加载JitPack包
 加载[![](https://jitpack.io/v/addappcn/AndroidPickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
 ```
