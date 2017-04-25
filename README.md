@@ -1,19 +1,17 @@
 # 概要
-[![API 14+](https://img.shields.io/badge/API-14%2B-green.svg)](https://github.com/addappcn/AndroidPickers)
+[![API 14+](https://img.shields.io/badge/API-14%2B-green.svg)](https://github.com/addappcn/android-pickers)
 
 
 安卓选择器类库，包括日期及时间选择器（可设置范围）、单项选择器（可用于性别、职业、学历、星座等）、城市地址选择器（分省级、地级及县级）、数字选择器（可用于年龄、身高、体重、温度等）等……
-欢迎大伙儿在[Issues](https://github.com/addappcn/AndroidPickers/issues)提交你的意见或建议。
-欢迎Fork & Pull requests贡献您的代码，大家共同学习【[AndroidPickers交流群 : 456738690]】。
-[查看更新日志](https://github.com/addappcn/AndroidPickers/blob/master/ChangeLog.md)，新版本可能未对旧版API作兼容处理，升级后若编译报错请根据错误提示更改。
-
+欢迎大伙儿在[Issues](https://github.com/addappcn/android-pickers/issues)提交你的意见或建议。
+欢迎Fork & Pull requests贡献您的代码，大家共同学习【[android-pickers交流群 : 456738690]】。
+[查看更新日志](https://github.com/addappcn/android-pickers/blob/master/ChangeLog.md)
 # 安装
-“app”是Sample；“library”包括WheelPicker，
-WheelPicker包括DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
+“app”是Sample；“android-pickers”是library 包括WheelPicker包括SinglePicker、DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### demo下载
 [demo](/app/app-release.apk)
 #### 直接远程加载JitPack里的
-加载[![](https://jitpack.io/v/addappcn/AndroidPickers.svg)](https://jitpack.io/#addappcn/AndroidPickers)的仓库：
+加载[![](https://jitpack.io/v/addappcn/AndroidPickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
 ```
 repositories {
@@ -25,7 +23,7 @@ repositories {
 第二步，在项目的app模块下的build.gradle里加：
 ```
 dependencies {
-    compile 'com.github.addappcn:AndroidPickers:1.0.0'
+    compile 'com.github.addappcn:android-pickers:1.0.0'
 }
 ```
 
@@ -35,7 +33,7 @@ dependencies {
 -keepattributes InnerClasses,Signature
 -keepattributes *Annotation*
 
--keep class cn.addapp.framework.entity.** { *;}
+-keep class cn.addapp.pickers.entity.** { *;}
 ```
 
 # Sample （更多用法详见示例项目）
