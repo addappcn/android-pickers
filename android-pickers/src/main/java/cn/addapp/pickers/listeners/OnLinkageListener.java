@@ -5,8 +5,8 @@ import cn.addapp.pickers.entity.County;
 import cn.addapp.pickers.entity.Province;
 
 /**
- * Created by 涛 on 2017-03-14.
- *
+ * @author matt
+ * blog: addapp.cn
  */
 
 public interface OnLinkageListener {

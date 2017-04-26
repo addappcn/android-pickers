@@ -27,9 +27,9 @@ import cn.addapp.pickers.widget.WheelView;
 
 /**
  * 日期时间选择器，可同时选中日期及时间，另见{@link DatePicker}和{@link TimePicker}
- * <p/>
- * Created by Dong on 2016/5/13.
- * Refactored by 李玉江 on 2016/12/31.
+ * @author matt
+ * blog: addapp.cn
+ * @since 2015/9/29
  */
 public class DateTimePicker extends WheelPicker {
     /**

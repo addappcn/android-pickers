@@ -10,9 +10,8 @@ import cn.addapp.pickers.util.LogUtils;
 
 /**
  * Activity及Service管理，以便实现退出功能
- *
- * @author matt : addapp.cn
- * @since 2015/12/17
+ * @author matt
+ * blog: addapp.cn
  */
 public class AppManager {
     //本类的实例

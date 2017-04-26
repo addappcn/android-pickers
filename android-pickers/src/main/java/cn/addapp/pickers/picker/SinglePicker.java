@@ -26,7 +26,8 @@ import cn.addapp.pickers.widget.WheelView;
 /**
  * 单项选择器
  *
- * @author matt : addapp.cn
+ * @author matt
+ * blog: addapp.cn
  * @since 2015/9/29
  */
 public class SinglePicker<T> extends WheelPicker {

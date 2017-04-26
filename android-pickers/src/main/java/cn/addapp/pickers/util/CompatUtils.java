@@ -9,9 +9,8 @@ import android.view.View;
 
 /**
  * 兼容旧版&新版
- *
- * @author matt : addapp.cn
- * @since 2015/10/19
+ * @author matt
+ * blog: addapp.cn
  */
 public class CompatUtils {
 

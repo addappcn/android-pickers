@@ -14,9 +14,8 @@ import cn.addapp.pickers.common.AppConfig;
 /**
  * 将信息记录到控制台的LogCat，显示调用方法及所在的文件、行号，方便开发时调试查错。
  * 注意：在Debug状态下开启，在Release状态下关闭，敏感信息不宜打印，否则被非法之徒抓取贻害无穷。
- *
- * @author matt : addapp.cn
- * @since 2013/11/2
+ * @author matt
+ * blog: addapp.cn
  */
 public final class LogUtils {
     private static final int MIN_STACK_OFFSET = 3;// starts at this class after two native calls

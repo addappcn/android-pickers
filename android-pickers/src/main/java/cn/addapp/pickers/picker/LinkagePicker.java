@@ -25,10 +25,8 @@ import cn.addapp.pickers.widget.WheelView;
 /**
  * 两级、三级联动选择器。默认只初始化第一级数据，第二三级数据由联动获得。
  * <p/>
- * Author:matt : addapp.cn
- * DateTime:2016/5/6 20:34
- *
- *
+ * @author matt
+ * blog: addapp.cn
  * @see DataProvider
  */
 public class LinkagePicker extends WheelPicker {

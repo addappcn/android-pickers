@@ -21,9 +21,8 @@ import android.view.ViewConfiguration;
 import cn.addapp.pickers.wheelpicker.R;
 
 /**
- * Created by Carbs.Wang.
- * email : yeah0126@yeah.net
- * github : https://github.com/Carbs0126/LoopView
+ * @author matt
+ * blog: addapp.cn
  */
 public class PickerView extends View {
 

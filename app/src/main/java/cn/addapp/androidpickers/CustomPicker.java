@@ -18,9 +18,8 @@ import cn.addapp.pickers.picker.SinglePicker;
 
 /**
  * 自定义顶部及底部
- * <p>
- * Author:matt : addapp.cn
- *
+ * @author matt
+ * blog: addapp.cn
  */
 public class CustomPicker extends SinglePicker<String> implements OnSingleWheelListener {
     private TextView titleView;

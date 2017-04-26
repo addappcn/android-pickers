@@ -4,9 +4,8 @@ import android.app.Activity;
 
 /**
  * 时间选择器
- *
- * @author matt : addapp.cn
- * @since 2015/12/14
+ * @author matt
+ * blog: addapp.cn
  */
 public class TimePicker extends DateTimePicker {
 

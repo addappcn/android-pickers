@@ -6,8 +6,9 @@ import java.util.TimerTask;
 import cn.addapp.pickers.widget.WheelView;
 
 /**
- * @TODO<滚动惯性的实现>
  * @author matt
+ * blog: addapp.cn
+ * @since 2015/9/29
  */
 final public class InertiaTimerTask extends TimerTask {
 

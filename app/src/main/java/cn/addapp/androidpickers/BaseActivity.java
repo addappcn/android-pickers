@@ -28,9 +28,8 @@ import cn.addapp.pickers.util.LogUtils;
 
 /**
  * Activity的基类
- *
- * @author matt : addapp.cn
- * @since 2014-4-20
+ * @author matt
+ * blog: addapp.cn
  */
 public abstract class BaseActivity extends FragmentActivity {
     protected Context context;

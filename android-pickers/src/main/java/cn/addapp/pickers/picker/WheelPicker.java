@@ -12,9 +12,8 @@ import cn.addapp.pickers.widget.WheelListView;
 
 /**
  * 滑轮选择器
- *
- * @author matt : addapp.cn
- * @since 2015/12/22
+ * @author matt
+ * blog: addapp.cn
  */
 public abstract class WheelPicker extends ConfirmDialog<View> {
     protected int textSize = WheelListView.TEXT_SIZE;

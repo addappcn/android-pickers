@@ -1,7 +1,8 @@
 package cn.addapp.pickers.model;
 
 /**
- * Created by Sai on 2016/7/13.
+ * @author matt
+ * blog: addapp.cn
  */
 public interface IPickerViewData {
     String getPickerViewText();

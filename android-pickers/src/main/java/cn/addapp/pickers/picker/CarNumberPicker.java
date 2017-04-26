@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 /**
- * 车牌号码选择器。数据参见http://www.360doc.com/content/12/0602/07/3899427_215339300.shtml
+ * 车牌号码选择器。
  * <br />
- * Author:matt : addapp.cn
- * DateTime:2016/12/18 10:47
-
- *
+ * @author matt
+ * blog: addapp.cn
  */
 public class CarNumberPicker extends LinkagePicker {
 

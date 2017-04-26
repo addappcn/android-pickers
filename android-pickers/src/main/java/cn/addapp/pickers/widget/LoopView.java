@@ -27,11 +27,9 @@ import cn.addapp.pickers.wheelpicker.R;
 /**
  * 暂时没有用到 完善中
  * 滑轮控件，参见：https://github.com/addappcn/AndroidPicker
- * <br />
- * Author:matt
- * DateTime:2017/02/06 18:05
- *
- * */
+ * @author matt
+ * blog: addapp.cn
+ */
 public class LoopView extends View {
 
     private static final String TAG = LoopView.class.getSimpleName();

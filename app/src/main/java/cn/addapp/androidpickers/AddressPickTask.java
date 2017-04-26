@@ -16,9 +16,8 @@ import cn.addapp.pickers.util.ConvertUtils;
 
 /**
  * 获取地址数据并显示地址选择器
- *
- * @author matt : addapp.cn
- * @since 2015/12/15
+ * @author matt
+ * blog: addapp.cn
  */
 public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>> {
     private Activity activity;

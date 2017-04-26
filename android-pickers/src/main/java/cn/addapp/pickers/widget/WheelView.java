@@ -36,15 +36,14 @@ import cn.addapp.pickers.wheelpicker.R;
 
 /**
  * 3d滚轮控件
+ * @author matt
+ * blog: addapp.cn
  */
 public class WheelView extends View {
 
     public enum ACTION { // 点击，滑翔(滑到尽头)，拖拽事件
         CLICK, FLING, DRAG
     }
-//    public enum DividerType { // 分隔线类型
-//        FILL, WRAP
-//    }
     private LineConfig lineConfig = null;//分割线配置
     private  LineConfig.DividerType dividerType;//分隔线类型
 

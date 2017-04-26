@@ -18,9 +18,8 @@ import cn.addapp.pickers.util.ConvertUtils;
 
 /**
  * 带确定及取消按钮的弹窗
- *
- * @author matt : addapp.cn
- * @since 2015/10/21
+ * @author matt
+ * blog: addapp.cn
  */
 public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
     protected boolean topLineVisible = true;

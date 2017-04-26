@@ -6,9 +6,8 @@ import cn.addapp.pickers.listeners.OnItemPickListener;
 
 /**
  * 数字选择器
- *
- * @author matt : addapp.cn
- * @since 2015/10/24
+ * @author matt
+ * blog: addapp.cn
  */
 public class NumberPicker extends SinglePicker<Number> {
 

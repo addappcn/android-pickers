@@ -22,8 +22,8 @@ import cn.addapp.pickers.util.ScreenUtils;
  * 弹窗基类
  *
  * @param <V> 弹窗的内容视图类型
- * @author matt : addapp.cn
- * @since 2015/7/19
+ * @author matt
+ * blog: addapp.cn
  */
 public abstract class BaseDialog<V extends View> implements DialogInterface.OnKeyListener,
         DialogInterface.OnDismissListener {

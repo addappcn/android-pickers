@@ -4,7 +4,8 @@ import java.util.List;
 
 /**
  * The simple Array wheel adapter
- * @param <T> the element type
+ * @author matt
+ * blog: addapp.cn
  */
 public class ArrayWheelAdapter<T> implements WheelAdapter {
 	

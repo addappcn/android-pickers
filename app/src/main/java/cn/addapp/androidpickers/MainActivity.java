@@ -30,7 +30,10 @@ import cn.addapp.pickers.picker.TimePicker;
 import cn.addapp.pickers.util.ConvertUtils;
 import cn.addapp.pickers.util.DateUtils;
 import cn.addapp.pickers.util.LogUtils;
-
+/**
+ * @author matt
+ * blog: addapp.cn
+ */
 public class MainActivity extends BaseActivity {
 
     @Override

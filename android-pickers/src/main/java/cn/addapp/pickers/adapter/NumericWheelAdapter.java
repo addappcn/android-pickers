@@ -3,6 +3,8 @@ package cn.addapp.pickers.adapter;
 
 /**
  * Numeric Wheel adapter.
+ * @author matt
+ * blog: addapp.cn
  */
 public class NumericWheelAdapter implements WheelAdapter {
 	

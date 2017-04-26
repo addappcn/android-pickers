@@ -5,8 +5,8 @@ import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 
 /**
- * Created by 涛 on 2017-04-17.
- * 选中项的分割线
+ * @author matt
+ * blog: addapp.cn
  */
 public  class LineConfig {
     public enum DividerType { // 分隔线类型

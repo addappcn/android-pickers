@@ -17,10 +17,8 @@ import cn.addapp.pickers.widget.WheelListView;
 
 /**
  * 内嵌选择器
- * <br />
- * Author:matt : addapp.cn
- * DateTime:2016/12/16 00:42
- *
+ * @author matt
+ * blog: addapp.cn
  */
 public class NextActivity extends BaseActivity {
     private CarNumberPicker picker;

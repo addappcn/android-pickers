@@ -1,8 +1,8 @@
 package cn.addapp.pickers.common;
 
 /**
- * @author matt : addapp.cn
- * @since 2014-09-05 11:49
+ * @author matt
+ * blog: addapp.cn
  */
 public class AppConfig {
 

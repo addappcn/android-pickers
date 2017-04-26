@@ -19,9 +19,8 @@ import cn.addapp.pickers.util.LogUtils;
 
 /**
  * 状态栏（通知栏）工具类
- *
- * @author matt : addapp.cn
- * @since 2015/12/17
+ * @author matt
+ * blog: addapp.cn
  */
 public class StatusBar {
     @IdRes

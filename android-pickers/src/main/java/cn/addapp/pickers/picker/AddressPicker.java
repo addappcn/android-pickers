@@ -22,14 +22,11 @@ import cn.addapp.pickers.widget.WheelView;
 
 /**
  * 地址选择器（包括省级、地级、县级），地址数据见示例项目assets目录下。
- * “assets/city.json”转换自国家统计局（http://www.stats.gov.cn/tjsj/tjbz/xzqhdm）
- * “assets/area.db”来源于开源项目（https://github.com/chihane/JDAddressSelector）
- *
- * @author matt : addapp.cn
+ * @author matt
+ * blog: addapp.cn
  * @see Province
  * @see City
  * @see County
- * @since 2015/12/15, 2016/12/18
  */
 public class AddressPicker extends LinkagePicker {
     private OnLinkageListener onLinkageListener;

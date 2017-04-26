@@ -15,9 +15,8 @@ import java.util.Locale;
 
 /**
  * 日期时间工具类
- *
- * @author matt : addapp.cn
- * @since 2015/8/5
+ * @author matt
+ * blog: addapp.cn
  */
 public class DateUtils extends android.text.format.DateUtils {
     public static final int Second = 0;

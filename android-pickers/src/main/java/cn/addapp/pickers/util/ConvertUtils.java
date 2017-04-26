@@ -41,9 +41,8 @@ import java.util.Locale;
 
 /**
  * 数据类型转换、单位转换
- *
- * @author matt : addapp.cn
- * @since 2014-4-18
+ * @author matt
+ * blog: addapp.cn
  */
 public class ConvertUtils {
     public static final long GB = 1073741824;

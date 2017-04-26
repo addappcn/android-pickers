@@ -7,8 +7,8 @@ import cn.addapp.pickers.util.LogUtils;
 import cn.addapp.pickers.wheelpicker.BuildConfig;
 
 /**
- * Author:matt : addapp.cn
- * DateTime:2016/7/20 20:28
+ * @author matt
+ * blog: addapp.cn
  */
 public class PickerApp extends Application {
 
