@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/lable_tv"
+        android:id="@+id/label_tv"
         style="?android:textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="50dp"

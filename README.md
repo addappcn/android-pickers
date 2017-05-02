@@ -6,6 +6,9 @@
 欢迎大伙儿在[Issues](https://github.com/addappcn/android-pickers/issues)提交你的意见或建议。
 欢迎Fork & Pull requests贡献您的代码，大家共同学习【android-pickers交流群 : 456738690】。
 [查看更新日志](https://github.com/addappcn/android-pickers/blob/master/ChangeLog.md)
+
+类库是基于[Android-PickerView](https://github.com/Bigkoo/Android-PickerView)和[AndroidPicker](https://github.com/gzu-liyujiang/AndroidPicker)修改整合的。
+
 # 安装
 “app”是Sample；“android-pickers”是library 包括WheelPicker、SinglePicker、DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### demo下载
