@@ -9,6 +9,8 @@ android {
         release {
             //是否zip优化
             zipAlignEnabled true
+//            v1SigningEnabled false
+//            v2SigningEnabled false
             //是否移除无用的资源，造成：specified for property 'resourceFile' does not exist.
             //shrinkResources true
             //是否混淆
@@ -23,6 +25,5 @@ android {
 dependencies {
     compile 'com.alibaba:fastjson:1.1.56.android'
     compile 'com.github.florent37:viewanimator:1.0.5'
-//    compile 'com.github.addappcn:AndroidPickers:V1.0.0@aar'
     compile project(path: ':android-pickers')
 }

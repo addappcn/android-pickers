@@ -30,6 +30,7 @@ import cn.addapp.pickers.wheelpicker.R;
  * @author matt
  * blog: addapp.cn
  */
+@Deprecated
 public class LoopView extends View {
 
     private static final String TAG = LoopView.class.getSimpleName();

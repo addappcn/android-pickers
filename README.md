@@ -7,12 +7,13 @@
 欢迎Fork & Pull requests贡献您的代码，大家共同学习【android-pickers交流群 : 456738690】。
 [查看更新日志](https://github.com/addappcn/android-pickers/blob/master/ChangeLog.md)
 
-类库是基于[Android-PickerView](https://github.com/Bigkoo/Android-PickerView)和[AndroidPicker](https://github.com/gzu-liyujiang/AndroidPicker)修改整合的。
+类库是基于[Android-PickerView](https://github.com/Bigkoo/Android-PickerView)和[AndroidPicker](https://github.com/gzu-liyujiang/AndroidPicker)修改整合的,主要提供可以切换不同模式的view，
+同时也优化了部分代码和适配问题，后期也会增加其他模式的切换。
 
 # 安装
 “app”是Sample；“android-pickers”是library 包括WheelPicker、SinglePicker、DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### demo下载
-[点我](/app/app-release.apk)
+[点我](http://opmkud60m.bkt.clouddn.com/app-release.apk)
 #### 远程加载JitPack包
 加载[![](https://jitpack.io/v/addappcn/android-pickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
 第一步，在项目根目录下的build.gradle里加：
