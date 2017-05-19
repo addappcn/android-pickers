@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity {
         picker.setRangeEnd(18, 0);//18:30
         picker.setTopLineVisible(false);
         picker.setLineVisible(false);
-        picker.setWheelModeEnable(true);
+        picker.setWheelModeEnable(false);
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {

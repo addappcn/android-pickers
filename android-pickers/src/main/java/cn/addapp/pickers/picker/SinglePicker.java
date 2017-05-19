@@ -234,6 +234,7 @@ public class SinglePicker<T> extends WheelPicker {
                 @Override
                 public void onItemSelected(boolean isUserScroll, int index, String item) {
                     selectedItemIndex = index;
+                    selectedItem = item;
                     if (onSingleWheelListener != null) {
                         onSingleWheelListener.onWheeled(selectedItemIndex, item);
                     }

@@ -527,8 +527,9 @@ public class DateTimePicker extends WheelPicker {
                     public void onItemPicked(int index, String item) {
                         selectedHourIndex = index;
                         selectedMinuteIndex = 0;
+                        selectedHour = item;
                         if (onWheelListener != null) {
-                            onWheelListener.onDayWheeled(index, item);
+                            onWheelListener.onHourWheeled(index, item);
                         }
                         changeMinuteData(DateUtils.trimZero(item));
                         minuteView.setAdapter(new ArrayWheelAdapter<>(minutes));
@@ -558,6 +559,7 @@ public class DateTimePicker extends WheelPicker {
                     @Override
                     public void onItemPicked(int index, String item) {
                         selectedMinuteIndex = index;
+                        selectedMinute = item;
                         if (onWheelListener != null) {
                             onWheelListener.onMinuteWheeled(index, item);
                         }
@@ -706,6 +708,7 @@ public class DateTimePicker extends WheelPicker {
                     public void onItemSelected(boolean isUserScroll, int index, String item) {
                         selectedHourIndex = index;
                         selectedMinuteIndex = 0;
+                        selectedHour = item;
                         if (onWheelListener != null) {
                             onWheelListener.onHourWheeled(index, item);
                         }
@@ -739,6 +742,7 @@ public class DateTimePicker extends WheelPicker {
                     @Override
                     public void onItemSelected(boolean isUserScroll, int index, String item) {
                         selectedMinuteIndex = index;
+                        selectedMinute = item;
                         if (onWheelListener != null) {
                             onWheelListener.onMinuteWheeled(index, item);
                         }

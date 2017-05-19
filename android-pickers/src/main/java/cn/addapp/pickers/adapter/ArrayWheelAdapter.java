@@ -28,7 +28,7 @@ public class ArrayWheelAdapter<T> implements WheelAdapter {
 	}
 	
 	/**
-	 * Contructor
+	 * Constructor
 	 * @param items the items
 	 */
 	public ArrayWheelAdapter(List<T> items) {
