@@ -20,7 +20,7 @@
 ```
 allprojects {
     repositories {
-        maven { url "https://jitpack.io" }//如果这行添加
+        maven { url "https://jitpack.io" }//必须添加这行
     }
 }
 ```
