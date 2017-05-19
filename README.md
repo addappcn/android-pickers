@@ -27,7 +27,7 @@ repositories {
 第二步，在项目的app模块下的build.gradle里加：
 ```
 dependencies {
-    compile 'com.github.addappcn:android-pickers:1.0.0'
+    compile 'com.github.addappcn:android-pickers:1.0.1'
 }
 ```
 
