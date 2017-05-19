@@ -16,11 +16,11 @@
 [点我](/app/app-release.apk)
 #### 远程加载JitPack包
 加载[![](https://jitpack.io/v/addappcn/android-pickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
-第一步，在项目根目录下的build.gradle里加：
+第一步，在项目根目录下的build.gradle里添加  `maven { url "https://jitpack.io" } `引用：
 ```
-repositories {
-    maven {
-        url "https://www.jitpack.io"
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }//如果这行添加
     }
 }
 ```
@@ -168,4 +168,3 @@ dependencies {
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
