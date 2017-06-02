@@ -6,7 +6,7 @@ group='com.github.addappcn'
 ext {
     isLibrary = true
     pomArtifactId = "WheelPicker"
-    pomDescription = "wheel picker for android, include date picker, time picker, option picker, address picker, etc."
+    pomDescription = "wheel picker for android, include date picker, time picker, single picker, address picker, etc."
 }
 
 dependencies {
