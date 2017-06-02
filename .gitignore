@@ -9,7 +9,7 @@ build/
 local.properties
 proguard/
 *.log
-*.apk
+#*.apk
 /*.sh
 /*.cmd
 /*.jks
