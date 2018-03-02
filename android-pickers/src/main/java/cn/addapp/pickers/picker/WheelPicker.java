@@ -23,7 +23,8 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
     protected boolean canLoop = true;
     protected boolean wheelModeEnable = false;
     protected boolean weightEnable = false;
-    protected LineConfig lineConfig = new LineConfig();
+    protected boolean canLinkage = false;//是否联动
+    protected LineConfig lineConfig;
     private View contentView;
 
     public WheelPicker(Activity activity) {
@@ -62,14 +63,20 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
 
     /**
      * 设置分隔阴影是否可见
+     * 暂时去掉此功能
      */
-    public void setShadowVisible(boolean shadowVisible) {
-        if (null == lineConfig) {
-            lineConfig = new LineConfig();
-        }
-        lineConfig.setShadowVisible(shadowVisible);
+//    public void setShadowVisible(boolean shadowVisible) {
+//        if (null == lineConfig) {
+//            lineConfig = new LineConfig();
+//        }
+//        lineConfig.setShadowVisible(shadowVisible);
+//    }
+    /**
+     * 设置是否自动联动
+     * */
+    public void setCanLinkage(boolean canLinkage) {
+        this.canLinkage = canLinkage;
     }
-
     /**
      * 设置分隔线颜色
      */
@@ -104,6 +111,7 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
 
     /**
      * 设置是否禁用循环
+     * true 循环 false 不循环
      */
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;

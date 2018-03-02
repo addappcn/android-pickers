@@ -303,6 +303,9 @@ public class LinkagePicker extends WheelPicker {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
                     LogUtils.error(this, "change second data after first wheeled");
+                    if (!canLinkage) {
+                        return;
+                    }
                     //根据第一级数据获取第二级数据
                     List<String> secondData = provider.provideSecondData(selectedFirstIndex);
                     secondView.setAdapter(new ArrayWheelAdapter<>(secondData));
@@ -310,6 +313,7 @@ public class LinkagePicker extends WheelPicker {
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
+
                     //根据第二级数据获取第三级数据
                     List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
                     thirdView.setAdapter(new ArrayWheelAdapter<>(thirdData));
@@ -326,7 +330,9 @@ public class LinkagePicker extends WheelPicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
-
+                    if (!canLinkage) {
+                        return;
+                    }
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
@@ -417,7 +423,7 @@ public class LinkagePicker extends WheelPicker {
             firstView.setItems(provider.provideFirstData(), selectedFirstIndex);
             firstView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                 @Override
-                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                public void onItemSelected(int index, String item) {
                     selectedFirstItem = item;
                     selectedFirstIndex = index;
                     selectedSecondIndex = 0;//重置第二级索引
@@ -425,10 +431,10 @@ public class LinkagePicker extends WheelPicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
-                    if (!isUserScroll) {
+                    if (!canLinkage) {
                         return;
                     }
-                    LogUtils.verbose(this, "change second data after first wheeled");
+//                    LogUtils.verbose(this, "change second data after first wheeled");
 
                     //根据第一级数据获取第二级数据
                     List<String> secondData = provider.provideSecondData(selectedFirstIndex);
@@ -445,20 +451,20 @@ public class LinkagePicker extends WheelPicker {
             secondView.setItems(provider.provideSecondData(selectedFirstIndex), selectedSecondIndex);
             secondView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                 @Override
-                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                public void onItemSelected(int index, String item) {
                     selectedSecondItem = item;
                     selectedSecondIndex = index;
                     selectedThirdIndex = 0;//重置第三级索引
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
-                    if (!isUserScroll) {
+                    if (!canLinkage) {
                         return;
                     }
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
-                    LogUtils.verbose(this, "change third data after second wheeled");
+//                    LogUtils.verbose(this, "change third data after second wheeled");
 
                     List<String> thirdData = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
                     //根据第二级数据获取第三级数据
@@ -472,7 +478,7 @@ public class LinkagePicker extends WheelPicker {
             thirdView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
             thirdView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                 @Override
-                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                public void onItemSelected(int index, String item) {
                     selectedThirdItem = item;
                     selectedThirdIndex = index;
                     if (onMoreWheelListener != null) {

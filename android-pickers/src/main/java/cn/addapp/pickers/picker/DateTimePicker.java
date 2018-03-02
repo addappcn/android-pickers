@@ -74,6 +74,7 @@ public class DateTimePicker extends WheelPicker {
     private int endYear = 2020, endMonth = 12, endDay = 31;
     private int startHour, startMinute = 0;
     private int endHour, endMinute = 59;
+    private int stepMinute=1,stepHour=1;//时间间隔
 
     @IntDef(value = {NONE, YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY})
     @Retention(RetentionPolicy.SOURCE)
@@ -257,10 +258,19 @@ public class DateTimePicker extends WheelPicker {
         selectedYearIndex = findItemIndex(years, year);
         selectedMonthIndex = findItemIndex(months, month);
         selectedDayIndex = findItemIndex(days, day);
+
         if (timeMode != NONE) {
             selectedHour = DateUtils.fillZero(hour);
             selectedMinute = DateUtils.fillZero(minute);
+            if ( hours.size() == 0) {
+                LogUtils.verbose(this, "init hours before make view");
+                initHourData();
+            }
+            selectedHourIndex = findItemIndex(hours, hour);
+            changeMinuteData(hour);
+            selectedMinuteIndex = findItemIndex(minutes, minute);
         }
+
     }
 
     /**
@@ -402,6 +412,7 @@ public class DateTimePicker extends WheelPicker {
                 yearView.setTextSize(textSize);//must be called before setDateList
                 yearView.setSelectedTextColor(textColorFocus);
                 yearView.setUnSelectedTextColor(textColorNormal);
+                yearView.setLineConfig(lineConfig);
                 yearView.setAdapter(new ArrayWheelAdapter<>(years));
                 yearView.setCurrentItem(selectedYearIndex);
                 yearView.setDividerType(LineConfig.DividerType.FILL);
@@ -413,9 +424,9 @@ public class DateTimePicker extends WheelPicker {
                         if (onWheelListener != null) {
                             onWheelListener.onYearWheeled(selectedYearIndex, item);
                         }
-//                        if (!isUserScroll) {
-//                            return;
-//                        }
+                        if (!canLinkage) {
+                            return;
+                        }
                         LogUtils.verbose(this, "change months after year wheeled");
                         selectedMonthIndex = 0;//重置月份索引
                         selectedDayIndex = 0;//重置日子索引
@@ -445,6 +456,7 @@ public class DateTimePicker extends WheelPicker {
                 monthView.setSelectedTextColor(textColorFocus);
                 monthView.setUnSelectedTextColor(textColorNormal);
                 monthView.setAdapter(new ArrayWheelAdapter<>(months));
+                monthView.setLineConfig(lineConfig);
                 monthView.setCurrentItem(selectedMonthIndex);
                 monthView.setDividerType(LineConfig.DividerType.FILL);
                 monthView.setLayoutParams(wheelViewParams);
@@ -455,9 +467,9 @@ public class DateTimePicker extends WheelPicker {
                         if (onWheelListener != null) {
                             onWheelListener.onMonthWheeled(selectedMonthIndex, item);
                         }
-//                        if (!isUserScroll) {
-//                            return;
-//                        }
+                        if (!canLinkage) {
+                            return;
+                        }
                         if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
                             LogUtils.verbose(this, "change days after month wheeled");
                             selectedDayIndex = 0;//重置日子索引
@@ -490,6 +502,7 @@ public class DateTimePicker extends WheelPicker {
                 dayView.setUnSelectedTextColor(textColorNormal);
                 dayView.setAdapter(new ArrayWheelAdapter<>(days));
                 dayView.setCurrentItem(selectedDayIndex);
+                dayView.setLineConfig(lineConfig);
                 dayView.setDividerType(LineConfig.DividerType.FILL);
                 dayView.setLayoutParams(wheelViewParams);
                 dayView.setOnItemPickListener(new OnItemPickListener<String>() {
@@ -521,6 +534,7 @@ public class DateTimePicker extends WheelPicker {
                 hourView.setDividerType(LineConfig.DividerType.FILL);
                 hourView.setAdapter(new ArrayWheelAdapter<>(hours));
                 hourView.setCurrentItem(selectedHourIndex);
+                hourView.setLineConfig(lineConfig);
                 hourView.setLayoutParams(wheelViewParams);
                 hourView.setOnItemPickListener(new OnItemPickListener<String>() {
                     @Override
@@ -530,6 +544,9 @@ public class DateTimePicker extends WheelPicker {
                         selectedHour = item;
                         if (onWheelListener != null) {
                             onWheelListener.onHourWheeled(index, item);
+                        }
+                        if (!canLinkage) {
+                            return;
                         }
                         changeMinuteData(DateUtils.trimZero(item));
                         minuteView.setAdapter(new ArrayWheelAdapter<>(minutes));
@@ -553,6 +570,7 @@ public class DateTimePicker extends WheelPicker {
                 minuteView.setAdapter(new ArrayWheelAdapter<>(minutes));
                 minuteView.setCurrentItem(selectedMinuteIndex);
                 minuteView.setDividerType(LineConfig.DividerType.FILL);
+                minuteView.setLineConfig(lineConfig);
                 minuteView.setLayoutParams(wheelViewParams);
                 layout.addView(minuteView);
                 minuteView.setOnItemPickListener(new OnItemPickListener<String>() {
@@ -592,15 +610,15 @@ public class DateTimePicker extends WheelPicker {
                 yearView.setItems(years, selectedYearIndex);
                 yearView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                     @Override
-                    public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    public void onItemSelected(int index, String item) {
                         selectedYearIndex = index;
                         if (onWheelListener != null) {
                             onWheelListener.onYearWheeled(selectedYearIndex, item);
                         }
-                        if (!isUserScroll) {
+                        if (!canLinkage) {
                             return;
                         }
-                        LogUtils.verbose(this, "change months after year wheeled");
+//                        LogUtils.verbose(this, "change months after year wheeled");
                         selectedMonthIndex = 0;//重置月份索引
                         selectedDayIndex = 0;//重置日子索引
                         //需要根据年份及月份动态计算天数
@@ -633,12 +651,12 @@ public class DateTimePicker extends WheelPicker {
                 monthView.setItems(months, selectedMonthIndex);
                 monthView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                     @Override
-                    public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    public void onItemSelected( int index, String item) {
                         selectedMonthIndex = index;
                         if (onWheelListener != null) {
                             onWheelListener.onMonthWheeled(selectedMonthIndex, item);
                         }
-                        if (!isUserScroll) {
+                        if (!canLinkage) {
                             return;
                         }
                         if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
@@ -677,7 +695,7 @@ public class DateTimePicker extends WheelPicker {
                 dayView.setItems(days, selectedDayIndex);
                 dayView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                     @Override
-                    public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    public void onItemSelected(int index, String item) {
                         selectedDayIndex = index;
                         if (onWheelListener != null) {
                             onWheelListener.onDayWheeled(selectedDayIndex, item);
@@ -705,17 +723,17 @@ public class DateTimePicker extends WheelPicker {
                 hourView.setItems(hours, selectedHour);
                 hourView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                     @Override
-                    public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    public void onItemSelected(int index, String item) {
                         selectedHourIndex = index;
                         selectedMinuteIndex = 0;
                         selectedHour = item;
                         if (onWheelListener != null) {
                             onWheelListener.onHourWheeled(index, item);
                         }
-                        if (!isUserScroll) {
+                        if (!canLinkage) {
                             return;
                         }
-                        LogUtils.verbose(this, "change minutes after hour wheeled");
+//                        LogUtils.verbose(this, "change minutes after hour wheeled");
                         changeMinuteData(DateUtils.trimZero(item));
                         minuteView.setItems(minutes, selectedMinuteIndex);
                     }
@@ -740,7 +758,7 @@ public class DateTimePicker extends WheelPicker {
                 minuteView.setItems(minutes, selectedMinute);
                 minuteView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                     @Override
-                    public void onItemSelected(boolean isUserScroll, int index, String item) {
+                    public void onItemSelected(int index, String item) {
                         selectedMinuteIndex = index;
                         selectedMinute = item;
                         if (onWheelListener != null) {
@@ -882,7 +900,7 @@ public class DateTimePicker extends WheelPicker {
     }
 
     private void initHourData() {
-        for (int i = startHour; i <= endHour; i++) {
+        for (int i = startHour; i <= endHour; i += stepHour) {
             String hour = DateUtils.fillZero(i);
             hours.add(hour);
         }
@@ -899,7 +917,7 @@ public class DateTimePicker extends WheelPicker {
                 startMinute = endMinute;
                 endMinute = temp;
             }
-            for (int i = startMinute; i <= endMinute; i++) {
+            for (int i = startMinute; i <= endMinute; i+= stepMinute) {
                 minutes.add(DateUtils.fillZero(i));
             }
         } else if (selectedHour == startHour) {

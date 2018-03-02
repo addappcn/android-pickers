@@ -83,9 +83,9 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
         dialog.dismiss();
         if (result.size() > 0) {
             AddressPicker picker = new AddressPicker(activity, result);
+            picker.setCanLoop(true);
             picker.setHideProvince(hideProvince);
             picker.setHideCounty(hideCounty);
-            picker.setCanLoop(true);
             picker.setWheelModeEnable(true);
             if (hideCounty) {
                 picker.setColumnWeight(1 / 3.0f, 2 / 3.0f);//将屏幕分为3份，省级和地级的比例为1:2

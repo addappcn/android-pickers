@@ -1,6 +1,7 @@
 package cn.addapp.androidpickers;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
     public void onYearMonthDayPicker(View view) {
         final DatePicker picker = new DatePicker(this);
-        picker.setCanLoop(false);
+        picker.setCanLoop(true);
         picker.setWheelModeEnable(true);
         picker.setTopPadding(15);
         picker.setRangeStart(2016, 8, 29);
@@ -128,10 +129,18 @@ public class MainActivity extends BaseActivity {
         DateTimePicker picker = new DateTimePicker(this, DateTimePicker.HOUR_24);
         picker.setDateRangeStart(2017, 1, 1);
         picker.setDateRangeEnd(2025, 11, 11);
+
+        picker.setSelectedItem(2018,6,16,16,43);
         picker.setTimeRangeStart(9, 0);
         picker.setTimeRangeEnd(20, 30);
+        picker.setCanLinkage(false);
         picker.setWeightEnable(true);
         picker.setWheelModeEnable(true);
+        LineConfig config = new LineConfig();
+        config.setColor(Color.BLUE);//线颜色
+        config.setAlpha(120);//线透明度
+        config.setVisible(false);//线不显示 默认显示
+        picker.setLineConfig(config);
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
@@ -149,6 +158,7 @@ public class MainActivity extends BaseActivity {
         picker.setRangeStart(2016, 10, 14);
         picker.setRangeEnd(2020, 11, 11);
         picker.setSelectedItem(2017, 9);
+        picker.setCanLinkage(true);
         picker.setWeightEnable(true);
         picker.setWheelModeEnable(true);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
@@ -163,11 +173,17 @@ public class MainActivity extends BaseActivity {
     public void onMonthDayPicker(View view) {
         DatePicker picker = new DatePicker(this, DatePicker.MONTH_DAY);
         picker.setGravity(Gravity.CENTER);//弹框居中
+        picker.setCanLoop(false);
         picker.setWeightEnable(true);
+        picker.setCanLinkage(true);
+//        LineConfig lineConfig = new LineConfig();
+//        lineConfig.setColor(Color.GREEN);
+//        picker.setLineConfig(lineConfig);
+        picker.setLineColor(Color.BLACK);
         picker.setRangeStart(5, 1);
         picker.setRangeEnd(12, 31);
         picker.setSelectedItem(10, 14);
-        picker.setWheelModeEnable(false);
+        picker.setWheelModeEnable(true);
         picker.setOnDatePickListener(new DatePicker.OnMonthDayPickListener() {
             @Override
             public void onDatePicked(String month, String day) {
@@ -195,7 +211,7 @@ public class MainActivity extends BaseActivity {
 
     public void onOptionPicker(View view) {
         ArrayList<String> list = new ArrayList<>();
-        for(int i = 0;i<60; i++){
+        for(int i = 0;i<90; i++){
             String s = "";
             if(i<10){
                 s = "0"+i;
@@ -208,16 +224,15 @@ public class MainActivity extends BaseActivity {
         SinglePicker<String> picker = new SinglePicker<>(this, list);
         picker.setCanLoop(false);//不禁用循环
         picker.setLineVisible(true);
-        picker.setShadowVisible(true);
         picker.setTextSize(18);
-        picker.setSelectedIndex(1);
-        picker.setWheelModeEnable(true);
+        picker.setSelectedIndex(8);
+        picker.setWheelModeEnable(false);
         //启用权重 setWeightWidth 才起作用
         picker.setLabel("分");
         picker.setWeightEnable(true);
         picker.setWeightWidth(1);
-        picker.setSelectedTextColor(0xFF279BAA);//前四位值是透明度
-        picker.setUnSelectedTextColor(0xFF999999);
+        picker.setSelectedTextColor(Color.GREEN);//前四位值是透明度
+        picker.setUnSelectedTextColor(Color.RED);
         picker.setOnSingleWheelListener(new OnSingleWheelListener() {
             @Override
             public void onWheeled(int index, String item) {
@@ -271,7 +286,7 @@ public class MainActivity extends BaseActivity {
 
         };
         LinkagePicker picker = new LinkagePicker(this, provider);
-        picker.setCanLoop(true);
+        picker.setCanLoop(false);
         picker.setLabel("小时制", "点");
         picker.setSelectedIndex(0, 8);
         //picker.setSelectedItem("12", "9");
@@ -309,10 +324,11 @@ public class MainActivity extends BaseActivity {
         picker.setSubmitTextSize(13);
         picker.setSelectedTextColor(0xFFEE0000);
         picker.setUnSelectedTextColor(0xFF999999);
+        picker.setWheelModeEnable(true);
         LineConfig config = new LineConfig();
-        config.setColor(0xFFEE0000);//线颜色
-        config.setAlpha(140);//线透明度
-        config.setRatio((float) (1.0 / 8.0));//线比率
+        config.setColor(Color.BLUE);//线颜色
+        config.setAlpha(120);//线透明度
+//        config.setRatio(1);//线比率
         picker.setLineConfig(config);
         picker.setItemWidth(200);
         picker.setBackgroundColor(0xFFE1E1E1);
@@ -374,8 +390,8 @@ public class MainActivity extends BaseActivity {
             String json = ConvertUtils.toString(getAssets().open("city2.json"));
             data.addAll(JSON.parseArray(json, Province.class));
             AddressPicker picker = new AddressPicker(this, data);
-            picker.setHideProvince(true);
             picker.setCanLoop(true);
+            picker.setHideProvince(true);
             picker.setWheelModeEnable(true);
             picker.setSelectedItem("贵州", "贵阳", "花溪");
             picker.setOnLinkageListener(new OnLinkageListener() {

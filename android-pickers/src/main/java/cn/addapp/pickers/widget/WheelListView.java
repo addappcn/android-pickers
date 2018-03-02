@@ -53,7 +53,7 @@ import cn.addapp.pickers.util.LogUtils;
 public class WheelListView extends ListView implements ListView.OnScrollListener, View.OnTouchListener,
         ViewTreeObserver.OnGlobalLayoutListener {
     public static final int SMOOTH_SCROLL_DURATION = 50;//ms
-    public static final int SECTION_DELAY = 600;//ms
+    public static final int SECTION_DELAY = 300;//ms
 
     public static final int TEXT_SIZE = 16;//sp
     public static final float TEXT_ALPHA = 0.8f;
@@ -79,7 +79,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
     private int textSize = TEXT_SIZE;
     private int textColorNormal = TEXT_COLOR_NORMAL;
     private int textColorFocus = TEXT_COLOR_FOCUS;
-    private boolean isUserScroll = false;//是否用户手动滚动
+//    private boolean isUserScroll = false;//是否用户手动滚动
     private LineConfig lineConfig = null;//分割线配置
 
     public WheelListView(Context context) {
@@ -154,7 +154,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
         if (null == list || list.size() == 0) {
             throw new IllegalArgumentException("data are empty");
         }
-        isUserScroll = false;
+//        isUserScroll = false;
         currentPosition = -1;
         adapter.setData(list);
     }
@@ -192,11 +192,19 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
     }
 
     public void setUnSelectedTextColor(@ColorInt int unSelectedTextColor) {
-        this.textColorNormal = unSelectedTextColor;
+
+        if (unSelectedTextColor != 0) {
+            this.textColorNormal = unSelectedTextColor;
+            refreshCurrentPosition();
+        }
     }
 
     public void setSelectedTextColor(@ColorInt int selectedTextColor) {
-        this.textColorFocus = selectedTextColor;
+
+        if (selectedTextColor != 0) {
+            this.textColorFocus = selectedTextColor;
+            refreshCurrentPosition();
+        }
     }
 
     /**
@@ -214,7 +222,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
      * 设置滚轮是否禁用循环滚动
      */
     public void setCanLoop(boolean canLoop) {
-        adapter.setLoop(!canLoop);
+        adapter.setLoop(canLoop);
     }
 
     public int getSelectedIndex() {
@@ -223,6 +231,8 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
 
     public void setSelectedIndex(final int index) {
         final int realPosition = getRealPosition(index);
+//        WheelListView.super.setSelection(realPosition);
+//        refreshCurrentPosition();
         //延时一下以保证数据初始化完成，才定位到选中项
         postDelayed(new Runnable() {
             @Override
@@ -291,9 +301,9 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
     private void onSelectedCallback() {
         int index = getSelectedIndex();
         String item = getSelectedItem();
-        LogUtils.verbose("isUserScroll=" + isUserScroll + ", index=" + index + ", item=" + item);
+//        LogUtils.verbose("isUserScroll=" + isUserScroll + ", index=" + index + ", item=" + item);
         if (null != onWheelChangeListener) {
-            onWheelChangeListener.onItemSelected(isUserScroll, index, item);
+            onWheelChangeListener.onItemSelected(index, item);
         }
     }
 
@@ -348,7 +358,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
             refreshTextView(i, curPosition, itemView, textView);
         }
     }
-
+//刷新文本设置
     private void refreshTextView(int position, int curPosition, View
             itemView, TextView textView) {
         //LogUtils.verbose("position=" + position + ", curPosition=" + curPosition);
@@ -392,7 +402,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        isUserScroll = true;//触发触摸事件，说明是用户在滚动
+//        isUserScroll = true;//触发触摸事件，说明是用户在滚动
         //v.getParent().requestDisallowInterceptTouchEvent(true);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -460,11 +470,11 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
         /**
          * 滑动选择回调
          *
-         * @param isUserScroll 是否用户手动滚动，用于联动效果判断是否自动重置选中项
+//         * @param isUserScroll 是否用户手动滚动，用于联动效果判断是否自动重置选中项
          * @param index        当前选择项的索引
          * @param item         当前选择项的值
          */
-        void onItemSelected(boolean isUserScroll, int index, String item);
+        void onItemSelected(int index, String item);
     }
 
 
@@ -621,6 +631,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
         }
 
         public final WheelAdapter setWheelSize(int wheelSize) {
+
             if ((wheelSize & 1) == 0) {
                 throw new IllegalArgumentException("wheel size must be an odd number.");
             }
@@ -713,12 +724,14 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
         private Paint bgPaint, paint;
         private int wheelSize, itemHeight;
         private float ratio;
+        private LineConfig lineConfig ;
 
         public HoloWheelDrawable(LineConfig config) {
             super(config);
+            this.lineConfig = config;
             this.wheelSize = config.getWheelSize();
             this.itemHeight = config.getItemHeight();
-            ratio = config.getRatio();
+//            ratio = config.getRatio();
             init(config);
         }
 
@@ -736,14 +749,17 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
         public void draw(Canvas canvas) {
             // draw background
             canvas.drawRect(0, 0, width, height, bgPaint);
-
-            // draw select border
-            if (itemHeight != 0) {
-                canvas.drawLine(width * ratio, itemHeight * (wheelSize / 2), width * (1 - ratio),
-                        itemHeight * (wheelSize / 2), paint);
-                canvas.drawLine(width * ratio, itemHeight * (wheelSize / 2 + 1), width * (1 - ratio),
-                        itemHeight * (wheelSize / 2 + 1), paint);
+            //设置线可见时绘制两条线
+            if(lineConfig.isVisible()){
+                // draw select border
+                if (itemHeight != 0) {
+                    canvas.drawLine(width * ratio, itemHeight * (wheelSize / 2), width * (1 - ratio),
+                            itemHeight * (wheelSize / 2), paint);
+                    canvas.drawLine(width * ratio, itemHeight * (wheelSize / 2 + 1), width * (1 - ratio),
+                            itemHeight * (wheelSize / 2 + 1), paint);
+                }
             }
+
         }
 
     }

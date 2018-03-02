@@ -190,6 +190,9 @@ public class SinglePicker<T> extends WheelPicker {
             wheelView.setAdapter(new ArrayWheelAdapter<>(itemStrings));
             wheelView.setCurrentItem(selectedItemIndex);
             wheelView.setCanLoop(canLoop);
+            wheelView.setTextSize(textSize);
+            wheelView.setSelectedTextColor(textColorFocus);
+            wheelView.setUnSelectedTextColor(textColorNormal);
             wheelView.setLineConfig(lineConfig);
             wheelView.setDividerType(LineConfig.DividerType.FILL);
             wheelView.setOnItemPickListener(new OnItemPickListener<String>() {
@@ -232,7 +235,7 @@ public class SinglePicker<T> extends WheelPicker {
             wheelListView.setItems(itemStrings, selectedItemIndex);
             wheelListView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener(){
                 @Override
-                public void onItemSelected(boolean isUserScroll, int index, String item) {
+                public void onItemSelected(int index, String item) {
                     selectedItemIndex = index;
                     selectedItem = item;
                     if (onSingleWheelListener != null) {

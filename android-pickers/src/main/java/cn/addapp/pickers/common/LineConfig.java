@@ -80,17 +80,17 @@ public  class LineConfig {
         this.alpha = alpha;
     }
 
-    @FloatRange(from = 0, to = 1)
-    public float getRatio() {
-        return ratio;
-    }
-
-    /**
-     * 线比例，范围为0-1,0表示最长，1表示最短
-     */
-    public void setRatio(@FloatRange(from = 0, to = 1) float ratio) {
-        this.ratio = ratio;
-    }
+//    @FloatRange(from = 0, to = 1)
+//    public float getRatio() {
+//        return ratio;
+//    }
+//
+//    /**
+//     * 线比例，范围为0-1,0表示最长，1表示最短
+//     */
+//    public void setRatio(@FloatRange(from = 0, to = 1) float ratio) {
+//        this.ratio = ratio;
+//    }
 
     public float getThick() {
         return thick;
