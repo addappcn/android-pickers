@@ -37,7 +37,6 @@ public class NextActivity extends BaseActivity {
         LineConfig config = new LineConfig();
         config.setColor(Color.parseColor("#26A1B0"));//线颜色
         config.setAlpha(100);//线透明度
-//        config.setRatio((float) (1.0 / 5.0));//线比率
         config.setThick(ConvertUtils.toPx(this, 3));//线粗
         config.setShadowVisible(false);
         wheelListView.setLineConfig(config);

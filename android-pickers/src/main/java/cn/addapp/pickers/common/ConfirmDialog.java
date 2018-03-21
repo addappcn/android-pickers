@@ -29,6 +29,12 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
     protected int topHeight = 40;//dp
     protected int topPadding = 15;//dp
     protected boolean cancelVisible = true;
+
+    public void setActionButtonTop(boolean actionButtonTop) {
+        isActionButtonTop = actionButtonTop;
+    }
+
+    protected boolean isActionButtonTop = true;//确认取消按钮位置
     protected CharSequence cancelText = "";
     protected CharSequence submitText = "";
     protected CharSequence titleText = "";
@@ -263,23 +269,36 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
         rootLayout.setGravity(Gravity.CENTER);
         rootLayout.setPadding(0, 0, 0, 0);
         rootLayout.setClipToPadding(false);
-        View headerView = makeHeaderView();
-        if (headerView != null) {
-            rootLayout.addView(headerView);
-        }
-        if (topLineVisible) {
-            View lineView = new View(activity);
-            int height = ConvertUtils.toPx(activity, topLineHeight);
-            lineView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, height));
-            lineView.setBackgroundColor(topLineColor);
-            rootLayout.addView(lineView);
-        }
-        LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f);
-        rootParams.setMargins(0,15,0,15);
-        rootLayout.addView(makeCenterView(), rootParams);
-        View footerView = makeFooterView();
-        if (footerView != null) {
-            rootLayout.addView(footerView);
+        if(isActionButtonTop){
+            View headerView = makeHeaderView();
+            if (headerView != null) {
+                rootLayout.addView(headerView);
+            }
+            if (topLineVisible) {
+                View lineView = new View(activity);
+                int height = ConvertUtils.toPx(activity, topLineHeight);
+                lineView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, height));
+                lineView.setBackgroundColor(topLineColor);
+                rootLayout.addView(lineView);
+            }
+            LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f);
+            rootParams.setMargins(0,15,0,15);
+            rootLayout.addView(makeCenterView(), rootParams);
+        }else{
+            LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f);
+            rootParams.setMargins(0,15,0,15);
+            rootLayout.addView(makeCenterView(), rootParams);
+            if (topLineVisible) {
+                View lineView = new View(activity);
+                int height = ConvertUtils.toPx(activity, topLineHeight);
+                lineView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, height));
+                lineView.setBackgroundColor(topLineColor);
+                rootLayout.addView(lineView);
+            }
+            View footerView = makeFooterView();
+            if (footerView != null) {
+                rootLayout.addView(footerView);
+            }
         }
         return rootLayout;
     }
@@ -371,7 +390,84 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
 
     @Nullable
     protected View makeFooterView() {
-        return null;
+        RelativeLayout topButtonLayout = new RelativeLayout(activity);
+        int height = ConvertUtils.toPx(activity, topHeight);
+        topButtonLayout.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, height));
+        topButtonLayout.setBackgroundColor(topBackgroundColor);
+        topButtonLayout.setGravity(Gravity.CENTER_VERTICAL);
+
+        cancelButton = new TextView(activity);
+        cancelButton.setVisibility(cancelVisible ? View.VISIBLE : View.GONE);
+        RelativeLayout.LayoutParams cancelParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        cancelParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        cancelParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        cancelButton.setLayoutParams(cancelParams);
+        cancelButton.setBackgroundColor(Color.TRANSPARENT);
+        cancelButton.setGravity(Gravity.CENTER);
+        int padding = ConvertUtils.toPx(activity, topPadding);
+        cancelButton.setPadding(padding, 0, padding, 0);
+        if (!TextUtils.isEmpty(cancelText)) {
+            cancelButton.setText(cancelText);
+        }
+        cancelButton.setTextColor(ConvertUtils.toColorStateList(cancelTextColor, pressedTextColor));
+        if (cancelTextSize != 0) {
+            cancelButton.setTextSize(cancelTextSize);
+        }
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                onCancel();
+            }
+        });
+        topButtonLayout.addView(cancelButton);
+
+        if (null == titleView) {
+            TextView textView = new TextView(activity);
+            RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            int margin = ConvertUtils.toPx(activity, topPadding);
+            titleParams.leftMargin = margin;
+            titleParams.rightMargin = margin;
+            titleParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+            titleParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+            textView.setLayoutParams(titleParams);
+            textView.setGravity(Gravity.CENTER);
+            if (!TextUtils.isEmpty(titleText)) {
+                textView.setText(titleText);
+            }
+            textView.setTextColor(titleTextColor);
+            if (titleTextSize != 0) {
+                textView.setTextSize(titleTextSize);
+            }
+            titleView = textView;
+        }
+        topButtonLayout.addView(titleView);
+
+        submitButton = new TextView(activity);
+        RelativeLayout.LayoutParams submitParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        submitParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        submitParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        submitButton.setLayoutParams(submitParams);
+        submitButton.setBackgroundColor(Color.TRANSPARENT);
+        submitButton.setGravity(Gravity.CENTER);
+        submitButton.setPadding(padding, 0, padding, 0);
+        if (!TextUtils.isEmpty(submitText)) {
+            submitButton.setText(submitText);
+        }
+        submitButton.setTextColor(ConvertUtils.toColorStateList(submitTextColor, pressedTextColor));
+        if (submitTextSize != 0) {
+            submitButton.setTextSize(submitTextSize);
+        }
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                onSubmit();
+            }
+        });
+        topButtonLayout.addView(submitButton);
+
+        return topButtonLayout;
     }
     /*
     * 点击确定按钮的回调

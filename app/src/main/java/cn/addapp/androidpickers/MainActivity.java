@@ -99,6 +99,7 @@ public class MainActivity extends BaseActivity {
         picker.setRangeEnd(2111, 1, 11);
         picker.setSelectedItem(2050, 10, 14);
         picker.setWeightEnable(true);
+        picker.setLineColor(Color.BLACK);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
@@ -127,20 +128,23 @@ public class MainActivity extends BaseActivity {
 
     public void onYearMonthDayTimePicker(View view) {
         DateTimePicker picker = new DateTimePicker(this, DateTimePicker.HOUR_24);
+        picker.setActionButtonTop(false);
         picker.setDateRangeStart(2017, 1, 1);
         picker.setDateRangeEnd(2025, 11, 11);
-
         picker.setSelectedItem(2018,6,16,16,43);
         picker.setTimeRangeStart(9, 0);
         picker.setTimeRangeEnd(20, 30);
         picker.setCanLinkage(false);
+        picker.setTitleText("请选择");
+//        picker.setStepMinute(5);
         picker.setWeightEnable(true);
         picker.setWheelModeEnable(true);
         LineConfig config = new LineConfig();
         config.setColor(Color.BLUE);//线颜色
         config.setAlpha(120);//线透明度
-        config.setVisible(false);//线不显示 默认显示
+        config.setVisible(true);//线不显示 默认显示
         picker.setLineConfig(config);
+        picker.setLabel(null,null,null,null,null);
         picker.setOnDateTimePickListener(new DateTimePicker.OnYearMonthDayTimePickListener() {
             @Override
             public void onDateTimePicked(String year, String month, String day, String hour, String minute) {
@@ -176,10 +180,10 @@ public class MainActivity extends BaseActivity {
         picker.setCanLoop(false);
         picker.setWeightEnable(true);
         picker.setCanLinkage(true);
-//        LineConfig lineConfig = new LineConfig();
-//        lineConfig.setColor(Color.GREEN);
-//        picker.setLineConfig(lineConfig);
-        picker.setLineColor(Color.BLACK);
+        LineConfig lineConfig = new LineConfig();
+        lineConfig.setColor(Color.GREEN);
+        picker.setLineConfig(lineConfig);
+//        picker.setLineColor(Color.BLACK);
         picker.setRangeStart(5, 1);
         picker.setRangeEnd(12, 31);
         picker.setSelectedItem(10, 14);
@@ -304,8 +308,8 @@ public class MainActivity extends BaseActivity {
         boolean isChinese = Locale.getDefault().getDisplayLanguage().contains("中文");
         SinglePicker<String> picker = new SinglePicker<>(this,
                 isChinese ? new String[]{
-                        "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座",
-                        "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"
+                        "水瓶座", "双鱼座", "白羊", "金牛座", "双子座", "巨蟹座",
+                        "狮子座", "处女座", "天秤座", "天蝎座", "射手", "摩羯座"
                 } : new String[]{
                         "Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer",
                         "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn"
@@ -324,7 +328,7 @@ public class MainActivity extends BaseActivity {
         picker.setSubmitTextSize(13);
         picker.setSelectedTextColor(0xFFEE0000);
         picker.setUnSelectedTextColor(0xFF999999);
-        picker.setWheelModeEnable(true);
+        picker.setWheelModeEnable(false);
         LineConfig config = new LineConfig();
         config.setColor(Color.BLUE);//线颜色
         config.setAlpha(120);//线透明度
@@ -392,7 +396,7 @@ public class MainActivity extends BaseActivity {
             AddressPicker picker = new AddressPicker(this, data);
             picker.setCanLoop(true);
             picker.setHideProvince(true);
-            picker.setWheelModeEnable(true);
+            picker.setWheelModeEnable(false);
             picker.setSelectedItem("贵州", "贵阳", "花溪");
             picker.setOnLinkageListener(new OnLinkageListener() {
                 @Override

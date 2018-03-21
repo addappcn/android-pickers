@@ -27,7 +27,7 @@ allprojects {
 第二步，在项目的app模块下的build.gradle里加：
 ```
 dependencies {
-    compile 'com.github.addappcn:android-pickers:1.0.2'
+    compile 'com.github.addappcn:android-pickers:1.0.3'
 }
 ```
 
@@ -39,8 +39,10 @@ dependencies {
 
 -keep class cn.addapp.pickers.entity.** { *;}
 ```
+# 注意事项
+1. 联动设置对时间，地址选择器无效，加这个只是针对不需要联动的数据,如不满足你的开发需求 请自定义picker。
 
-# Sample （更多用法详见示例项目）
+# Sample （具体用法详见demo项目）
 继承自定义扩展选择器：
 ```java
        CustomPicker picker = new CustomPicker(this);
@@ -63,9 +65,7 @@ dependencies {
                 LineConfig config = new LineConfig();
                 config.setColor(Color.parseColor("#26A1B0"));//线颜色
                 config.setAlpha(100);//线透明度
-                config.setRatio((float) (1.0 / 5.0));//线比率
                 config.setThick(ConvertUtils.toPx(this, 3));//线粗
-                config.setShadowVisible(false);
                 wheelListView.setLineConfig(config);
                 wheelListView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
                     @Override

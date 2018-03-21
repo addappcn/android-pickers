@@ -162,9 +162,9 @@ public class AddressPicker extends LinkagePicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     LogUtils.verbose(this, "change cities after province wheeled");
                     selectedSecondIndex = 0;//重置地级索引
                     selectedThirdIndex = 0;//重置县级索引
@@ -195,9 +195,9 @@ public class AddressPicker extends LinkagePicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     LogUtils.verbose(this, "change counties after city wheeled");
                     selectedThirdIndex = 0;//重置县级索引
                     //根据地市获取区县
@@ -267,9 +267,9 @@ public class AddressPicker extends LinkagePicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     LogUtils.verbose(this, "change cities after province wheeled");
                     selectedSecondIndex = 0;//重置地级索引
                     selectedThirdIndex = 0;//重置县级索引
@@ -299,9 +299,9 @@ public class AddressPicker extends LinkagePicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     LogUtils.verbose(this, "change counties after city wheeled");
                     selectedThirdIndex = 0;//重置县级索引
                     //根据地市获取区县

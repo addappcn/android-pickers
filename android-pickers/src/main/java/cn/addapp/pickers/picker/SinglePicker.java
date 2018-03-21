@@ -205,6 +205,7 @@ public class SinglePicker<T> extends WheelPicker {
                     }
                 }
             });
+            wheelParams.gravity = Gravity.START;
             if (TextUtils.isEmpty(label)) {
                 wheelView.setLayoutParams(wheelParams);
                 layout.addView(wheelView);

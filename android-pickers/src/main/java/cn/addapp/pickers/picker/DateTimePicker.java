@@ -165,6 +165,20 @@ public class DateTimePicker extends WheelPicker {
         }
     }
 
+//    public void setStepMinute(int stepMinute) {
+//        this.stepMinute = stepMinute;
+//        minutes.clear();
+//        if (timeMode != NONE) {
+//            changeMinuteData(DateUtils.trimZero(selectedHour));
+//        }
+//    }
+//
+//    public void setStepHour(int stepHour) {
+//        this.stepHour = stepHour;
+//        hours.clear();
+//        initHourData();
+//    }
+
     /**
      * 设置范围：结束的年月日
      */
@@ -388,7 +402,15 @@ public class DateTimePicker extends WheelPicker {
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
-        layout.setWeightSum(5);
+        if (dateMode!=NONE && timeMode != NONE) {
+            layout.setWeightSum(5);
+        }else{
+            if(dateMode==YEAR_MONTH_DAY){
+                layout.setWeightSum(3);
+            }else {
+                layout.setWeightSum(2);
+            }
+        }
         LinearLayout.LayoutParams wheelViewParams;
         LinearLayout.LayoutParams labelViewParams;
         if(weightEnable){
@@ -467,9 +489,9 @@ public class DateTimePicker extends WheelPicker {
                         if (onWheelListener != null) {
                             onWheelListener.onMonthWheeled(selectedMonthIndex, item);
                         }
-                        if (!canLinkage) {
-                            return;
-                        }
+//                        if (!canLinkage) {
+//                            return;
+//                        }
                         if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
                             LogUtils.verbose(this, "change days after month wheeled");
                             selectedDayIndex = 0;//重置日子索引
@@ -656,9 +678,9 @@ public class DateTimePicker extends WheelPicker {
                         if (onWheelListener != null) {
                             onWheelListener.onMonthWheeled(selectedMonthIndex, item);
                         }
-                        if (!canLinkage) {
-                            return;
-                        }
+//                        if (!canLinkage) {
+//                            return;
+//                        }
                         if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
                             LogUtils.verbose(this, "change days after month wheeled");
                             selectedDayIndex = 0;//重置日子索引
@@ -921,15 +943,15 @@ public class DateTimePicker extends WheelPicker {
                 minutes.add(DateUtils.fillZero(i));
             }
         } else if (selectedHour == startHour) {
-            for (int i = startMinute; i <= 59; i++) {
+            for (int i = startMinute; i <= 59; i+= stepMinute) {
                 minutes.add(DateUtils.fillZero(i));
             }
         } else if (selectedHour == endHour) {
-            for (int i = 0; i <= endMinute; i++) {
+            for (int i = 0; i <= endMinute; i+= stepMinute) {
                 minutes.add(DateUtils.fillZero(i));
             }
         } else {
-            for (int i = 0; i <= 59; i++) {
+            for (int i = 0; i <= 59; i+= stepMinute) {
                 minutes.add(DateUtils.fillZero(i));
             }
         }

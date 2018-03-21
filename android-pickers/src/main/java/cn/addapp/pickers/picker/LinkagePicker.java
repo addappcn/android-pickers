@@ -303,9 +303,9 @@ public class LinkagePicker extends WheelPicker {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
                     LogUtils.error(this, "change second data after first wheeled");
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     //根据第一级数据获取第二级数据
                     List<String> secondData = provider.provideSecondData(selectedFirstIndex);
                     secondView.setAdapter(new ArrayWheelAdapter<>(secondData));
@@ -330,9 +330,9 @@ public class LinkagePicker extends WheelPicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
@@ -431,9 +431,9 @@ public class LinkagePicker extends WheelPicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
 //                    LogUtils.verbose(this, "change second data after first wheeled");
 
                     //根据第一级数据获取第二级数据
@@ -458,9 +458,9 @@ public class LinkagePicker extends WheelPicker {
                     if (onMoreWheelListener != null) {
                         onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
                     }
-                    if (!canLinkage) {
-                        return;
-                    }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
                     if (provider.isOnlyTwo()) {
                         return;//仅仅二级联动
                     }
