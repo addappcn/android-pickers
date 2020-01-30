@@ -25,7 +25,7 @@ allprojects {
 第二步，在项目的app模块下的build.gradle里加：
 ```
 dependencies {
-    compile 'com.github.addappcn:android-pickers:1.0.3'
+    implementation  'com.github.addappcn:android-pickers:2.0.0'
 }
 ```
 
