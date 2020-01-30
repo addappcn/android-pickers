@@ -1,5 +1,6 @@
 package cn.addapp.androidpickers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import cn.addapp.pickers.util.ConvertUtils;
  * blog: addapp.cn
  */
 public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>> {
+    @SuppressLint("StaticFieldLeak")
     private Activity activity;
     private ProgressDialog dialog;
     private Callback callback;
@@ -86,7 +88,6 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
             picker.setCanLoop(true);
             picker.setHideProvince(hideProvince);
             picker.setHideCounty(hideCounty);
-            picker.setWheelModeEnable(true);
             if (hideCounty) {
                 picker.setColumnWeight(1 / 3.0f, 2 / 3.0f);//将屏幕分为3份，省级和地级的比例为1:2
             } else {

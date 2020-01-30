@@ -1,5 +1,6 @@
 package cn.addapp.androidpickers;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -111,7 +112,7 @@ public class StatusBar {
             return resourceId;
         }
         LogUtils.verbose("will obtain status bar height from R$dimen class");
-        Class clazz = Class.forName("com.android.internal.R$dimen");
+        @SuppressLint("PrivateApi") Class clazz = Class.forName("com.android.internal.R$dimen");
         Field field = clazz.getField("status_bar_height");
         Object object = field.get(clazz.newInstance());
         return ConvertUtils.toInt(object);

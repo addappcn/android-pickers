@@ -2,11 +2,12 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         //2.3.3 jitpack 发布用的版本
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
@@ -24,6 +25,7 @@ allprojects {
         flatDir {
             dirs 'libs' //本地aar文件
         }
+        google()
     }
 
 
@@ -91,9 +93,11 @@ subprojects {
             }
             dependencies {
                 //自己项目加入版本覆盖依赖包的版本
-                compile "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
-                compile "com.android.support:support-annotations:${ANDROID_SUPPORT_VERSION}"
-                compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+                implementation "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
+                implementation "com.android.support:support-annotations:${ANDROID_SUPPORT_VERSION}"
+                implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+                implementation "com.android.support.constraint:constraint-layout:${CONSTRAINTLAYOUT}"
+                implementation "com.blankj:utilcode:1.26.0"
             }
         }
 //        if (project.isLibrary) {

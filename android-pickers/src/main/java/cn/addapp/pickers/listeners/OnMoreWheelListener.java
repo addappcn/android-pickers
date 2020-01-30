@@ -8,9 +8,9 @@ package cn.addapp.pickers.listeners;
  */
 
 public interface OnMoreWheelListener {
-    public abstract void onFirstWheeled(int index, String item);
+    void onFirstWheeled(int index, String item);
 
-    public abstract void onSecondWheeled(int index, String item);
+    void onSecondWheeled(int index, String item);
 
-    public abstract void onThirdWheeled(int index, String item);
+    void onThirdWheeled(int index, String item);
 }

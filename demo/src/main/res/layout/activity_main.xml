@@ -10,7 +10,7 @@
         style="?android:textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/blue"
+        android:background="@color/material_green"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@android:color/white"/>
@@ -18,7 +18,7 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background">
+            android:background="@color/white">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="onNestView"
                     style="@style/Button.Style"
-                    android:text="内嵌视图选择器"/>
+                    android:text="布局选择器"/>
 
             <Button
                     android:layout_width="match_parent"
@@ -46,6 +46,13 @@
                     android:onClick="onAnimator"
                     style="@style/Button.Style"
                     android:text="窗口动画（基于Java）"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onDateRangePicker"
+                style="@style/Button.Style"
+                android:text="日期范围选择"/>
 
             <Button
                     android:layout_width="match_parent"

@@ -8,7 +8,7 @@ import cn.addapp.pickers.widget.WheelView;
 
 final public class WheelViewGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-    final WheelView wheelView;
+    private final WheelView wheelView;
 
     public WheelViewGestureListener(WheelView wheelView) {
         this.wheelView = wheelView;

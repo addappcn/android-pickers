@@ -34,7 +34,6 @@ public class SinglePicker<T> extends WheelPicker {
     private static final int ITEM_WIDTH_UNKNOWN = -99;
     private List<T> items = new ArrayList<>();
     private List<String> itemStrings = new ArrayList<>();
-    private WheelListView wheelListView;
     private WheelView wheelView ;
     private float weightWidth = 0.0f;
     private OnSingleWheelListener onSingleWheelListener;
@@ -85,16 +84,10 @@ public class SinglePicker<T> extends WheelPicker {
         for (T item : items) {
             itemStrings.add(formatToString(item));
         }
-        if(wheelModeEnable){
             if (null != wheelView) {
                 wheelView.setAdapter(new ArrayWheelAdapter<>(itemStrings));
                 wheelView.setCurrentItem(selectedItemIndex);
             }
-        }else{
-            if (null != wheelListView) {
-                wheelListView.setItems(itemStrings, selectedItemIndex);
-            }
-        }
 
     }
 
@@ -138,22 +131,12 @@ public class SinglePicker<T> extends WheelPicker {
      * 设置选项的宽(dp)
      */
     public void setItemWidth(int itemWidth) {
-        if(wheelModeEnable){
             if (null != wheelView) {
                 int width = ConvertUtils.toPx(activity, itemWidth);
-                wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelListView.getLayoutParams().height));
+                wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelView.getLayoutParams().height));
             }else{
                 this.itemWidth = itemWidth;
             }
-        }
-        else {
-            if (null != wheelListView) {
-                int width = ConvertUtils.toPx(activity, itemWidth);
-                wheelListView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelListView.getLayoutParams().height));
-            }else{
-                this.itemWidth = itemWidth;
-            }
-        }
     }
 
     /**
@@ -173,97 +156,58 @@ public class SinglePicker<T> extends WheelPicker {
         if (items.size() == 0) {
             throw new IllegalArgumentException("please initial items at first, can't be empty");
         }
+//        ConstraintLayout layout =new ConstraintLayout(activity);
+//        ConstraintLayout.LayoutParams params =  new ConstraintLayout.LayoutParams();
+
         LinearLayout layout = new LinearLayout(activity);
         layout.setLayoutParams(new ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams wheelParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         if(weightEnable){
-            layout.setWeightSum(1);
             //按权重分配宽度
-            wheelParams.weight = weightWidth;
+            wheelParams = new LinearLayout.LayoutParams(0, WRAP_CONTENT);
+            wheelParams.weight = 1;
         }
-
-        //判断是选择ios滚轮模式还是普通模式
-        if(wheelModeEnable){
-            wheelView = new WheelView(activity);
-            wheelView.setAdapter(new ArrayWheelAdapter<>(itemStrings));
-            wheelView.setCurrentItem(selectedItemIndex);
-            wheelView.setCanLoop(canLoop);
-            wheelView.setTextSize(textSize);
-            wheelView.setSelectedTextColor(textColorFocus);
-            wheelView.setUnSelectedTextColor(textColorNormal);
-            wheelView.setLineConfig(lineConfig);
-            wheelView.setDividerType(LineConfig.DividerType.FILL);
-            wheelView.setOnItemPickListener(new OnItemPickListener<String>() {
-                @Override
-                public void onItemPicked(int i,String item) {
-                    selectedItem = item;
-                    selectedItemIndex = i;
-                    if (onSingleWheelListener != null) {
-                        onSingleWheelListener.onWheeled(selectedItemIndex, selectedItem);
-                    }
+        wheelView = new WheelView(activity);
+        wheelView.setAdapter(new ArrayWheelAdapter<>(itemStrings));
+        wheelView.setCurrentItem(selectedItemIndex);
+        wheelView.setCanLoop(canLoop);
+        wheelView.setTextSize(textSize);
+        wheelView.setSelectedTextColor(textColorFocus);
+        wheelView.setUnSelectedTextColor(textColorNormal);
+        wheelView.setLineConfig(lineConfig);
+        wheelView.setLayoutParams(wheelParams);
+        wheelView.setOnItemPickListener(new OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked(int i,String item) {
+                selectedItem = item;
+                selectedItemIndex = i;
+                if (onSingleWheelListener != null) {
+                    onSingleWheelListener.onWheeled(selectedItemIndex, selectedItem);
                 }
-            });
-            wheelParams.gravity = Gravity.START;
-            if (TextUtils.isEmpty(label)) {
-                wheelView.setLayoutParams(wheelParams);
-                layout.addView(wheelView);
-            } else {
-                wheelView.setLayoutParams(wheelParams);
-                layout.addView(wheelView);
+            }
+        });
+//        wheelParams.gravity = Gravity.START;
+        layout.addView(wheelView);
+        if (!TextUtils.isEmpty(label)) {
+            if(isOuterLabelEnable()){
                 TextView labelView = new TextView(activity);
                 labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
                 labelView.setTextColor(textColorFocus);
                 labelView.setTextSize(textSize);
                 labelView.setText(label);
                 layout.addView(labelView);
-
-            }
-            if (itemWidth != ITEM_WIDTH_UNKNOWN) {
-                int width = ConvertUtils.toPx(activity, itemWidth);
-                wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelView.getLayoutParams().height));
-            }
-
-        }else{
-            wheelListView = new WheelListView(activity);
-            wheelListView.setTextSize(textSize);
-            wheelListView.setSelectedTextColor(textColorFocus);
-            wheelListView.setUnSelectedTextColor(textColorNormal);
-            wheelListView.setLineConfig(lineConfig);
-            wheelListView.setOffset(offset);
-            wheelListView.setCanLoop(canLoop);
-            wheelListView.setItems(itemStrings, selectedItemIndex);
-            wheelListView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener(){
-                @Override
-                public void onItemSelected(int index, String item) {
-                    selectedItemIndex = index;
-                    selectedItem = item;
-                    if (onSingleWheelListener != null) {
-                        onSingleWheelListener.onWheeled(selectedItemIndex, item);
-                    }
-                }
-            });
-
-
-            if (TextUtils.isEmpty(label)) {
-                wheelListView.setLayoutParams(wheelParams);
-                layout.addView(wheelListView);
-            } else {
-                wheelListView.setLayoutParams(wheelParams);
-                layout.addView(wheelListView);
-                TextView labelView = new TextView(activity);
-                labelView.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-                labelView.setTextColor(textColorFocus);
-                labelView.setTextSize(textSize);
-                labelView.setText(label);
-                layout.addView(labelView);
-            }
-            if (itemWidth != ITEM_WIDTH_UNKNOWN) {
-                int width = ConvertUtils.toPx(activity, itemWidth);
-                wheelListView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelListView.getLayoutParams().height));
+            }else {
+//                wheelView.setLabel(label);
+                wheelView.setLabel(label,false);
             }
         }
+        if (itemWidth != ITEM_WIDTH_UNKNOWN) {
+            int width = ConvertUtils.toPx(activity, itemWidth);
+            wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, wheelView.getLayoutParams().height));
+        }
+
 
         return layout;
     }

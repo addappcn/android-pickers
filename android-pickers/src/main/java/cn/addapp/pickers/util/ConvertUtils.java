@@ -421,55 +421,6 @@ public class ConvertUtils {
      * 把view转化为bitmap（截图）
      * 参见：http://www.cnblogs.com/lee0oo0/p/3355468.html
      */
-    public static Bitmap toBitmap(View view) {
-        int width = view.getWidth();
-        int height = view.getHeight();
-        if (view instanceof ListView) {
-            height = 0;
-            // 获取listView实际高度
-            ListView listView = (ListView) view;
-            for (int i = 0; i < listView.getChildCount(); i++) {
-                height += listView.getChildAt(i).getHeight();
-            }
-        } else if (view instanceof ScrollView) {
-            height = 0;
-            // 获取scrollView实际高度
-            ScrollView scrollView = (ScrollView) view;
-            for (int i = 0; i < scrollView.getChildCount(); i++) {
-                height += scrollView.getChildAt(i).getHeight();
-            }
-        }
-        view.setDrawingCacheEnabled(true);
-        view.clearFocus();
-        view.setPressed(false);
-        boolean willNotCache = view.willNotCacheDrawing();
-        view.setWillNotCacheDrawing(false);
-        // Reset the drawing cache background color to fully transparent for the duration of this operation
-        int color = view.getDrawingCacheBackgroundColor();
-        view.setDrawingCacheBackgroundColor(Color.WHITE);//截图去黑色背景(透明像素)
-        if (color != Color.WHITE) {
-            view.destroyDrawingCache();
-        }
-        view.buildDrawingCache();
-        Bitmap cacheBitmap = view.getDrawingCache();
-        if (cacheBitmap == null) {
-            return null;
-        }
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawBitmap(cacheBitmap, 0, 0, null);
-        canvas.save(Canvas.ALL_SAVE_FLAG);
-        canvas.restore();
-        if (!bitmap.isRecycled()) {
-            LogUtils.verbose("recycle bitmap: " + bitmap.toString());
-            bitmap.recycle();
-        }
-        // Restore the view
-        view.destroyDrawingCache();
-        view.setWillNotCacheDrawing(willNotCache);
-        view.setDrawingCacheBackgroundColor(color);
-        return bitmap;
-    }
 
     public static Drawable toDrawable(Bitmap bitmap) {
         return bitmap == null ? null : new BitmapDrawable(Resources.getSystem(), bitmap);

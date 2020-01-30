@@ -13,7 +13,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import com.blankj.utilcode.util.SizeUtils;
 
 import cn.addapp.pickers.util.LogUtils;
 import cn.addapp.pickers.util.ScreenUtils;
@@ -51,13 +54,20 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         contentLayout.setFocusableInTouchMode(true);
         //contentLayout.setFitsSystemWindows(true);
         dialog = new Dialog(activity);
-        dialog.setCanceledOnTouchOutside(false);//触摸屏幕取消窗体
-        dialog.setCancelable(false);//按返回键取消窗体
+        dialog.setCanceledOnTouchOutside(true);//触摸屏幕取消窗体
+        dialog.setCancelable(true);//按返回键取消窗体
         dialog.setOnKeyListener(this);
         dialog.setOnDismissListener(this);
         Window window = dialog.getWindow();
         if (window != null) {
-            window.setGravity(Gravity.BOTTOM);
+//            window.setGravity(Gravity.BOTTOM);
+            ////解决宽度问题
+            window.setGravity(Gravity.CENTER);
+//            dialogWindow.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.width = getScreenWidthPixels()- SizeUtils.dp2px(10);
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(params);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             //AndroidRuntimeException: requestFeature() must be called before adding content
             window.requestFeature(Window.FEATURE_NO_TITLE);
@@ -105,7 +115,7 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
 
     /**
      * 位于屏幕何处
-     *
+     * 可以调整宽度和高度
      * @see Gravity
      */
     public void setGravity(int gravity) {
@@ -115,7 +125,7 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         }
         if (gravity == Gravity.CENTER) {
             //居于屏幕正中间时，宽度不允许填充屏幕
-            setWidth((int) (screenWidthPixels * 0.7f));
+            setWidth((int) (screenWidthPixels * 0.9f));
         }
     }
 

@@ -20,9 +20,11 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
     protected int textColorNormal = WheelListView.TEXT_COLOR_NORMAL;
     protected int textColorFocus = WheelListView.TEXT_COLOR_FOCUS;
     protected int offset = WheelListView.ITEM_OFF_SET;
-    protected boolean canLoop = true;
-    protected boolean wheelModeEnable = false;
-    protected boolean weightEnable = false;
+    //是否是自己布局添加的label   控制分割线是否连接到一起 成一条直线   false的时候 最好分割线是填充 LineConfig.DividerType.WRAP
+    protected boolean outerLabelEnable = true;
+    protected boolean canLoop = true;//是否循环
+    protected boolean onlyCenterLabel = false;//只有中间才显示label
+    protected boolean weightEnable = false;//启用权重
     protected boolean canLinkage = false;//是否联动
     protected LineConfig lineConfig;
     private View contentView;
@@ -30,7 +32,13 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
     public WheelPicker(Activity activity) {
         super(activity);
     }
+    public boolean isOuterLabelEnable() {
+        return outerLabelEnable;
+    }
 
+    public void setOuterLabelEnable(boolean outerLabelEnable) {
+        this.outerLabelEnable = outerLabelEnable;
+    }
     /**
      * 设置文字大小
      */
@@ -50,7 +58,13 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
     public void setSelectedTextColor(@ColorInt int selectedTextColor) {
         this.textColorFocus = selectedTextColor;
     }
+    public boolean isOnlyCenterLabel() {
+        return onlyCenterLabel;
+    }
 
+    public void setOnlyCenterLabel(boolean onlyCenterLabel) {
+        this.onlyCenterLabel = onlyCenterLabel;
+    }
     /**
      * 设置分隔线是否可见
      */
@@ -115,12 +129,6 @@ public abstract class WheelPicker extends ConfirmDialog<View> {
      */
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
-    }
-    /**
-     * 设置是否启用ios滚轮模式
-     */
-    public void setWheelModeEnable(boolean wheelModeEnable) {
-        this.wheelModeEnable = wheelModeEnable;
     }
 
     /**

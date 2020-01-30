@@ -2,4 +2,7 @@
 <resources>
     <color name="btn_cancel_color">#999999</color>
     <color name="btn_confirm_color">#303F9F</color>
+    <color name="material_gray">#999999</color>
+    <color name="material_green">#00AE85</color>
+    <color name="white">#FFFFFF</color>
 </resources>

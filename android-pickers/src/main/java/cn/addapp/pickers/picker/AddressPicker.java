@@ -17,7 +17,6 @@ import cn.addapp.pickers.listeners.OnItemPickListener;
 import cn.addapp.pickers.listeners.OnLinkageListener;
 import cn.addapp.pickers.listeners.OnMoreWheelListener;
 import cn.addapp.pickers.util.LogUtils;
-import cn.addapp.pickers.widget.WheelListView;
 import cn.addapp.pickers.widget.WheelView;
 
 /**
@@ -114,219 +113,112 @@ public class AddressPicker extends LinkagePicker {
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(Gravity.CENTER);
         //判断是选择ios滚轮模式还是普通模式
-        if(wheelModeEnable){
-            final WheelView provinceView = new WheelView(activity);
-            provinceView.setCanLoop(canLoop);
-            provinceView.setLayoutParams(new LinearLayout.LayoutParams(provinceWidth, WRAP_CONTENT));
-            provinceView.setTextSize(textSize);
-            provinceView.setSelectedTextColor(textColorFocus);
-            provinceView.setUnSelectedTextColor(textColorNormal);
-            provinceView.setLineConfig(lineConfig);
-            provinceView.setAdapter(new ArrayWheelAdapter<>(provider.provideFirstData()));
-            provinceView.setCurrentItem(selectedFirstIndex);
-            if (hideProvince) {
-                provinceView.setVisibility(View.GONE);
-            }
-            layout.addView(provinceView);
-
-            final WheelView cityView = new WheelView(activity);
-            cityView.setCanLoop(canLoop);
-            cityView.setTextSize(textSize);
-            cityView.setSelectedTextColor(textColorFocus);
-            cityView.setUnSelectedTextColor(textColorNormal);
-            cityView.setLineConfig(lineConfig);
-            cityView.setAdapter(new ArrayWheelAdapter<>(provider.provideSecondData(selectedFirstIndex)));
-            cityView.setCurrentItem(selectedSecondIndex);
-            cityView.setLayoutParams(new LinearLayout.LayoutParams(cityWidth, WRAP_CONTENT));
-
-            layout.addView(cityView);
-
-            final WheelView countyView = new WheelView(activity);
-            countyView.setCanLoop(canLoop);
-            countyView.setTextSize(textSize);
-            countyView.setSelectedTextColor(textColorFocus);
-            countyView.setUnSelectedTextColor(textColorNormal);
-            countyView.setLineConfig(lineConfig);
-            countyView.setAdapter(new ArrayWheelAdapter<>(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex)));
-            countyView.setCurrentItem(selectedThirdIndex);
-            countyView.setLayoutParams(new LinearLayout.LayoutParams(countyWidth, WRAP_CONTENT));
-            if (hideCounty) {
-                countyView.setVisibility(View.GONE);
-            }
-            layout.addView(countyView);
-            provinceView.setOnItemPickListener(new OnItemPickListener<String>() {
-                @Override
-                public void onItemPicked(int index, String item) {
-                    selectedFirstItem = item;
-                    selectedFirstIndex = index;
-                    if (onMoreWheelListener != null) {
-                        onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
-                    }
-//                    if (!canLinkage) {
-//                        return;
-//                    }
-                    LogUtils.verbose(this, "change cities after province wheeled");
-                    selectedSecondIndex = 0;//重置地级索引
-                    selectedThirdIndex = 0;//重置县级索引
-                    //根据省份获取地市
-                    List<String> cities = provider.provideSecondData(selectedFirstIndex);
-                    if (cities.size() > 0) {
-                        cityView.setAdapter(new ArrayWheelAdapter<>(cities));
-                        cityView.setCurrentItem(selectedSecondIndex);
-                    } else {
-                        cityView.setAdapter(new ArrayWheelAdapter<>(new ArrayList<String>()));
-                    }
-                    //根据地市获取区县
-                    List<String> counties = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                    if (counties.size() > 0) {
-                        countyView.setAdapter(new ArrayWheelAdapter<>(counties));
-                        countyView.setCurrentItem(selectedThirdIndex);
-                    } else {
-                        countyView.setAdapter(new ArrayWheelAdapter<>(new ArrayList<String>()));
-                    }
-                }
-            });
-
-            cityView.setOnItemPickListener(new OnItemPickListener<String>() {
-                @Override
-                public void onItemPicked( int index, String item) {
-                    selectedSecondItem = item;
-                    selectedSecondIndex = index;
-                    if (onMoreWheelListener != null) {
-                        onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
-                    }
-//                    if (!canLinkage) {
-//                        return;
-//                    }
-                    LogUtils.verbose(this, "change counties after city wheeled");
-                    selectedThirdIndex = 0;//重置县级索引
-                    //根据地市获取区县
-                    List<String> counties = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                    if (counties.size() > 0) {
-                        //若不是用户手动滚动，说明联动需要指定默认项
-                        countyView.setAdapter(new ArrayWheelAdapter<>(counties));
-                        countyView.setCurrentItem(selectedThirdIndex);
-                    } else {
-                        countyView.setAdapter(new ArrayWheelAdapter<>(new ArrayList<String>()));
-                    }
-                }
-            });
-            countyView.setOnItemPickListener(new OnItemPickListener<String>() {
-                @Override
-                public void onItemPicked( int index, String item) {
-                    selectedThirdItem = item;
-                    selectedThirdIndex = index;
-                    if (onMoreWheelListener != null) {
-                        onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
-                    }
-                }
-            });
-        }else{
-            final WheelListView provinceView = new WheelListView(activity);
-            provinceView.setCanLoop(canLoop);
-            provinceView.setLayoutParams(new LinearLayout.LayoutParams(provinceWidth, WRAP_CONTENT));
-            provinceView.setTextSize(textSize);
-            provinceView.setSelectedTextColor(textColorFocus);
-            provinceView.setUnSelectedTextColor(textColorNormal);
-            provinceView.setLineConfig(lineConfig);
-            provinceView.setOffset(offset);
-            layout.addView(provinceView);
-            if (hideProvince) {
-                provinceView.setVisibility(View.GONE);
-            }
-
-            final WheelListView cityView = new WheelListView(activity);
-            cityView.setCanLoop(canLoop);
-            cityView.setLayoutParams(new LinearLayout.LayoutParams(cityWidth, WRAP_CONTENT));
-            cityView.setTextSize(textSize);
-            cityView.setSelectedTextColor(textColorFocus);
-            cityView.setUnSelectedTextColor(textColorNormal);
-            cityView.setLineConfig(lineConfig);
-            cityView.setOffset(offset);
-            layout.addView(cityView);
-
-            final WheelListView countyView = new WheelListView(activity);
-            countyView.setCanLoop(canLoop);
-            countyView.setLayoutParams(new LinearLayout.LayoutParams(countyWidth, WRAP_CONTENT));
-            countyView.setTextSize(textSize);
-            countyView.setSelectedTextColor(textColorFocus);
-            countyView.setUnSelectedTextColor(textColorNormal);
-            countyView.setLineConfig(lineConfig);
-            countyView.setOffset(offset);
-            layout.addView(countyView);
-            if (hideCounty) {
-                countyView.setVisibility(View.GONE);
-            }
-
-            provinceView.setItems(provider.provideFirstData(), selectedFirstIndex);
-            provinceView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
-                @Override
-                public void onItemSelected(int index, String item) {
-                    selectedFirstItem = item;
-                    selectedFirstIndex = index;
-                    if (onMoreWheelListener != null) {
-                        onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
-                    }
-//                    if (!canLinkage) {
-//                        return;
-//                    }
-                    LogUtils.verbose(this, "change cities after province wheeled");
-                    selectedSecondIndex = 0;//重置地级索引
-                    selectedThirdIndex = 0;//重置县级索引
-                    //根据省份获取地市
-                    List<String> cities = provider.provideSecondData(selectedFirstIndex);
-                    if (cities.size() > 0) {
-                        cityView.setItems(cities, selectedSecondIndex);
-                    } else {
-                        cityView.setItems(new ArrayList<String>());
-                    }
-                    //根据地市获取区县
-                    List<String> counties = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                    if (counties.size() > 0) {
-                        countyView.setItems(counties, selectedThirdIndex);
-                    } else {
-                        countyView.setItems(new ArrayList<String>());
-                    }
-                }
-            });
-
-            cityView.setItems(provider.provideSecondData(selectedFirstIndex), selectedSecondIndex);
-            cityView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
-                @Override
-                public void onItemSelected( int index, String item) {
-                    selectedSecondItem = item;
-                    selectedSecondIndex = index;
-                    if (onMoreWheelListener != null) {
-                        onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
-                    }
-//                    if (!canLinkage) {
-//                        return;
-//                    }
-                    LogUtils.verbose(this, "change counties after city wheeled");
-                    selectedThirdIndex = 0;//重置县级索引
-                    //根据地市获取区县
-                    List<String> counties = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
-                    if (counties.size() > 0) {
-                        //若不是用户手动滚动，说明联动需要指定默认项
-                        countyView.setItems(counties, selectedThirdIndex);
-                    } else {
-                        countyView.setItems(new ArrayList<String>());
-                    }
-                }
-            });
-
-            countyView.setItems(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex), selectedThirdIndex);
-            countyView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
-                @Override
-                public void onItemSelected( int index, String item) {
-                    selectedThirdItem = item;
-                    selectedThirdIndex = index;
-                    if (onMoreWheelListener != null) {
-                        onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
-                    }
-                }
-            });
+        final WheelView provinceView = new WheelView(activity);
+        provinceView.setCanLoop(canLoop);
+        provinceView.setLayoutParams(new LinearLayout.LayoutParams(provinceWidth, WRAP_CONTENT));
+        provinceView.setTextSize(textSize);
+        provinceView.setSelectedTextColor(textColorFocus);
+        provinceView.setUnSelectedTextColor(textColorNormal);
+        provinceView.setLineConfig(lineConfig);
+        provinceView.setAdapter(new ArrayWheelAdapter<>(provider.provideFirstData()));
+        provinceView.setCurrentItem(selectedFirstIndex);
+        if (hideProvince) {
+            provinceView.setVisibility(View.GONE);
         }
+        layout.addView(provinceView);
+
+        final WheelView cityView = new WheelView(activity);
+        cityView.setCanLoop(canLoop);
+        cityView.setTextSize(textSize);
+        cityView.setSelectedTextColor(textColorFocus);
+        cityView.setUnSelectedTextColor(textColorNormal);
+        cityView.setLineConfig(lineConfig);
+        cityView.setAdapter(new ArrayWheelAdapter<>(provider.provideSecondData(selectedFirstIndex)));
+        cityView.setCurrentItem(selectedSecondIndex);
+        cityView.setLayoutParams(new LinearLayout.LayoutParams(cityWidth, WRAP_CONTENT));
+
+        layout.addView(cityView);
+
+        final WheelView countyView = new WheelView(activity);
+        countyView.setCanLoop(canLoop);
+        countyView.setTextSize(textSize);
+        countyView.setSelectedTextColor(textColorFocus);
+        countyView.setUnSelectedTextColor(textColorNormal);
+        countyView.setLineConfig(lineConfig);
+        countyView.setAdapter(new ArrayWheelAdapter<>(provider.provideThirdData(selectedFirstIndex, selectedSecondIndex)));
+        countyView.setCurrentItem(selectedThirdIndex);
+        countyView.setLayoutParams(new LinearLayout.LayoutParams(countyWidth, WRAP_CONTENT));
+        if (hideCounty) {
+            countyView.setVisibility(View.GONE);
+        }
+        layout.addView(countyView);
+        provinceView.setOnItemPickListener(new OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked(int index, String item) {
+                selectedFirstItem = item;
+                selectedFirstIndex = index;
+                if (onMoreWheelListener != null) {
+                    onMoreWheelListener.onFirstWheeled(selectedFirstIndex, selectedFirstItem);
+                }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
+                LogUtils.verbose(this, "change cities after province wheeled");
+                selectedSecondIndex = 0;//重置地级索引
+                selectedThirdIndex = 0;//重置县级索引
+                //根据省份获取地市
+                List<String> cities = provider.provideSecondData(selectedFirstIndex);
+                if (cities.size() > 0) {
+                    cityView.setAdapter(new ArrayWheelAdapter<>(cities));
+                    cityView.setCurrentItem(selectedSecondIndex);
+                } else {
+                    cityView.setAdapter(new ArrayWheelAdapter<>(new ArrayList<String>()));
+                }
+                //根据地市获取区县
+                List<String> counties = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                if (counties.size() > 0) {
+                    countyView.setAdapter(new ArrayWheelAdapter<>(counties));
+                    countyView.setCurrentItem(selectedThirdIndex);
+                } else {
+                    countyView.setAdapter(new ArrayWheelAdapter<>(new ArrayList<String>()));
+                }
+            }
+        });
+
+        cityView.setOnItemPickListener(new OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked( int index, String item) {
+                selectedSecondItem = item;
+                selectedSecondIndex = index;
+                if (onMoreWheelListener != null) {
+                    onMoreWheelListener.onSecondWheeled(selectedSecondIndex, selectedSecondItem);
+                }
+//                    if (!canLinkage) {
+//                        return;
+//                    }
+                LogUtils.verbose(this, "change counties after city wheeled");
+                selectedThirdIndex = 0;//重置县级索引
+                //根据地市获取区县
+                List<String> counties = provider.provideThirdData(selectedFirstIndex, selectedSecondIndex);
+                if (counties.size() > 0) {
+                    //若不是用户手动滚动，说明联动需要指定默认项
+                    countyView.setAdapter(new ArrayWheelAdapter<>(counties));
+                    countyView.setCurrentItem(selectedThirdIndex);
+                } else {
+                    countyView.setAdapter(new ArrayWheelAdapter<>(new ArrayList<String>()));
+                }
+            }
+        });
+        countyView.setOnItemPickListener(new OnItemPickListener<String>() {
+            @Override
+            public void onItemPicked( int index, String item) {
+                selectedThirdItem = item;
+                selectedThirdIndex = index;
+                if (onMoreWheelListener != null) {
+                    onMoreWheelListener.onThirdWheeled(selectedThirdIndex, selectedThirdItem);
+                }
+            }
+        });
 
         return layout;
     }

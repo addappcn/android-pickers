@@ -14,3 +14,7 @@ picker.setLineColor(Color.parseColor("#ffdb2e"));这个设置线的方法没有�
 增加可以设置dialog确认取消按钮位置(可以显示上面或下面)
 更新最新demo apk
 升级gradle
+### v2.0.0 - 2020.01.30
+优化代码
+去掉基本不用的普通模式
+demo 增加日期段的选择

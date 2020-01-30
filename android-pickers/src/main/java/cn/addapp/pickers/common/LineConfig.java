@@ -26,6 +26,16 @@ public  class LineConfig {
     private int itemHeight = 0;
     private int wheelSize = 0;
 
+    public DividerType getDividerType() {
+        return dividerType;
+    }
+
+    public void setDividerType(DividerType dividerType) {
+        this.dividerType = dividerType;
+    }
+
+    private DividerType dividerType = DividerType.WRAP;
+
     public LineConfig() {
         super();
     }

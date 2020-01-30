@@ -3,6 +3,7 @@ package cn.addapp.pickers.common;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.addapp.pickers.util.ConvertUtils;
+import cn.addapp.pickers.wheelpicker.R;
 
 /**
  * 带确定及取消按钮的弹窗
@@ -46,6 +48,8 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
     protected int submitTextSize = 0;
     protected int titleTextSize = 0;
     protected int backgroundColor = Color.WHITE;
+    @DrawableRes
+    protected int backgroundRes = 0;
     private TextView cancelButton, submitButton;
     private View titleView;
 
@@ -229,7 +233,9 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
     public void setBackgroundColor(@ColorInt int backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
-
+    public void setBackgroundRes(@DrawableRes int res) {
+        this.backgroundRes = res;
+    }
     public void setTitleView(View titleView) {
         this.titleView = titleView;
     }
@@ -265,6 +271,9 @@ public abstract class ConfirmDialog<V extends View> extends BaseDialog<View> {
         LinearLayout rootLayout = new LinearLayout(activity);
         rootLayout.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
         rootLayout.setBackgroundColor(backgroundColor);
+        if(0!=backgroundRes){
+            rootLayout.setBackgroundResource(backgroundRes);
+        }
         rootLayout.setOrientation(LinearLayout.VERTICAL);
         rootLayout.setGravity(Gravity.CENTER);
         rootLayout.setPadding(0, 0, 0, 0);

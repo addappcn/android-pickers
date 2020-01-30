@@ -10,8 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 日期时间工具类
@@ -226,4 +228,319 @@ public class DateUtils extends android.text.format.DateUtils {
         return formatDate(Calendar.getInstance(Locale.CHINA).getTime(), format);
     }
 
+
+    public static String getDataShow(long date) {
+
+        SimpleDateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd ");
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+        long today = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("今天： " + today);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long twoday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("明天： " + twoday);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+
+        long threeday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        long threeday2 = DateFormat(df.format(calendar.getTime()) + " 24:00");
+        System.out.println("后天： " + threeday);
+
+        if (date < today) {
+            return StringUtils.getFormat_s1(date) + "  "
+                    + StringUtils.getDateFors(date);
+        } else if (date < twoday) {
+            return "今天  " + StringUtils.getOnlyHHMM(date) + "  "
+                    + StringUtils.getDateFors(date);
+        } else if (date < threeday) {
+            return "明天 " + StringUtils.getOnlyHHMM(date) + "  "
+                    + StringUtils.getDateFors(date);
+        } else if (date <= threeday2) {
+            return "后天" + StringUtils.getOnlyHHMM(date) + "  "
+                    + StringUtils.getDateFors(date);
+        } else {
+            return StringUtils.getFormat_s1(date) + "  "
+                    + StringUtils.getDateFors(date);
+        }
+
+    }
+
+    /**
+     * yyyy-MM-dd HH:mm
+     * @param date
+     * @return
+     */
+    public static String getDateFormatRoute(long date) {
+        SimpleDateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd ");
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        long today = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long twoday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long threeday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        long threeday2 = DateFormat(df.format(calendar.getTime()) + " 24:00");
+        if (date < today) {
+            return StringUtils.getFormat_s1(date);
+        } else if (date < twoday) {
+            return "今天 " + StringUtils.getOnlyHHMM(date);
+        } else if (date < threeday) {
+            return "明天 " + StringUtils.getOnlyHHMM(date);
+        } else if (date <= threeday2) {
+            return "后天 " + StringUtils.getOnlyHHMM(date);
+        } else {
+            return StringUtils.getFormat_s1(date);
+        }
+
+    }
+
+
+    public static String getDataShowForCoupon(long date) {
+
+        SimpleDateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd ");
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+        long today = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("今天： " + today);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long twoday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("明天： " + twoday);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+
+        long threeday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        long threeday2 = DateFormat(df.format(calendar.getTime()) + " 24:00");
+        System.out.println("后天： " + threeday);
+
+        if (date < today) {
+            return StringUtils.getFormatYYMMDD(date);
+        } else if (date < twoday) {
+            return "今天";
+        } else if (date < threeday) {
+            return "明天";
+        } else if (date <= threeday2) {
+            return "后天";
+        } else {
+            return StringUtils.getFormatYYMMDD(date);
+        }
+
+    }
+
+    public static String getDataShow_one(long date) {
+
+        SimpleDateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd ");
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+        long today = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("今天： " + today);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long twoday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("明天： " + twoday);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+
+        long threeday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        long threeday2 = DateFormat(df.format(calendar.getTime()) + " 24:00");
+        System.out.println("后天： " + threeday);
+
+        if (date < today) {
+            return StringUtils.getFormat_s1(date) + "  ";
+        } else if (date < twoday) {
+            return "今天  " + StringUtils.getOnlyHHMM(date) + "  ";
+        } else if (date < threeday) {
+            return "明天 " + StringUtils.getOnlyHHMM(date);
+
+        } else if (date <= threeday2) {
+            return "后天 " + StringUtils.getOnlyHHMM(date);
+        } else {
+            return StringUtils.getFormat_s1(date) + "  ";
+        }
+
+    }
+
+    public static long get2NextTime() {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.add(java.util.Calendar.HOUR_OF_DAY, 2);
+
+        return calendar.getTimeInMillis();
+    }
+
+    public static long getNowMiliTime(){
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        long nowTimeLong = calendar.getTimeInMillis();
+        return nowTimeLong;
+    }
+
+    public static String getDataShow1(long date) {
+
+        SimpleDateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd ");
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+        long today = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("今天： " + today);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long twoday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        System.out.println("明天： " + twoday);
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+
+        long threeday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        long threeday2 = DateFormat(df.format(calendar.getTime()) + " 24:00");
+        System.out.println("后天： " + threeday);
+
+        if (date < today) {
+            return StringUtils.getFormat_s1(date);
+        } else if (date < twoday) {
+            return "今天  " + StringUtils.getOnlyHHMM(date);
+        } else if (date < threeday) {
+            return "明天 " + StringUtils.getOnlyHHMM(date);
+        } else if (date <= threeday2) {
+            return "后天" + StringUtils.getOnlyHHMM(date);
+        } else {
+            return "" + StringUtils.getFormat_s1(date);
+        }
+
+    }
+
+    public static String getDate02dYMD(long mill){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+        Date date = new Date(mill);
+        String dateStr = df.format(date);
+        return dateStr;
+    }
+
+    public static String getDataShow2(long date) {
+        SimpleDateFormat df = new SimpleDateFormat(
+                "yyyy-MM-dd ");
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        long today = DateFormat(df.format(calendar.getTime()) + " 00:00");
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        long twoday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+
+        long threeday = DateFormat(df.format(calendar.getTime()) + " 00:00");
+        long threeday2 = DateFormat(df.format(calendar.getTime()) + " 24:00");
+
+        if (date < today) {
+            return StringUtils.getFormat_s1(date);
+        } else if (date < twoday) {
+            return StringUtils.getOnlyHHMM(date);
+        } else if (date < threeday) {
+            return "明天 " + StringUtils.getOnlyHHMM(date);
+        } else if (date <= threeday2) {
+            return "后天" + StringUtils.getOnlyHHMM(date);
+        } else {
+            return "" + StringUtils.getFormat_s1(date);
+        }
+
+    }
+
+    public static long DateFormatWithYearMonthDay(String dates) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(dates);
+            return date.getTime();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public static long DateFormat(String dates) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            Date date = format.parse(dates);
+            return date.getTime();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public static long DateFormatToSS(String dates) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = format.parse(dates);
+            return date.getTime();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    /**
+     * 根据毫秒时间差计算相差多少天，多少小时，多少分
+     * */
+
+    public static Map<String,Long> computeDiff(long startTime, long endTime){
+        Map<String,Long> data=new HashMap();
+        String diff = "";
+        //开始
+        long days = 0;
+        long hours = 0;
+        long minutes = 0;
+        long seconds = 0;
+        //结束
+        long dayn = 0;
+        long hourn = 0;
+        long minuten = 0;
+        long secondn = 0;
+
+        days = startTime / (24 * 60 * 60 * 1000);
+        hours = (startTime / (60 * 60 * 1000) - days * 24);
+        minutes = ((startTime / (60 * 1000)) - days * 24 * 60 - hours * 60);
+        seconds = (startTime / 1000 - days*24*60*60 - hours*60*60 - minutes*60);
+
+
+
+        dayn = endTime / (24 * 60 * 60 * 1000);
+        hourn = (endTime / (60 * 60 * 1000) - dayn * 24);
+        minuten = ((endTime / (60 * 1000)) - dayn * 24 * 60 - hourn * 60);
+        secondn = (endTime / 1000 - dayn*24*60*60 - hourn*60*60 - minuten*60);
+        startTime= startTime-seconds*1000;
+        endTime= endTime-secondn*1000;
+        if(seconds>0){
+            startTime = startTime+60*1000;
+        }
+        if(secondn>0){
+            endTime = endTime+60*1000;
+        }
+        data.put("startTime",startTime);
+        data.put("endTime",endTime);
+        return data;
+    }
+    /**
+     * 根据毫秒时间差计算相差多少天，多少小时，多少分
+     * */
+
+    public static  String computeDiff(long diffTime){
+        String diff = "";
+        long days = 0;
+        long hours = 0;
+        long minutes = 0;
+        long seconds = 0;
+
+        days = diffTime / (24 * 60 * 60 * 1000);
+        hours = (diffTime / (60 * 60 * 1000) - days * 24);
+        minutes = ((diffTime / (60 * 1000)) - days * 24 * 60 - hours * 60);
+        seconds = (diffTime / 1000 - days*24*60*60 - hours*60*60 - minutes*60);
+        if(seconds>0){
+            minutes=minutes+1;
+        }
+        diff = days + "天"+ hours +"小时"+ minutes+"分钟";
+        return diff;
+    }
 }
