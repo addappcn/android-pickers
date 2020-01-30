@@ -11,7 +11,7 @@
 # 安装
 “app”是Sample；“android-pickers”是library 包括WheelPicker、SinglePicker、DatePicker、TimePicker、LinkagePicker、AddressPicker、NumberPicker、CarNumberPicker等。
 #### demo下载
-[点我](/app/app-release.apk)
+[点我](/demo/release/demo-release.apk)
 #### 远程加载JitPack包
 加载[![](https://jitpack.io/v/addappcn/android-pickers.svg)](https://jitpack.io/#addappcn/android-pickers)的仓库：
 第一步，在项目根目录下的build.gradle里添加  `maven { url "https://jitpack.io" } `引用：
