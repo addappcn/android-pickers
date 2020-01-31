@@ -170,19 +170,22 @@ public class MainActivity extends BaseActivity {
         picker.show();
     }
 
-
+/*
+* 年月日时间选择
+* */
     public void onYearMonthDayTimePicker(View view) {
         DateTimePicker picker = new DateTimePicker(this, DateTimePicker.HOUR_24);
         picker.setActionButtonTop(false);
         picker.setDateRangeStart(2017, 1, 1);
         picker.setDateRangeEnd(2025, 11, 11);
-        picker.setSelectedItem(2018,6,16,16,43);
+        picker.setSelectedItem(2018,6,16,0,0);
         picker.setTimeRangeStart(9, 0);
         picker.setTimeRangeEnd(20, 30);
         picker.setCanLinkage(false);
         picker.setTitleText("请选择");
-//        picker.setStepMinute(5);
+        picker.setStepMinute(5);
         picker.setWeightEnable(true);
+        picker.setCanceledOnTouchOutside(true);
         LineConfig config = new LineConfig();
         config.setColor(Color.BLUE);//线颜色
         config.setAlpha(120);//线透明度

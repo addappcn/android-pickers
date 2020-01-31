@@ -212,7 +212,7 @@ public class SinglePicker<T> extends WheelPicker {
         return layout;
     }
 
-    private String formatToString(T item) {
+    protected String formatToString(T item) {
         if (item instanceof Float || item instanceof Double) {
             return new DecimalFormat("0.00").format(item);
         }

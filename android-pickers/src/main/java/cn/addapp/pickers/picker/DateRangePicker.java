@@ -186,19 +186,28 @@ public class DateRangePicker extends WheelPicker {
         }
     }
 
-//    public void setStepMinute(int stepMinute) {
-//        this.stepMinute = stepMinute;
-//        minutes.clear();
-//        if (timeMode != NONE) {
-//            changeMinuteData(DateUtils.trimZero(selectedHour));
-//        }
-//    }
-//
-//    public void setStepHour(int stepHour) {
-//        this.stepHour = stepHour;
-//        hours.clear();
-//        initHourData();
-//    }
+    public void setStepMinute(int stepMinute) {
+        dealStepRange(stepMinute);
+        this.stepMinute = stepMinute;
+        minutes.clear();
+        if (timeMode != NONE) {
+            changeMinuteData(DateUtils.trimZero(selectedHour));
+        }
+    }
+
+    public void setStepHour(int stepHour) {
+        dealStepRange(stepHour);
+        this.stepHour = stepHour;
+        hours.clear();
+        initHourData();
+    }
+
+    private void dealStepRange(int step){
+        if(step>30){
+            throw new IllegalArgumentException("step must < 30");
+        }
+
+    }
 
     /**
      * 设置范围：结束的年月日
@@ -292,7 +301,17 @@ public class DateRangePicker extends WheelPicker {
         changeDayData(year, month);
         selectedYearIndex = findItemIndex(years, year);
         selectedDayIndex = findItemIndex(days, day);
-        selectedEndDayIndex = findItemIndex(days, day+1);
+        int endDay = day;
+        if(2==month){
+            if(day<28){
+                endDay = day+1;
+            }
+        }else{
+            if(day<31){
+                endDay = day+1;
+            }
+        }
+        selectedEndDayIndex = findItemIndex(days, endDay);
         selectedMonthIndex = findItemIndex(months, month);
         selectedEndMonthIndex = findItemIndex(months, month);
 
@@ -556,11 +575,16 @@ public class DateRangePicker extends WheelPicker {
         int index = Collections.binarySearch(items, item, new Comparator<Object>() {
             @Override
             public int compare(Object lhs, Object rhs) {
-                String lhsStr = lhs.toString();
-                String rhsStr = rhs.toString();
+                String lhsStr = lhs.toString().equals("0") ? "00" : lhs.toString();
+                String rhsStr = rhs.toString().equals("0") ? "00" : rhs.toString();
                 lhsStr = lhsStr.startsWith("0") ? lhsStr.substring(1) : lhsStr;
                 rhsStr = rhsStr.startsWith("0") ? rhsStr.substring(1) : rhsStr;
-                return Integer.parseInt(lhsStr) - Integer.parseInt(rhsStr);
+                try {
+                    return Integer.parseInt(lhsStr) - Integer.parseInt(rhsStr);
+                } catch (java.lang.NumberFormatException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
             }
         });
         if (index < 0) {

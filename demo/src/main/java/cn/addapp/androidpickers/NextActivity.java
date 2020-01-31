@@ -39,21 +39,6 @@ public class NextActivity extends BaseActivity {
     @Override
     protected void setContentViewAfter(View contentView) {
         textView = findView(R.id.wheelview_tips);
-//        WheelListView wheelListView = findView(R.id.wheelview_single);
-//        wheelListView.setItems(new String[]{"开封","郑州", "广州", "北京", "成都"}, 1);
-//        wheelListView.setSelectedTextColor(0xFFFF00FF);
-//        LineConfig config = new LineConfig();
-//        config.setColor(Color.parseColor("#26A1B0"));//线颜色
-//        config.setAlpha(100);//线透明度
-//        config.setThick(ConvertUtils.toPx(this, 3));//线粗
-//        config.setShadowVisible(false);
-//        wheelListView.setLineConfig(config);
-//        wheelListView.setOnWheelChangeListener(new WheelListView.OnWheelChangeListener() {
-//            @Override
-//            public void onItemSelected(int index, String item) {
-//                textView.setText("index=" + index + ",item=" + item);
-//            }
-//        });
 
         ViewGroup viewGroup = findView(R.id.wheelview_single);
         viewGroup.addView(onSinglePicker());
@@ -114,7 +99,7 @@ public class NextActivity extends BaseActivity {
         picker.setCanLoop(false);//不禁用循环
         picker.setLineVisible(true);
         picker.setLineColor(ContextCompat.getColor(this,R.color.material_green));
-        picker.setTextSize(18);
+        picker.setTextSize(30);
         picker.setSelectedIndex(2);
         //启用权重 setWeightWidth 才起作用
 //        picker.setLabel("分");

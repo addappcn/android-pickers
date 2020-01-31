@@ -38,6 +38,7 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
     private Dialog dialog;
     private FrameLayout contentLayout;
     private boolean isPrepared = false;
+    private boolean outCancel = false;
 
     public BaseDialog(Activity activity) {
         this.activity = activity;
@@ -54,8 +55,9 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
         contentLayout.setFocusableInTouchMode(true);
         //contentLayout.setFitsSystemWindows(true);
         dialog = new Dialog(activity);
-        dialog.setCanceledOnTouchOutside(true);//触摸屏幕取消窗体
-        dialog.setCancelable(true);//按返回键取消窗体
+        setCanceledOnTouchOutside(outCancel);
+//        dialog.setCanceledOnTouchOutside(outCancel);//触摸屏幕取消窗体
+//        dialog.setCancelable(outCancel);//按返回键取消窗体
         dialog.setOnKeyListener(this);
         dialog.setOnDismissListener(this);
         Window window = dialog.getWindow();
@@ -82,6 +84,12 @@ public abstract class BaseDialog<V extends View> implements DialogInterface.OnKe
 
     public int getScreenHeightPixels() {
         return screenHeightPixels;
+    }
+
+    public void setCanceledOnTouchOutside(boolean canceled){
+        this.outCancel = canceled;
+            dialog.setCancelable(outCancel);
+            dialog.setCanceledOnTouchOutside(outCancel);
     }
 
     /**
